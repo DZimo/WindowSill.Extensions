@@ -1,13 +1,15 @@
 ﻿using CommunityToolkit.Diagnostics;
 
 using Microsoft.UI.Xaml.Media.Imaging;
-
+using Windows.UI;
 using WindowSill.API;
 
 namespace WindowSill.PerfCounter.UI;
 
 public sealed class PomodoroTimerView : Button
 {
+    private int _pomodoroType = 25;
+
     private readonly ImageIcon startIcon = new();
     private readonly ImageIcon stopIcon = new();
     private readonly ImageIcon quarterIcon = new();
@@ -29,8 +31,6 @@ public sealed class PomodoroTimerView : Button
                   .Children(
                       new SillOrientedStackPanel()
                           .VerticalAlignment(VerticalAlignment.Center)
-                          .HorizontalAlignment(HorizontalAlignment.Stretch)
-                          .VerticalAlignment(VerticalAlignment.Stretch)
                           .Spacing(8)
                           .Children(
                               new StackPanel()
@@ -38,20 +38,19 @@ public sealed class PomodoroTimerView : Button
                                   .Spacing(4)
                                   .Children(
                                       new Button()
+                                          .Style(x => x.StaticResource("SillButtonStyle"))
                                           .Content(
-                                              new TextBlock()
-                                                 .Style(x => x.ThemeResource("CaptionTextBlockStyle"))
-                                                 .FontSize(x => x.ThemeResource("SillFontSize"))
-                                                 .Text("25")
-                                              ),
-                                      new Button()
-                                          .Content(
-                                              new TextBlock()
-                                                 .Style(x => x.ThemeResource("CaptionTextBlockStyle"))
-                                                 .FontSize(x => x.ThemeResource("SillFontSize"))
-                                                 .Text("50")
-                                              )
-                                  ),
+                                              new StackPanel()
+                                              .Orientation(Orientation.Vertical)
+                                              .Children(
+                                                  new StackPanel()
+                                                     .Height(5)
+                                                     .Background(new SolidColorBrush(Colors.Aqua)),
+                                                  new TextBlock()
+                                                     .FontSize(x => x.ThemeResource("SillFontSize"))
+                                                     .Text(_pomodoroType.ToString())
+                                                  )
+                                  )),
                               new StackPanel()
                                   .VerticalAlignment(VerticalAlignment.Center)
                                   .Orientation(Orientation.Horizontal)
@@ -60,20 +59,18 @@ public sealed class PomodoroTimerView : Button
                                       new Button()
                                           .Style(x => x.StaticResource("IconButton"))
                                           .Content("\xE768"),
-                                      new TextBlock()
-                                          .MinWidth(32)
-                                          .VerticalAlignment(VerticalAlignment.Center)
+                                      new Button()
+                                          .Style(x => x.StaticResource("IconButton"))
+                                          .Content("\xE71a")
                                   ),
-                              new StackPanel()
+                               new StackPanel()
                                   .VerticalAlignment(VerticalAlignment.Center)
                                   .Orientation(Orientation.Horizontal)
-                                  .Spacing(4)
+                                  .Spacing(1)
                                   .Children(
-                                      stopIcon
-                                          .Source(new SvgImageSource(new Uri(System.IO.Path.Combine(pluginInfo.GetPluginContentDirectory(), "Assets", "memory_slot.svg")))),
                                       new TextBlock()
-                                          .MinWidth(32)
-                                          .VerticalAlignment(VerticalAlignment.Center)
+                                          .Text(x => x.Binding(() => vm.TimeLeft).OneWay())
+                                          
                                   )
                               )
                       )

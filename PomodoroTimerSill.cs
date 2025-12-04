@@ -7,6 +7,7 @@ using Windows.System;
 
 using WindowSill.API;
 using WindowSill.PerfCounter.UI;
+using WindowSill.PomodoroTimer.Services;
 
 namespace WindowSill.PomodoroTimer;
 
@@ -19,9 +20,9 @@ public sealed class PomodoroTimerSill : ISill, ISillSingleView
     public SillView? View { get; private set; } = new SillView();
 
     [ImportingConstructor]
-    public PomodoroTimerSill(IPluginInfo pluginInfo)
+    public PomodoroTimerSill(ITimeHandlerService timeHandlerService, IPluginInfo pluginInfo)
     {
-        pomodoroTimerVm = new PomodoroTimerVm(pluginInfo);
+        pomodoroTimerVm = new PomodoroTimerVm(timeHandlerService, pluginInfo);
         View = pomodoroTimerVm.CreateView();
     }
 
