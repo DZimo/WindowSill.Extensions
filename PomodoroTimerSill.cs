@@ -17,7 +17,7 @@ namespace WindowSill.PomodoroTimer;
 public sealed class PomodoroTimerSill : ISill, ISillSingleView
 {
     private PomodoroTimerVm? pomodoroTimerVm;
-    public SillView? View { get; private set; } = new SillView();
+    public SillView? View { get; private set; }
 
     [ImportingConstructor]
     public PomodoroTimerSill(ITimeHandlerService timeHandlerService, IPluginInfo pluginInfo)

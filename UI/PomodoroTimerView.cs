@@ -31,11 +31,12 @@ public sealed class PomodoroTimerView : Button
                   .Children(
                       new SillOrientedStackPanel()
                           .VerticalAlignment(VerticalAlignment.Center)
-                          .Spacing(8)
+                          .Spacing(1)
                           .Children(
                               new StackPanel()
                                   .Orientation(Orientation.Vertical)
-                                  .Spacing(4)
+                                  .Padding(1)
+                                  .Margin(1)
                                   .Children(
                                       new Button()
                                           .Style(x => x.StaticResource("SillButtonStyle"))
@@ -52,9 +53,7 @@ public sealed class PomodoroTimerView : Button
                                                   )
                                   )),
                               new StackPanel()
-                                  .VerticalAlignment(VerticalAlignment.Center)
                                   .Orientation(Orientation.Horizontal)
-                                  .Spacing(4)
                                   .Children(
                                       new Button()
                                           .Style(x => x.StaticResource("IconButton"))

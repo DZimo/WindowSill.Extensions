@@ -49,7 +49,7 @@ namespace WindowSill.PomodoroTimer.Services
             if (timeManager is null)
                 return 0;
 
-            return (timeManager.Minutes / 60);
+            return (timeManager.Seconds / 60);
         }
 
         public int GetSeconds(TimeManager? timeManager)
@@ -57,7 +57,7 @@ namespace WindowSill.PomodoroTimer.Services
             if (timeManager is null)
                 return 0;
 
-            return (timeManager.Minutes % 60);
+            return (timeManager.Seconds % 60);
         }
 
         public int GetTimeFromType(PomodoroType type)

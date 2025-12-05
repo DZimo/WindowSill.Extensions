@@ -63,7 +63,7 @@ public partial class PomodoroTimerVm : ObservableObject
     private void OnTimerReduced(object? sender, TimeManager? e)
     {
         TimeManager.Seconds++;
-        TimeManager.Minutes++;
+        //TimeManager.Minutes++;
 
         ThreadHelper.RunOnUIThreadAsync(() =>
         {
