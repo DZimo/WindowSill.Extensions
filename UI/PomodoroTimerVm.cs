@@ -1,11 +1,12 @@
 ﻿using CommunityToolkit.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Windows.UI;
 using WindowSill.API;
 using WindowSill.PomodoroTimer.Models;
 using WindowSill.PomodoroTimer.Services;
 
-namespace WindowSill.PerfCounter.UI;
+namespace WindowSill.PomodoroTimer.UI;
 
 public partial class PomodoroTimerVm : ObservableObject
 {
@@ -20,6 +21,11 @@ public partial class PomodoroTimerVm : ObservableObject
 
     [ObservableProperty]
     private bool pomodoroStarted;
+
+    [ObservableProperty]
+    private SolidColorBrush pomodoroColor = new SolidColorBrush(Colors.IndianRed);
+
+    public static PomodoroTimerVm? Instance;
 
     private bool PomodoroStopped
     {
@@ -47,6 +53,7 @@ public partial class PomodoroTimerVm : ObservableObject
 
         _pluginInfo = pluginInfo;
         _timeHandlerService = timeHandlerService;
+        Instance = this;
     }
 
     public SillView CreateView()

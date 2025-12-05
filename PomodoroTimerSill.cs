@@ -6,7 +6,7 @@ using System.ComponentModel.Composition;
 using Windows.System;
 
 using WindowSill.API;
-using WindowSill.PerfCounter.UI;
+using WindowSill.PomodoroTimer.UI;
 using WindowSill.PomodoroTimer.Services;
 
 namespace WindowSill.PomodoroTimer;

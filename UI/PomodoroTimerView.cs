@@ -4,7 +4,7 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.UI;
 using WindowSill.API;
 
-namespace WindowSill.PerfCounter.UI;
+namespace WindowSill.PomodoroTimer.UI;
 
 public sealed class PomodoroTimerView : Button
 {
@@ -46,9 +46,8 @@ public sealed class PomodoroTimerView : Button
                                               .Children(
                                                   new StackPanel()
                                                      .Height(5)
-                                                     .Background(new SolidColorBrush(Colors.IndianRed)),
+                                                     .Background(x => x.Binding(() => vm.PomodoroColor).OneWay()),
                                                   new TextBlock()
-                                                     .FontSize(x => x.ThemeResource("SillFontSize"))
                                                      .Text(_pomodoroType.ToString())
                                                   )
                                   )),

@@ -1,6 +1,9 @@
 ﻿using System.ComponentModel.Composition;
 using System.Timers;
+using Windows.UI;
+using WindowSill.API;
 using WindowSill.PomodoroTimer.Models;
+using WindowSill.PomodoroTimer.UI;
 using Timer = System.Timers.Timer;
 
 namespace WindowSill.PomodoroTimer.Services
@@ -40,6 +43,12 @@ namespace WindowSill.PomodoroTimer.Services
                 return;
 
             _isBreakTime = !_isBreakTime;
+
+            ThreadHelper.RunOnUIThreadAsync(() =>
+            {
+                if (PomodoroTimerVm.Instance is not null)
+                    PomodoroTimerVm.Instance.PomodoroColor = new SolidColorBrush(GetColorFrombreak(_isBreakTime));
+            });
 
             timeManager.MainTimer.Stop();
             _timerReducer.Stop();
@@ -94,6 +103,11 @@ namespace WindowSill.PomodoroTimer.Services
         public int GetTimeFromBreak(bool isBreak, PomodoroType type)
         {
             return isBreak ? 2 : GetTimeFromType(type);
+        }
+
+        public Color GetColorFrombreak(bool isBreak)
+        {
+            return isBreak ? Colors.DarkOliveGreen : Colors.IndianRed;
         }
 
         private void StartTimers(TimeManager timeManager)
