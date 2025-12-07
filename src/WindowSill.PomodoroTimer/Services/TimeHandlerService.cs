@@ -91,7 +91,7 @@ namespace WindowSill.PomodoroTimer.Services
             switch (type) 
             {
                 case PomodoroType.Short:
-                    return 25;
+                    return 1;
                 case PomodoroType.Long:
                     return 50;
                 default:

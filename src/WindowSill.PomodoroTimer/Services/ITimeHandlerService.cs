@@ -17,5 +17,7 @@ namespace WindowSill.PomodoroTimer.Services
         public int GetMinutes(TimeManager timeManager);
 
         public int GetSeconds(TimeManager timeManager);
+
+        public int GetTimeFromBreak(bool isBreak, PomodoroType type);
     }
 }

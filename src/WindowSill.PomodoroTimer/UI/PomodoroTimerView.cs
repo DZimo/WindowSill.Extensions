@@ -43,7 +43,8 @@ public sealed class PomodoroTimerView : UserControl
                                               .Orientation(Orientation.Vertical)
                                               .Children(
                                                   new StackPanel()
-                                                     .Height(x => x.Binding(() => vm.ColorHeight).OneWay())
+                                                     .Height(x => x.Binding(() => vm.ProgressHeight).OneWay())
+                                                     .Width(x => x.Binding(() => vm.ProgressWidth).OneWay())
                                                      .Background(x => x.Binding(() => vm.PomodoroColor).OneWay()),
                                                   new TextBlock()
                                                      .Text(_pomodoroType.ToString())

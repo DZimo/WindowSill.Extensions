@@ -36,7 +36,8 @@ public sealed class PomodoroTimerSill : ISill, ISillSingleView
 
     private void UpdateColorHeight()
     {
-        pomodoroTimerVm?.ColorHeight = View?.SillOrientationAndSize == SillOrientationAndSize.HorizontalSmall ? 2 : View?.SillOrientationAndSize == SillOrientationAndSize.HorizontalMedium ? 4 : 6;
+        pomodoroTimerVm?.ProgressHeight = View?.SillOrientationAndSize == SillOrientationAndSize.HorizontalSmall ? 2 : View?.SillOrientationAndSize == SillOrientationAndSize.HorizontalMedium ? 4 : 6;
+        pomodoroTimerVm?.ProgressWidthDefault = View?.SillOrientationAndSize == SillOrientationAndSize.HorizontalSmall ? 10 : View?.SillOrientationAndSize == SillOrientationAndSize.HorizontalMedium ? 15 : 20;
     }
 
     public string DisplayName => "/WindowSill.PomodoroTimer/Misc/DisplayName".GetLocalizedString();

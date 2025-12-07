@@ -29,12 +29,25 @@ public partial class PomodoroTimerVm : ObservableObject
     private SolidColorBrush pomodoroColor = new SolidColorBrush(Colors.IndianRed);
 
     [ObservableProperty]
-    private double colorHeight = 5;
+    private double progressHeight = 5;
 
+    [ObservableProperty]
+    private double progressWidth = 30;
+
+    public double progressWidthDefault;
+
+    public double ProgressWidthDefault {  
+        get => progressWidthDefault;
+        set
+        {
+            progressWidthDefault = value;
+            ProgressWidth = value;
+            OnProgressWidthChanged(ProgressWidth);
+            OnPropertyChanged(nameof(ProgressWidth));
+        }
+    }
 
     public static PomodoroTimerVm? Instance;
-
-    private bool CanExecuteStart() => PomodoroStarted;
 
     private bool PomodoroStopped
     {
@@ -104,11 +117,20 @@ public partial class PomodoroTimerVm : ObservableObject
         TimeManager.Seconds++;
         TimeManager.Minutes = TimeManager.Seconds / 60;
 
+        var time = _timeHandlerService.GetTimeFromBreak(!PomodoroStarted, PomodoroType) * 60;
+
         ThreadHelper.RunOnUIThreadAsync(() =>
         {
+            var remaining = time - TimeManager.Seconds;
+            var progressRatio = (double)remaining / time;
+
+            if (progressRatio > 0)
+                ProgressWidth = progressWidthDefault * progressRatio;
+
             OnPropertyChanged(nameof(MinutesLeft));
             OnPropertyChanged(nameof(SecondsLeft));
             OnPropertyChanged(nameof(TimeLeft));
+            OnPropertyChanged(nameof(ProgressWidth));
         });
     }
 
