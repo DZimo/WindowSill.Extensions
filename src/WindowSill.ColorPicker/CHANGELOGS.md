@@ -1,12 +1,3 @@
-# 0.3.0
-- Notify user when a pomodoro session ends.
-- Progress bar sliding depending on time.
-
-# 0.2.0
-- Removed button from Sill.
-- Add of dynamic height depending on bar size.
-
 # 0.1.0
-- Implemented the main pomodoro timer.
-- 25 short option only with 5 minutes break.
-- Added basic UI with start, pause, and reset buttons.
+- Color eyedrop tool picker
+- HEX to Color

@@ -1,4 +1,5 @@
-﻿using WindowSill.API;
+﻿using System.Numerics;
+using WindowSill.API;
 
 namespace WindowSill.ColorPicker.UI;
 
@@ -11,23 +12,26 @@ public sealed class ColorPickerView : UserControl
           (view, vm) => view
           .Content(
               new Grid()
+                  .VerticalAlignment(VerticalAlignment.Top)
                   .Children(
                       new SillOrientedStackPanel()
-                          .VerticalAlignment(VerticalAlignment.Center)
-                          .HorizontalAlignment(HorizontalAlignment.Center)
                           .Spacing(1)
                           .Children(
                               new StackPanel()
-                                  .Orientation(Orientation.Horizontal)
-                                  .VerticalAlignment(VerticalAlignment.Center)
-                                  .HorizontalAlignment(HorizontalAlignment.Center)
-                                  .Padding(1)
-                                  .Margin(1)
                                   .Children(
                                       new TextBox()
-                                          .Text("#FFFFFF")
-                                          .HorizontalAlignment(HorizontalAlignment.Center),
+                                          .VerticalAlignment(VerticalAlignment.Top)
+                                          .PlaceholderText("#FFFFFF")
+                                          .PlaceholderForeground(Colors.Gray)
+                                          .FontSize(12)
+                                          .Height(17)
+                                          .MinHeight(0)
+                                          .MaxLength(7)
+                                          .Margin(0, 0, 0, 3)
+                                          .Text(x => x.Binding(() => vm.SelectedColorHex).TwoWay())
+                                          .BorderBrush(x => x.Binding(() => vm.SelectedColorBrush).OneWay()),
                                       new StackPanel()
+                                      .Orientation(Orientation.Horizontal)
                                           .Children(
                                                 new Button()
                                                    .Style(x => x.StaticResource("IconButton"))
