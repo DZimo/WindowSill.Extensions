@@ -1,3 +1,3 @@
-# Pomodoro Timer
+# Color Picker
 
-Community extension of a Pomodoro Timer for WindowsSill Windows bar.
+Community extension of a Color Picker for WindowsSill Windows bar.

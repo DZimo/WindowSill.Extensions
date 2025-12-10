@@ -5,10 +5,10 @@ namespace WindowSill.ColorPicker.UI;
 
 public sealed class ColorPickerView : UserControl
 {
-    public ColorPickerView(IPluginInfo pluginInfo, ColorPickerVm pomodoroVm)
+    public ColorPickerView(IPluginInfo pluginInfo, ColorPickerVm colorPickerVm)
     {
         this.DataContext(
-          pomodoroVm,
+          colorPickerVm,
           (view, vm) => view
           .Content(
               new Grid()

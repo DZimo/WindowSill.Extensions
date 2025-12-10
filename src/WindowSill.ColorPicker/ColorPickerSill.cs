@@ -38,7 +38,7 @@ public sealed class ColorPickerSill : ISill, ISillSingleView
     {
     }
 
-    public string DisplayName => "/WindowSill.PomodoroTimer/Misc/DisplayName".GetLocalizedString();
+    public string DisplayName => "/WindowSill.ColorPicker/Misc/DisplayName".GetLocalizedString();
 
     public IconElement CreateIcon()
          => new ImageIcon
