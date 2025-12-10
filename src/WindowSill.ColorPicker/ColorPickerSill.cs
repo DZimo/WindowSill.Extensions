@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using Windows.System;
 using WindowSill.API;
+using WindowSill.ColorPicker.Services;
 using WindowSill.ColorPicker.UI;
 
 namespace WindowSill.ColorPicker;
@@ -20,11 +21,11 @@ public sealed class ColorPickerSill : ISill, ISillSingleView
     public SillView? View { get; private set; }
 
     [ImportingConstructor]
-    public ColorPickerSill(IPluginInfo pluginInfo, IProcessInteractionService processInteraction)
+    public ColorPickerSill(IPluginInfo pluginInfo, IProcessInteractionService processInteraction, IMouseService mouseService)
     {
         _pluginInfo = pluginInfo;
         _processInteraction = processInteraction;
-        _colorPickerVm = new ColorPickerVm(pluginInfo, processInteraction);
+        _colorPickerVm = new ColorPickerVm(pluginInfo, processInteraction, mouseService);
 
         View = _colorPickerVm.CreateView();
         UpdateColorHeight();
