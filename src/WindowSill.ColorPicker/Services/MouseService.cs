@@ -21,12 +21,6 @@ namespace WindowSill.ColorPicker.Services
         {
 
         }
-
-        public void Dispoese()
-        {
-            throw new NotImplementedException();
-        }
-
         public string GetColorAtCursorNative()
         {
             var colorhex = "";
@@ -55,6 +49,10 @@ namespace WindowSill.ColorPicker.Services
         }
 
         public void ShowColorNative()
+        {
+            throw new NotImplementedException();
+        }
+        public void Dispoese()
         {
             throw new NotImplementedException();
         }

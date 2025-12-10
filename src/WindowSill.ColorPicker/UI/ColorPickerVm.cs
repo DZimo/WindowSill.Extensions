@@ -19,7 +19,7 @@ public partial class ColorPickerVm : ObservableObject
 
     private string selectedColorHex = "#FFFFFF";
 
-    private bool exitRequested = false;
+    private bool exitRequested = true;
 
     public string SelectedColorHex
     {
@@ -71,6 +71,7 @@ public partial class ColorPickerVm : ObservableObject
     [RelayCommand]
     private async Task CopyColorHex()
     {
+        exitRequested = !exitRequested;
 
         var data = new DataPackage();
         data.SetText(new string(SelectedColorHex));
@@ -80,6 +81,8 @@ public partial class ColorPickerVm : ObservableObject
     [RelayCommand]
     private async Task GetColor()
     {
+        exitRequested = !exitRequested;
+
         await Task.Run(async () =>
         {
             while (!exitRequested)
