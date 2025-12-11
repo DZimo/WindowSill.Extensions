@@ -61,6 +61,11 @@ public partial class ColorPickerVm : ObservableObject
         _processInteraction = processInteraction;
         _mouseService = mouseService;
         Instance = this;
+
+        _mouseService.MouseExited += (s, e) =>
+        {
+            exitRequested = !exitRequested;
+        };
     }
 
     public SillView CreateView()
@@ -81,8 +86,6 @@ public partial class ColorPickerVm : ObservableObject
     [RelayCommand]
     private async Task GetColor()
     {
-        exitRequested = !exitRequested;
-
         await Task.Run(async () =>
         {
             while (!exitRequested)

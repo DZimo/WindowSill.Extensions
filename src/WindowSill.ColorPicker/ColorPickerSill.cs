@@ -1,5 +1,6 @@
 using CommunityToolkit.Diagnostics;
 using Microsoft.UI.Xaml.Media.Imaging;
+using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using WindowSill.API;
 using WindowSill.ColorPicker.Services;
@@ -26,6 +27,9 @@ public sealed class ColorPickerSill : ISill, ISillSingleView
         _colorPickerVm = new ColorPickerVm(pluginInfo, processInteraction, mouseService);
 
         View = _colorPickerVm.CreateView();
+
+        //ViewList.Add(View);
+
         UpdateColorHeight();
 
         View.IsSillOrientationOrSizeChanged += (o, p) =>
@@ -43,12 +47,27 @@ public sealed class ColorPickerSill : ISill, ISillSingleView
     public IconElement CreateIcon()
          => new ImageIcon
          {
-             Source = new SvgImageSource(new Uri(System.IO.Path.Combine(_pluginInfo.GetPluginContentDirectory(), "Assets", "colorpicker.svg")))
+             Source = new SvgImageSource(new Uri(System.IO.Path.Combine(_pluginInfo.GetPluginContentDirectory(), "Assets", "colorpicker_logo.svg")))
          };
 
     public SillView? PlaceholderView => null;
 
     public SillSettingsView[]? SettingsViews => null;
+
+    public ObservableCollection<SillListViewItem> ViewList
+        => [
+            new SillListViewButtonItem(
+                '\xEf3c',
+                "/WindowSill.Extension/Misc/CommandTitle".GetLocalizedString(),
+                _colorPickerVm.GetColorCommand),
+
+            new SillListViewPopupItem("test", null, null)
+        ];
+
+    private async Task OnCommandButtonClickAsync()
+    {
+        throw new NotImplementedException();
+    }
 
     public ValueTask OnActivatedAsync()
     {
