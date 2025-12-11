@@ -18,12 +18,7 @@
 		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
 	</PropertyGroup>
 	<ItemGroup>
-	  <Content Remove="Assets\colorpicker_logo.svg" />
-	</ItemGroup>
-	<ItemGroup>
 		<None Include="Assets/colorpicker_logo.png" Pack="true" PackagePath="\Assets\" />
-		<None Include="Assets/colorpicker_logo.svg" Pack="true" PackagePath="\Assets\" />
-		<None Include="LICENSE.md" Pack="true" PackagePath="\" />
 		<None Include="LICENSE.md" Pack="true" PackagePath="\" />
 		<None Include="CHANGELOGS.md" Pack="true" PackagePath="\" />
 	</ItemGroup>
