@@ -1,9 +1,13 @@
-﻿using System.ComponentModel.Composition;
+﻿using Microsoft.Extensions.Logging;
+using System.ComponentModel.Composition;
+using System.Diagnostics;
 using System.Drawing;
+using System.Runtime.InteropServices;
 using Windows.UI;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.Graphics.Gdi;
+using Windows.Win32.UI.WindowsAndMessaging;
 
 namespace WindowSill.ColorPicker.Services
 {
@@ -11,16 +15,48 @@ namespace WindowSill.ColorPicker.Services
 
     public class MouseService : IMouseService
     {
-        public Windows.UI.Color CurrentColor { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        Windows.UI.Color IMouseService.CurrentColor { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public event EventHandler MouseExited;
 
-        public event EventHandler Exited;
+        private UnhookWindowsHookExSafeHandle _mouseHookHandle;
+        private HOOKPROC _mouseDelegate;
+
+        private const int WM_LBUTTONDOWN = 0x0201;
+        private const int WM_RBUTTONDOWN = 0x0204;
+        private const int WM_MBUTTONDOWN = 0x0207;
 
         [ImportingConstructor]
         public MouseService()
         {
-
+            GetMouseEvent();
         }
+
+        private void GetMouseEvent()
+        {
+            if (_mouseHookHandle != null && !_mouseHookHandle.IsInvalid)
+                return;
+
+            _mouseDelegate = MouseHookProc;
+
+            _mouseHookHandle = PInvoke.SetWindowsHookEx(
+                WINDOWS_HOOK_ID.WH_MOUSE_LL,
+                _mouseDelegate,
+                default,
+                0);
+        }
+
+        private LRESULT MouseHookProc(int nCode, WPARAM wParam, LPARAM lParam)
+        {
+            if (nCode >= 0)
+            {
+                uint msg = (uint)wParam;
+
+                if (msg == WM_LBUTTONDOWN || msg == WM_RBUTTONDOWN ||msg == WM_MBUTTONDOWN)
+                    MouseExited?.Invoke(this, EventArgs.Empty);
+            }
+
+            return PInvoke.CallNextHookEx(default,nCode,new WPARAM((nuint)wParam),new LPARAM((nint)lParam));
+        }
+
         public string GetColorAtCursorNative()
         {
             var colorhex = "";

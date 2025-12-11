@@ -4,9 +4,7 @@ namespace WindowSill.ColorPicker.Services
 {
     public interface IMouseService
     {
-        public Color CurrentColor { get; set; }  
-
-        public event EventHandler Exited;
+        public event EventHandler MouseExited;
 
         public string GetColorAtCursorNative();
 
