@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using WindowSill.API;
+using WindowSill.SimpleCalculator.Enums;
 using WindowSill.SimpleCalculator.Services;
 
 namespace WindowSill.SimpleCalculator.UI;
@@ -12,11 +13,25 @@ public partial class SimpleCalculatorVm : ObservableObject
     private readonly IProcessInteractionService _processInteraction;
     private readonly ICalculatorService _calculatorService;
 
-    [ObservableProperty]
-    private string selectedArithmeticOP = "";
+    //[ObservableProperty]
+    //private string selectedArithmeticOP = "";
 
     [ObservableProperty]
-    private int selectedNumber;
+    private ArithmeticOperator selectedArithmeticOP;
+
+    private string selectedNumber;
+    public string SelectedNumber
+    {
+        get => selectedNumber;
+        set 
+        { 
+            selectedNumber = value;
+            var span = selectedNumber.AsSpan();
+            SelectedArithmeticOP = _calculatorService.GetArithmeticOperator(span);
+            OnPropertyChanged(nameof(SelectedNumber));
+        }
+    }
+
 
     [ObservableProperty]
     private int colorFontSize = 12;

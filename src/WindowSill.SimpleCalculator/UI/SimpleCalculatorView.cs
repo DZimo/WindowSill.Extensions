@@ -1,5 +1,6 @@
 ﻿using System.Numerics;
 using WindowSill.API;
+using WindowSill.SimpleCalculator.Services;
 
 namespace WindowSill.SimpleCalculator.UI;
 
@@ -21,7 +22,7 @@ public sealed class SimpleCalculatorView : UserControl
                                   .Orientation(Orientation.Horizontal)
                                   .Children(
                                       new TextBox()
-                                          .PlaceholderText("#FFFFFF")
+                                          .PlaceholderText("2 + 5")
                                           .PlaceholderForeground(Colors.Gray)
                                           .FontSize(x => x.Binding(() => vm.ColorFontSize).OneWay())
                                           .TextAlignment(TextAlignment.Center)
@@ -46,7 +47,7 @@ public sealed class SimpleCalculatorView : UserControl
                                           .Children(
                                                 new Button()
                                                    .Style(x => x.StaticResource("IconButton"))
-                                                   .Content("\xEf3c")
+                                                   .Content("\xE752")
                                                    .Command(x => x.Binding(() => vm.ExtendCalculatorCommand))
                                   ))
                       )

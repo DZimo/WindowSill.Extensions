@@ -3,33 +3,30 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using WindowSill.API;
-using WindowSill.ColorPicker.Services;
-using WindowSill.ColorPicker.UI;
+using WindowSill.SimpleCalculator.Services;
+using WindowSill.SimpleCalculator.UI;
 
-namespace WindowSill.ColorPicker;
+namespace WindowSill.SimpleCalculator;
 
 [Export(typeof(ISill))]
-[Name("WindowSill.ColorPicker")]
+[Name("WindowSill.SimpleCalculator")]
 [Priority(Priority.Lowest)]
-public sealed class SimpleCalculatorSill : ISill, ISillListView
+public sealed class SimpleCalculatorSill : ISill, ISillSingleView
 {
-    private ColorPickerVm _colorPickerVm;
+    private SimpleCalculatorVm _simpleCalculatorVm;
     private IPluginInfo _pluginInfo;
     private IProcessInteractionService _processInteraction;
 
     public SillView? View { get; private set; }
 
     [ImportingConstructor]
-    public SimpleCalculatorSill(IPluginInfo pluginInfo, IProcessInteractionService processInteraction, IMouseService mouseService)
+    public SimpleCalculatorSill(IPluginInfo pluginInfo, IProcessInteractionService processInteraction, ICalculatorService calculatorService)
     {
         _pluginInfo = pluginInfo;
         _processInteraction = processInteraction;
-        _colorPickerVm = new ColorPickerVm(pluginInfo, processInteraction, mouseService);
+        _simpleCalculatorVm = new SimpleCalculatorVm(pluginInfo, processInteraction, calculatorService);
 
-        View = _colorPickerVm.CreateView();
-
-        //ViewList.Add(View);
-
+        View = _simpleCalculatorVm.CreateView();
         UpdateColorHeight();
 
         View.IsSillOrientationOrSizeChanged += (o, p) =>
@@ -40,8 +37,8 @@ public sealed class SimpleCalculatorSill : ISill, ISillListView
 
     private void UpdateColorHeight()
     {
-        _colorPickerVm?.ColorFontSize = View?.SillOrientationAndSize == SillOrientationAndSize.HorizontalSmall ? 10 : View?.SillOrientationAndSize == SillOrientationAndSize.HorizontalMedium ? 12 : 13;
-        _colorPickerVm?.ColorboxHeight = View?.SillOrientationAndSize == SillOrientationAndSize.HorizontalSmall ? 16 : View?.SillOrientationAndSize == SillOrientationAndSize.HorizontalMedium ? 18 : 18;
+        _simpleCalculatorVm?.ColorFontSize = View?.SillOrientationAndSize == SillOrientationAndSize.HorizontalSmall ? 10 : View?.SillOrientationAndSize == SillOrientationAndSize.HorizontalMedium ? 12 : 13;
+        _simpleCalculatorVm?.ColorboxHeight = View?.SillOrientationAndSize == SillOrientationAndSize.HorizontalSmall ? 16 : View?.SillOrientationAndSize == SillOrientationAndSize.HorizontalMedium ? 18 : 18;
     }
 
     public string DisplayName => "/WindowSill.ColorPicker/Misc/DisplayName".GetLocalizedString();
@@ -56,28 +53,6 @@ public sealed class SimpleCalculatorSill : ISill, ISillListView
 
     public SillSettingsView[]? SettingsViews => null;
 
-    public ObservableCollection<SillListViewItem> ViewList
-        => [
-            new SillListViewButtonItem(
-                '\xEf3c',
-                "/WindowSill.Extension/Misc/CommandTitle".GetLocalizedString(),
-                _colorPickerVm.GetColorCommand),
-
-            new SillListViewPopupItem("test", null, null),
-
-            new SillListViewButtonItem().DataContext(
-                this,(view, vm)  => view.Content(
-                        new Grid()
-                        .Background(() => _colorPickerVm.SelectedColorBrush)
-                        .Children(
-                        new SillOrientedStackPanel()
-                            .Spacing(4)
-                            .Children(
-                                new TextBlock().Text(_colorPickerVm.SelectedColorHex))),
-                                null,
-                                OnCommandButtonClickAsync)));))
-        ];
-
     private async Task OnCommandButtonClickAsync()
     {
         throw new NotImplementedException();
@@ -91,7 +66,7 @@ public sealed class SimpleCalculatorSill : ISill, ISillListView
     public ValueTask OnDeactivatedAsync()
     {
         View = null;
-        _colorPickerVm = null;
+        _simpleCalculatorVm = null;
 
         return ValueTask.CompletedTask;
     }
