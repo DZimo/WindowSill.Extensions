@@ -94,8 +94,8 @@ public partial class SimpleCalculatorVm : ObservableObject
 
         Total = Total == 0 ? X : SelectedArithmeticOP is ArithmeticOperator.Equal ? _calculatorService.CalculateTotal(X, Total, lastArithmeticOP) : X;
 
-        SelectedNumber = Total > 0 ? Total.ToString() : SelectedNumber = "";
         lastArithmeticOP = op;
+        SelectedNumber = Total > 0 && lastArithmeticOP is ArithmeticOperator.Equal ? Total.ToString() : SelectedNumber = "";
     }
 
     [RelayCommand]
