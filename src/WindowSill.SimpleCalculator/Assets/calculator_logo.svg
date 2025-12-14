@@ -1,0 +1,68 @@
+<!-- Created with PixiEditor (https://pixieditor.net) -->
+<svg version="1.1" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <path d="" fill-rule="nonzero" transform="matrix(1, 0, 0, 1, 0, 0)" fill="#ffffff" fill-opacity="0" stroke="#000000" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" opacity="1" id="Path" />
+  <g opacity="1" id="SimpleCalculator">
+    <rect x="31.092041015625" y="13.649566650390625" width="433.9469051361084" height="484.7008762359619" rx="54.24336242675781" ry="54.24336242675781" transform="matrix(1, 0, 0, 1, 0, 4.7683716E-06)" fill="url(#linearGradient0)" stroke="#6363af" stroke-width="0" opacity="1" id="Rectangle" />
+    <rect x="48.84955596923828" y="42.30796813964844" width="206.21593033950944" height="146.40707964601773" rx="18.300884246826172" ry="18.300884246826172" transform="matrix(1, 0, 0, 1, 0, 4.7683716E-06)" fill="url(#linearGradient1)" stroke="#000000" stroke-width="0" opacity="1" id="Rectangle" />
+    <text x="-200.9769911504426" y="190.58407079646017" font-size="12" font-family="Arial" font-weight="normal" font-style="normal" transform="matrix(1, 0, 0, 1, 0, 4.7683716E-06)" fill="#000000" fill-opacity="1" stroke="#ffffff" stroke-width="0" opacity="1" id="Text"></text>
+    <g opacity="1" id="New folder 1">
+      <rect x="48.84955978393555" y="242.29380798339844" width="65.10044325431886" height="65.10044325431886" rx="8.137555122375488" ry="8.137555122375488" transform="matrix(0.9999999, 0, -2.0249856E-15, 1.0000002, 20.157837, 129.09074)" fill="#000000" fill-opacity="1" stroke="#000000" stroke-width="0" opacity="1" id="Rectangle" />
+      <text x="73.1469026548672" y="266.5911504424779" font-size="50" font-family="Arial" font-weight="normal" font-style="normal" transform="matrix(1, 0, 0, 1, 14.410706, 155.3437)" fill="#ffffff" fill-opacity="1" stroke="#ffffff" stroke-width="0" opacity="1" id="Text">1</text>
+    </g>
+    <g opacity="1" id="New folder 1">
+      <rect x="48.84955978393555" y="242.29380798339844" width="65.10044325431886" height="65.10044325431886" rx="8.137555122375488" ry="8.137555122375488" transform="matrix(0.9999999, -8.2651167E-16, -2.0249856E-15, 1.0000002, 21.092346, 38.065113)" fill="url(#linearGradient2)" stroke="#000000" stroke-width="0" opacity="1" id="Rectangle" />
+      <text x="73.1469026548672" y="266.5911504424779" font-size="70" font-family="Arial" font-weight="normal" font-style="normal" transform="matrix(0.9999999, -8.2651167E-16, -2.0249856E-15, 1.0000002, 9.345215, 71.31799)" fill="#ffffff" fill-opacity="1" stroke="#ffffff" stroke-width="0" opacity="1" id="Text">+</text>
+    </g>
+    <g opacity="1" id="New folder 1">
+      <rect x="48.84955978393555" y="242.29380798339844" width="65.10044325431886" height="65.10044325431886" rx="8.137555122375488" ry="8.137555122375488" transform="matrix(0.99999994, 0, -2.0249858E-15, 1.0000002, 123.26578, 129.09074)" fill="#000000" fill-opacity="1" stroke="#000000" stroke-width="0" opacity="1" id="Rectangle" />
+      <text x="73.1469026548672" y="266.5911504424779" font-size="50" font-family="Arial" font-weight="normal" font-style="normal" transform="matrix(1, 0, -1.149781E-13, 1, 118.01865, 154.84367)" fill="#ffffff" fill-opacity="1" stroke="#ffffff" stroke-width="0" opacity="1" id="Text">2</text>
+    </g>
+    <g opacity="1" id="New folder 1">
+      <rect x="48.84955978393555" y="242.29380798339844" width="65.10044325431886" height="65.10044325431886" rx="8.137555122375488" ry="8.137555122375488" transform="matrix(0.99999994, -8.265117E-16, -2.0249858E-15, 1.0000002, 124.20029, 38.065113)" fill="url(#linearGradient3)" stroke="#000000" stroke-width="0" opacity="1" id="Rectangle" />
+      <text x="73.1469026548672" y="266.5911504424779" font-size="70" font-family="Arial" font-weight="normal" font-style="normal" transform="matrix(0.99999994, -8.265117E-16, -1.9018391E-12, 1, 120.453156, 64.818054)" fill="#ffffff" fill-opacity="1" stroke="#ffffff" stroke-width="0" opacity="1" id="Text">-</text>
+    </g>
+    <g opacity="1" id="New folder 1">
+      <rect x="48.84955978393555" y="242.29380798339844" width="65.10044325431886" height="65.10044325431886" rx="8.137555122375488" ry="8.137555122375488" transform="matrix(0.9999998, 0, -2.0249856E-15, 1.0000002, 226.37375, 129.09074)" fill="#000000" fill-opacity="1" stroke="#000000" stroke-width="0" opacity="1" id="Rectangle" />
+      <text x="73.1469026548672" y="266.5911504424779" font-size="50" font-family="Arial" font-weight="normal" font-style="normal" transform="matrix(1, 0, -2.2676469E-13, 1, 221.59387, 154.8437)" fill="#ffffff" fill-opacity="1" stroke="#ffffff" stroke-width="0" opacity="1" id="Text">3</text>
+    </g>
+    <g opacity="1" id="New folder 1">
+      <rect x="48.84955978393555" y="242.29380798339844" width="65.10044325431886" height="65.10044325431886" rx="8.137555122375488" ry="8.137555122375488" transform="matrix(0.9999998, -8.265116E-16, -2.0249856E-15, 1.0000002, 227.30826, 38.065113)" fill="url(#linearGradient4)" stroke="#000000" stroke-width="0" opacity="1" id="Rectangle" />
+      <text x="73.1469026548672" y="266.5911504424779" font-size="70" font-family="Arial" font-weight="normal" font-style="normal" transform="matrix(1, -8.265118E-16, -1.181091E-15, 1, 225.52844, 71.318054)" fill="#ffffff" fill-opacity="1" stroke="#ffffff" stroke-width="0" opacity="1" id="Text">/</text>
+    </g>
+    <g opacity="1" id="New folder 1">
+      <rect x="48.84955978393555" y="242.29380798339844" width="65.10044325431886" height="65.10044325431886" rx="8.137555122375488" ry="8.137555122375488" transform="matrix(0.99999976, 0, 2.4979637E-14, 1.0000002, 327.17365, 129.09074)" fill="#000000" fill-opacity="1" stroke="#000000" stroke-width="0" opacity="1" id="Rectangle" />
+      <text x="73.1469026548672" y="266.5911504424779" font-size="50" font-family="Arial" font-weight="normal" font-style="normal" transform="matrix(1, 0, 0, 1, 322.42645, 155.3437)" fill="#ffffff" fill-opacity="1" stroke="#ffffff" stroke-width="0" opacity="1" id="Text">4</text>
+    </g>
+    <g opacity="1" id="New folder 1">
+      <rect x="48.84955978393555" y="242.29380798339844" width="65.10044325431886" height="65.10044325431886" rx="8.137555122375488" ry="8.137555122375488" transform="matrix(0.99999976, -8.2651156E-16, 2.4979637E-14, 1.0000002, 328.10815, 38.065113)" fill="url(#linearGradient5)" stroke="#000000" stroke-width="0" opacity="1" id="Rectangle" />
+      <text x="73.1469026548672" y="266.5911504424779" font-size="70" font-family="Arial" font-weight="normal" font-style="normal" transform="matrix(0.99999976, -8.2651156E-16, 2.4979637E-14, 1.0000002, 316.36108, 71.31799)" fill="#ffffff" fill-opacity="1" stroke="#ffffff" stroke-width="0" opacity="1" id="Text">=</text>
+    </g>
+    <rect x="48.84956359863281" y="220.67523193359375" width="434.86019134521484" height="5.1962432861328125" rx="0.6495304107666016" ry="0.6495304107666016" transform="matrix(0.99999994, 0, 0, 1, -18.214157, -1.4999952)" fill="#000000" fill-opacity="1" stroke="#000000" stroke-width="0" opacity="1" id="Rectangle" />
+  </g>
+  <defs>
+    <linearGradient x1="0.45" y1="0" x2="0.48" y2="1" id="linearGradient0">
+      <stop stop-color="#3bc3c5" offset="0%" stop-opacity="1" />
+      <stop stop-color="#124a4b" offset="100%" stop-opacity="1" />
+    </linearGradient>
+    <linearGradient x1="0.46" y1="1" x2="0.45" y2="0" id="linearGradient1">
+      <stop stop-color="#000000" offset="0%" stop-opacity="1" />
+      <stop stop-color="#1e212a" offset="100%" stop-opacity="1" />
+    </linearGradient>
+    <linearGradient x1="0.46" y1="1" x2="0.45" y2="0" id="linearGradient2">
+      <stop stop-color="#000000" offset="0%" stop-opacity="1" />
+      <stop stop-color="#1e212a" offset="100%" stop-opacity="1" />
+    </linearGradient>
+    <linearGradient x1="0.46" y1="1" x2="0.45" y2="0" id="linearGradient3">
+      <stop stop-color="#000000" offset="0%" stop-opacity="1" />
+      <stop stop-color="#1e212a" offset="100%" stop-opacity="1" />
+    </linearGradient>
+    <linearGradient x1="0.46" y1="1" x2="0.45" y2="0" id="linearGradient4">
+      <stop stop-color="#000000" offset="0%" stop-opacity="1" />
+      <stop stop-color="#1e212a" offset="100%" stop-opacity="1" />
+    </linearGradient>
+    <linearGradient x1="0.46" y1="1" x2="0.45" y2="0" id="linearGradient5">
+      <stop stop-color="#000000" offset="0%" stop-opacity="1" />
+      <stop stop-color="#1e212a" offset="100%" stop-opacity="1" />
+    </linearGradient>
+  </defs>
+</svg>

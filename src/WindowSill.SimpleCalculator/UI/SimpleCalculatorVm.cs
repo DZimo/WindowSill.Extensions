@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.VisualBasic;
 using WindowSill.API;
 using WindowSill.SimpleCalculator.Enums;
 using WindowSill.SimpleCalculator.Services;
@@ -96,4 +97,8 @@ public partial class SimpleCalculatorVm : ObservableObject
         SelectedNumber = Total > 0 ? Total.ToString() : SelectedNumber = "";
         lastArithmeticOP = op;
     }
+
+    [RelayCommand]
+    private void AppendNumberWithOP(char op) => 
+        SelectedNumber += op;
 }

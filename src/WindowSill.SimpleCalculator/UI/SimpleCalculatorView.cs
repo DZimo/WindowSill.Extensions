@@ -1,6 +1,4 @@
-﻿using Microsoft.UI.Xaml.Controls;
-using System.Numerics;
-using WindowSill.API;
+﻿using WindowSill.API;
 using WindowSill.SimpleCalculator.Services;
 
 namespace WindowSill.SimpleCalculator.UI;
@@ -56,28 +54,55 @@ public sealed class SimpleCalculatorView : UserControl
                                             '\xF0ad',
                                             null,
                                             new SillPopupContent()
-                                            .Content(
+                                                .DataContext(this.DataContext)
+                                                .Content(
                                                     new StackPanel()
                                                         .VerticalAlignment (VerticalAlignment.Center)
                                                         .HorizontalAlignment (HorizontalAlignment.Center)
                                                         .Orientation(Orientation.Vertical)
                                                                .Children(
+                                                                   new Border()
+                                                                   .Margin(5)
+                                                                   .Background(Colors.LightGray)
+                                                                   .Child(
+                                                                       new TextBlock()
+                                                                           .HorizontalAlignment(HorizontalAlignment.Center)
+                                                                           .Text("Simple Calculator")
+                                                                           .Foreground(Colors.Black)
+                                                                       ),
                                                                    new TextBlock()
-                                                                       .HorizontalAlignment(HorizontalAlignment.Center)
-                                                                       .Text("Extra params"),
+                                                                       .Text(() => vm.Total, x => $"Total: {x}")
+                                                                       .HorizontalAlignment(HorizontalAlignment.Center),
+                                                                   new TextBlock().Text(() => vm.X, x => $"Operand: {x}")
+                                                                        .HorizontalAlignment(HorizontalAlignment.Center),
+                                                                   new TextBlock()
+                                                                        .Text(() => vm.SelectedArithmeticOP, x => $"Operator: {x}")
+                                                                        .HorizontalAlignment(HorizontalAlignment.Center),
                                                                    new StackPanel()
+                                                                       .Margin(7)
                                                                        .Orientation(Orientation.Horizontal)
+                                                                       .Spacing(3)
                                                                        .Children(
-                                                                       new Button()
-                                                                           .Content("+"),
-                                                                       new Button()
-                                                                           .Content("-"),
-                                                                       new Button()
-                                                                           .Content("*"),
-                                                                       new Button()
-                                                                           .Content("/"),
-                                                                       new Button()
-                                                                           .Content("=")
+                                                                           new Button()
+                                                                               .Content("+")
+                                                                               .CommandParameter('+')
+                                                                               .Command(() => vm.AppendNumberWithOPCommand),
+                                                                           new Button()
+                                                                               .Content("-")
+                                                                               .CommandParameter('-')
+                                                                               .Command(() => vm.AppendNumberWithOPCommand),
+                                                                           new Button()
+                                                                               .Content("*")
+                                                                               .CommandParameter('*')
+                                                                               .Command(() => vm.AppendNumberWithOPCommand),
+                                                                           new Button()
+                                                                               .Content("/")
+                                                                               .CommandParameter('/')
+                                                                               .Command(() => vm.AppendNumberWithOPCommand),
+                                                                           new Button()
+                                                                               .Content("=")
+                                                                               .CommandParameter('=')
+                                                                               .Command(() => vm.AppendNumberWithOPCommand)
                                                                        )
                                                       
                                                                ))

@@ -14,11 +14,11 @@
 		<PackageProjectUrl>https://github.com/DZimo/WindowSill.Extensions</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/DZimo/WindowSill.Extensions</RepositoryUrl>
 		<Authors>Mohamed-Nazim BELABED</Authors>
-		<PackageIcon>Assets/colorpicker_logo.png</PackageIcon>
+		<PackageIcon>Assets/calculator_logo.png</PackageIcon>
 		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
 	</PropertyGroup>
 	<ItemGroup>
-		<None Include="Assets/colorpicker_logo.png" Pack="true" PackagePath="\Assets\" />
+		<None Include="Assets/calculator_logo.png" Pack="true" PackagePath="\Assets\" />
 		<None Include="LICENSE.md" Pack="true" PackagePath="\" />
 		<None Include="CHANGELOGS.md" Pack="true" PackagePath="\" />
 	</ItemGroup>
