@@ -121,15 +121,15 @@
     <value>Pomodoro Timer</value>
   </data>
   <data name="BreakTime" xml:space="preserve">
-    <value>Time for a Break!</value>
+    <value>休息时间！</value>
   </data>
   <data name="BreakEnd" xml:space="preserve">
-    <value>Break Over!</value>
+    <value>断开！</value>
   </data>
   <data name="BreakTimeDesc" xml:space="preserve">
-    <value>Take a short break.</value>
+    <value>短暂休息。</value>
   </data>
   <data name="BreakEndDesc" xml:space="preserve">
-    <value>Let's get back to work.</value>
+    <value>让我们重新开始工作。</value>
   </data>
 </root>
