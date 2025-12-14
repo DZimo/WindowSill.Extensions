@@ -44,7 +44,7 @@ public sealed class SimpleCalculatorSill : ISill, ISillSingleView
     public IconElement CreateIcon()
          => new ImageIcon
          {
-             Source = new SvgImageSource(new Uri(System.IO.Path.Combine(_pluginInfo.GetPluginContentDirectory(), "Assets", "colorpicker_logo.svg")))
+             Source = new SvgImageSource(new Uri(System.IO.Path.Combine(_pluginInfo.GetPluginContentDirectory(), "Assets", "calculator_logo.svg")))
          };
 
     public SillView? PlaceholderView => null;

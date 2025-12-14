@@ -1,3 +1,3 @@
-# Color Picker
+# Simple Calculator
 
-Community extension of a Color Picker for WindowsSill Windows bar.
+Community extension of a simple Calculator.

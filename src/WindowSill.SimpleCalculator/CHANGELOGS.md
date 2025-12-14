@@ -1,3 +1,3 @@
 # 0.1.0
-- Color eyedrop tool picker
-- HEX to Color
+- Ability to do simple arithmetic operations
+- Popup to extend calculator

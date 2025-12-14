@@ -1,6 +1,0 @@
-GetCursorPos
-GetDC
-ReleaseDC
-GetPixel
-SetWindowsHookEx
-CallNextHookEx
