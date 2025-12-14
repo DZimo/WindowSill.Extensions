@@ -1,3 +1,7 @@
+# 0.4.0
+- Add of 50 minutes long pomodoro option with 15 minutes break.
+- Add of new languages.
+
 # 0.3.0
 - Notify user when a pomodoro session ends.
 - Progress bar sliding depending on time.
