@@ -146,4 +146,18 @@ public partial class PomodoroTimerVm : ObservableObject
             OnPropertyChanged(nameof(TimeLeft));
         });
     }
+
+    [RelayCommand]
+    public void ChangePomodoroType()
+    {
+        PomodoroType = PomodoroType switch
+        {
+            PomodoroType.Short => PomodoroType.Long,
+            PomodoroType.Long => PomodoroType.Short,
+            _ => PomodoroType.Short,
+        };
+        
+        _timeHandlerService.ResetTimer(TimeManager, PomodoroType);
+        ReserTimersVm();
+    }
 }

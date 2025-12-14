@@ -1,15 +1,10 @@
-﻿using CommunityToolkit.Diagnostics;
-
-using Microsoft.UI.Xaml.Media.Imaging;
-using Windows.UI;
-using WindowSill.API;
+﻿using WindowSill.API;
+using Converters = WindowSill.PomodoroTimer.Services.Converters;
 
 namespace WindowSill.PomodoroTimer.UI;
 
 public sealed class PomodoroTimerView : UserControl
 {
-    private int _pomodoroType = 25;
-
     private readonly ImageIcon startIcon = new();
     private readonly ImageIcon stopIcon = new();
     private readonly ImageIcon quarterIcon = new();
@@ -41,6 +36,7 @@ public sealed class PomodoroTimerView : UserControl
                                       new Button()
                                           .Style(x => x.StaticResource("SillButtonStyle"))
                                           .HorizontalAlignment(HorizontalAlignment.Center)
+                                          .Command(() => vm.ChangePomodoroTypeCommand)
                                           .Content(
                                               new StackPanel()
                                               .Orientation(Orientation.Vertical)
@@ -52,7 +48,7 @@ public sealed class PomodoroTimerView : UserControl
                                                      .Background(x => x.Binding(() => vm.PomodoroColor).OneWay()),
                                                   new TextBlock()
                                                      .HorizontalAlignment(HorizontalAlignment.Center)
-                                                     .Text(_pomodoroType.ToString())
+                                                     .Text(x => x.Binding(() => vm.PomodoroType).Converter(Converters.PomodoroTypeConverter))
                                                   )
                                   )),
                               new StackPanel()
