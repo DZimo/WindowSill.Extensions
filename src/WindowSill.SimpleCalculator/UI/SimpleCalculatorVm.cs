@@ -1,7 +1,6 @@
 ﻿using CommunityToolkit.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.UI.Xaml.Controls;
 using WindowSill.API;
 using WindowSill.SimpleCalculator.Enums;
 using WindowSill.SimpleCalculator.Services;
@@ -13,9 +12,6 @@ public partial class SimpleCalculatorVm : ObservableObject
     private readonly IPluginInfo _pluginInfo;
     private readonly IProcessInteractionService _processInteraction;
     private readonly ICalculatorService _calculatorService;
-
-    //[ObservableProperty]
-    //private string selectedArithmeticOP = "";
 
     [ObservableProperty]
     private ArithmeticOperator selectedArithmeticOP = ArithmeticOperator.None;

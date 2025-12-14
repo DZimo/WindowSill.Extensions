@@ -1,7 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using System;
-using System.ComponentModel.Composition;
-using Windows.UI.ViewManagement;
+﻿using System.ComponentModel.Composition;
 using WindowSill.SimpleCalculator.Enums;
 
 namespace WindowSill.SimpleCalculator.Services
@@ -76,6 +73,7 @@ namespace WindowSill.SimpleCalculator.Services
 
         public float GetNumberX(Span<char> inputSpan, ReadOnlySpan<char> op)
         {
+            inputSpan.Replace<char>(',', '.');
             inputSpan.Replace(op.ToArray().First(), ' ');
             float.TryParse(inputSpan.ToString(), out float result);
             return result;

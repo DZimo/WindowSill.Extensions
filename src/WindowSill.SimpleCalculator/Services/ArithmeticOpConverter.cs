@@ -15,7 +15,8 @@ namespace WindowSill.SimpleCalculator.Services
                 ArithmeticOperator.Minus => "-",
                 ArithmeticOperator.Multiply => "*",
                 ArithmeticOperator.Divide => "/",
-                ArithmeticOperator.None => "=",
+                ArithmeticOperator.Equal => "=",
+                ArithmeticOperator.None => " ",
                 _ => ""
             };
         }

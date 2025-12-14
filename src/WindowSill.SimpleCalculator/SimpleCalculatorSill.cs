@@ -1,6 +1,4 @@
-using CommunityToolkit.Diagnostics;
 using Microsoft.UI.Xaml.Media.Imaging;
-using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using WindowSill.API;
 using WindowSill.SimpleCalculator.Services;
