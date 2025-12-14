@@ -123,4 +123,7 @@
   <data name="CommandTitle" xml:space="preserve">
     <value>New Tab</value>
   </data>
+  <data name="CalculatorPopup" xml:space="preserve">
+    <value>Additional</value>
+  </data>
 </root>

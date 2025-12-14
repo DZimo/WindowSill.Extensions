@@ -27,7 +27,7 @@ public sealed class SimpleCalculatorView : UserControl
                                           {
                                               o.TextChanged += (s, e) =>
                                               {
-                                                 UpdateNumberText();
+                                                  UpdateNumberText();
                                               };
                                           })
                                           .PlaceholderForeground(Colors.Gray)
@@ -52,16 +52,39 @@ public sealed class SimpleCalculatorView : UserControl
                                                   .Converter(Converters.ArithmeticOpConverter))
                                                   .VerticalAlignment(VerticalAlignment.Center)
                                                   .HorizontalAlignment(HorizontalAlignment.Center)),
-                                      new StackPanel()
-                                      .Orientation(Orientation.Horizontal)
-                                          .Children(
-                                                new Button()
-                                                   .Style(x => x.StaticResource("IconButton"))
-                                                   .Content("\xF0ad")
-                                                   .Command(x => x.Binding(() => vm.ExtendCalculatorCommand))
+                                      new SillListViewPopupItem(
+                                            '\xF0ad',
+                                            null,
+                                            new SillPopupContent()
+                                            .Content(
+                                                    new StackPanel()
+                                                        .VerticalAlignment (VerticalAlignment.Center)
+                                                        .HorizontalAlignment (HorizontalAlignment.Center)
+                                                        .Orientation(Orientation.Vertical)
+                                                               .Children(
+                                                                   new TextBlock()
+                                                                       .HorizontalAlignment(HorizontalAlignment.Center)
+                                                                       .Text("Extra params"),
+                                                                   new StackPanel()
+                                                                       .Orientation(Orientation.Horizontal)
+                                                                       .Children(
+                                                                       new Button()
+                                                                           .Content("+"),
+                                                                       new Button()
+                                                                           .Content("-"),
+                                                                       new Button()
+                                                                           .Content("*"),
+                                                                       new Button()
+                                                                           .Content("/"),
+                                                                       new Button()
+                                                                           .Content("=")
+                                                                       )
+                                                      
+                                                               ))
+                                            )
                                   ))
                       )
-        )));
+        ));
     }
 
     private void UpdateNumberText()
