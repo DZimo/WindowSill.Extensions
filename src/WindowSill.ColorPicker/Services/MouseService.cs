@@ -5,6 +5,7 @@ using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.Graphics.Gdi;
 using Windows.Win32.UI.WindowsAndMessaging;
+using WindowSill.API;
 using Color = Windows.UI.Color;
 
 namespace WindowSill.ColorPicker.Services
@@ -13,6 +14,7 @@ namespace WindowSill.ColorPicker.Services
 
     public class MouseService : IMouseService
     {
+        private IPluginInfo _pluginInfo;
         public event EventHandler MouseExited;
 
         private UnhookWindowsHookExSafeHandle _mouseHookHandle;
@@ -23,8 +25,9 @@ namespace WindowSill.ColorPicker.Services
         private const int WM_MBUTTONDOWN = 0x0207;
 
         [ImportingConstructor]
-        public MouseService()
+        public MouseService(IPluginInfo pluginInfo)
         {
+            _pluginInfo = pluginInfo;
             GetMouseEvent();
         }
 
@@ -57,6 +60,15 @@ namespace WindowSill.ColorPicker.Services
 
         public string GetColorAtCursorNative()
         {
+            PInvoke.SetCursor(
+                PInvoke.LoadCursor(null, "CROSS")
+            );
+
+            var path = _pluginInfo.GetPluginContentDirectory();
+            using var hCursor = PInvoke.LoadCursorFromFile(path + "/Assets/colorpicker_cursor.cur");
+
+            PInvoke.SetCursor(hCursor);
+
             var colorhex = "";
 
             if (!PInvoke.GetCursorPos(out Point p))
