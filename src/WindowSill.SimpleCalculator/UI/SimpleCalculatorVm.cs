@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.VisualBasic;
+using Windows.System;
 using WindowSill.API;
 using WindowSill.SimpleCalculator.Enums;
 using WindowSill.SimpleCalculator.Services;
@@ -10,7 +11,7 @@ namespace WindowSill.SimpleCalculator.UI;
 
 public partial class SimpleCalculatorVm : ObservableObject
 {
-    private readonly IPluginInfo _pluginInfo;
+    private readonly ISettingsProvider _settingsProvider;
     private readonly IProcessInteractionService _processInteraction;
     private readonly ICalculatorService _calculatorService;
 
@@ -52,29 +53,45 @@ public partial class SimpleCalculatorVm : ObservableObject
     [ObservableProperty]
     private int colorboxHeight = 18;
 
+    [ObservableProperty]
+    private bool autoPopupOpen;
+
+    [ObservableProperty]
+    private bool autoCopyPaste;
+
+    public SillListViewItem test;
+
     public static SimpleCalculatorVm? Instance;
 
-    public SimpleCalculatorVm(IPluginInfo? pluginInfo, IProcessInteractionService processInteraction, ICalculatorService calculatorService)
+    public SimpleCalculatorVm(ISettingsProvider settingsProvider, IProcessInteractionService processInteraction, ICalculatorService calculatorService)
     {
-        Guard.IsNotNull(pluginInfo, nameof(pluginInfo));
+        Guard.IsNotNull(settingsProvider, nameof(settingsProvider));
         Guard.IsNotNull(processInteraction, nameof(processInteraction));
         Guard.IsNotNull(calculatorService, nameof(calculatorService));
 
-        _pluginInfo = pluginInfo;
+        _settingsProvider = settingsProvider;
         _processInteraction = processInteraction;
         _calculatorService = calculatorService;
         Instance = this;
+
+        AutoPopupOpen = _settingsProvider.GetSetting<bool>(Settings.Settings.AutoPopup);
+        AutoCopyPaste = _settingsProvider.GetSetting<bool>(Settings.Settings.AutoCopyPaste);
+    }
+
+    private void OnEnterPressed(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
+    {
+        throw new NotImplementedException();
     }
 
     public SillView CreateView()
     {
-        return new SillView { Content = new SimpleCalculatorView(_pluginInfo, this) };
+        return new SillView { Content = new SimpleCalculatorView(this) };
     }
 
     [RelayCommand]
     public void ExtendCalculator()
     {
-        SelectedNumber = "99+";
+        test.StartBringIntoView();
     }
 
     public void NumberTextboxChanging()

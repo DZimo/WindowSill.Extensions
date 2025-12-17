@@ -1,12 +1,22 @@
-﻿using WindowSill.API;
+﻿using Windows.System;
+using WindowSill.API;
 using WindowSill.SimpleCalculator.Services;
 
 namespace WindowSill.SimpleCalculator.UI;
 
 public sealed class SimpleCalculatorView : UserControl
 {
-    public SimpleCalculatorView(IPluginInfo pluginInfo, SimpleCalculatorVm calculatorVm)
+    public SimpleCalculatorView(SimpleCalculatorVm calculatorVm)
     {
+        KeyboardAccelerator keyboardAccelerator = new KeyboardAccelerator
+        {
+            Key = VirtualKey.Enter,
+            Modifiers = VirtualKeyModifiers.None
+        };
+        keyboardAccelerator.Invoked += OnEnterPressed;
+        base.KeyboardAccelerators.Add(keyboardAccelerator);
+        base.KeyboardAcceleratorPlacementMode = KeyboardAcceleratorPlacementMode.Hidden;
+
         this.DataContext(
           calculatorVm,
           (view, vm) => view
@@ -54,6 +64,10 @@ public sealed class SimpleCalculatorView : UserControl
                                             '\xF0ad',
                                             null,
                                             new SillPopupContent()
+                                                .Name((o) =>
+                                                {
+                                                    o.Close();
+                                                })
                                                 .DataContext(this.DataContext)
                                                 .Content(
                                                     new StackPanel()
@@ -74,7 +88,7 @@ public sealed class SimpleCalculatorView : UserControl
                                                                        .Text(() => vm.Total, x => $"Total: {x}")
                                                                        .HorizontalAlignment(HorizontalAlignment.Center),
                                                                    new TextBlock()
-                                                                       .Text(() => vm.X, x => $"Operan X: {x}")
+                                                                       .Text(() => vm.X, x => $"Operand X: {x}")
                                                                        .HorizontalAlignment(HorizontalAlignment.Center),
                                                                    new TextBlock().Text(() => vm.SelectedNumber, x => $"Operand Y: {x}")
                                                                         .HorizontalAlignment(HorizontalAlignment.Center),
@@ -113,6 +127,11 @@ public sealed class SimpleCalculatorView : UserControl
                                   ))
                       )
         ));
+    }
+
+    private void OnEnterPressed(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
+    {
+        SimpleCalculatorVm.Instance?.AppendNumberWithOPCommand.Execute('=');
     }
 
     private void UpdateNumberText()

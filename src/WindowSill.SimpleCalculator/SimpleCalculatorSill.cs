@@ -24,8 +24,8 @@ public sealed class SimpleCalculatorSill : ISill, ISillSingleView
     {
         _pluginInfo = pluginInfo;
         _processInteraction = processInteraction;
-        _simpleCalculatorVm = new SimpleCalculatorVm(pluginInfo, processInteraction, calculatorService);
         _settingsProvider = settingsProvider;
+        _simpleCalculatorVm = new SimpleCalculatorVm(settingsProvider, processInteraction, calculatorService);
 
         View = _simpleCalculatorVm.CreateView();
         UpdateColorHeight();
