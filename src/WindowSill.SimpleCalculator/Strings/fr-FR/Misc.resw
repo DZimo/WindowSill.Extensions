@@ -118,21 +118,21 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="DisplayName" xml:space="preserve">
-    <value>Simple Calculator</value>
+    <value>Calculatrice simple</value>
   </data>
   <data name="CommandTitle" xml:space="preserve">
     <value>New Tab</value>
   </data>
   <data name="CalculatorPopup" xml:space="preserve">
-    <value>Additional</value>
+    <value>Supplémentaire</value>
   </data>
   <data name="General" xml:space="preserve">
-    <value>General</value>
+    <value>Généraux</value>
   </data>
   <data name="PopupSettings" xml:space="preserve">
     <value>Auto Popup</value>
   </data>
   <data name="CopySettings" xml:space="preserve">
-    <value>Auto Copy Paste</value>
+    <value>Coller automatiquement</value>
   </data>
 </root>
