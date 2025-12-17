@@ -58,12 +58,12 @@ public sealed class ColorPickerSill : ISill, ISillListView
             new SillListViewButtonItem(
                 '\xEf3c',
                 "/WindowSill.Extension/Misc/CommandTitle".GetLocalizedString(),
-                _colorPickerVm.GetColorCommand),
+                _colorPickerVm.GetColor),
 
             new SillListViewButtonItem(
                 '\xE8c8',
                 "/WindowSill.Extension/Misc/CommandTitle".GetLocalizedString(),
-                _colorPickerVm.CopyColorHexCommand),
+                _colorPickerVm.CopyColorHex),
 
             new SillListViewPopupItem('\xe790', null, new RadialPickerView(_colorPickerVm)),
 

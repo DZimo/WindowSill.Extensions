@@ -85,7 +85,7 @@ public partial class ColorPickerVm : ObservableObject
 
         _mouseService.MouseExited += (s, e) =>
         {
-            exitRequested = !exitRequested;
+            exitRequested = true;
         };
     }
 
@@ -95,7 +95,7 @@ public partial class ColorPickerVm : ObservableObject
     }
 
     [RelayCommand]
-    private async Task CopyColorHex()
+    public async Task CopyColorHex()
     {
         exitRequested = !exitRequested;
 
@@ -105,8 +105,9 @@ public partial class ColorPickerVm : ObservableObject
     }
 
     [RelayCommand]
-    private async Task GetColor()
+    public async Task GetColor()
     {
+        exitRequested = false;
         await Task.Run(async () =>
         {
             while (!exitRequested)
