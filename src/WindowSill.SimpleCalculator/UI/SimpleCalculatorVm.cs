@@ -78,11 +78,6 @@ public partial class SimpleCalculatorVm : ObservableObject
         AutoCopyPaste = _settingsProvider.GetSetting<bool>(Settings.Settings.AutoCopyPaste);
     }
 
-    private void OnEnterPressed(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
-    {
-        throw new NotImplementedException();
-    }
-
     public SillView CreateView()
     {
         return new SillView { Content = new SimpleCalculatorView(this) };
