@@ -1,4 +1,5 @@
 using CommunityToolkit.Diagnostics;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
@@ -63,24 +64,43 @@ public sealed class ColorPickerSill : ISill, ISillListView
                 "/WindowSill.Extension/Misc/CommandTitle".GetLocalizedString(),
                 _colorPickerVm.GetColorCommand),
 
-            new SillListViewPopupItem("test", null, null),
+            new SillListViewButtonItem(
+                '\xE8c8',
+                "/WindowSill.Extension/Misc/CommandTitle".GetLocalizedString(),
+                _colorPickerVm.CopyColorHexCommand),
 
-            new SillListViewButtonItem().DataContext(
-                this,(view, vm)  => view.Content(
-                        new Grid()
-                        .Background(() => _colorPickerVm.SelectedColorBrush)
-                        .Children(
+            new SillListViewPopupItem('\xe790', null, null),
+
+            new SillListViewButtonItem().DataContext(_colorPickerVm, (view, vm) => view.Content(
+                new Border()
+                    .Background(() => _colorPickerVm.SelectedColorBrush)
+                    .Child(
                         new SillOrientedStackPanel()
-                            .Spacing(4)
+                            .Background(() => _colorPickerVm.SelectedColorBrush)
                             .Children(
-                                new TextBlock().Text(_colorPickerVm.SelectedColorHex))),
-                                null,
-                                OnCommandButtonClickAsync)));))
+                                    new TextBox()
+                                          .PlaceholderText("#FFFFFF")
+                                          .PlaceholderForeground(Colors.Gray)
+                                          .FontSize(x => x.Binding(() => _colorPickerVm.ColorFontSize).OneWay())
+                                          .TextAlignment(TextAlignment.Center)
+                                          .AcceptsReturn(false)
+                                          .FontStretch(Windows.UI.Text.FontStretch.Expanded)
+                                          .VerticalContentAlignment(VerticalAlignment.Center)
+                                          .TextWrapping(TextWrapping.Wrap)
+                                          .MinHeight(x => x.Binding(() => _colorPickerVm.ColorboxHeight).OneWay())
+                                          .MaxWidth(75)
+                                          .Width(75)
+                                          .MaxLength(7)
+                                          .Text(x => x.Binding(() => _colorPickerVm.SelectedColorHex).TwoWay())
+                                          .Padding(0)
+                                          .Margin(0)
+                                          .BorderBrush(x => x.Binding(() => _colorPickerVm.SelectedColorBrush).OneWay())))
+             )),
         ];
 
     private async Task OnCommandButtonClickAsync()
     {
-        throw new NotImplementedException();
+        //throw new NotImplementedException();
     }
 
     public ValueTask OnActivatedAsync()

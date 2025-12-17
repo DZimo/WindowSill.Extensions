@@ -1,8 +1,10 @@
-﻿namespace WindowSill.ColorPicker
+﻿using WinRT;
+
+namespace WindowSill.ColorPicker
 {
-    internal class ColorPickerIcon
+    internal class ColorPickerIcon : UIElement
     {
-        public ColorPickerIcon()
+        protected internal ColorPickerIcon(IObjectReference objRef) : base(objRef)
         {
         }
     }
