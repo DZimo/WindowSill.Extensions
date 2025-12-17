@@ -126,4 +126,13 @@
   <data name="CalculatorPopup" xml:space="preserve">
     <value>额外的</value>
   </data>
+  <data name="General" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="PopupSettings" xml:space="preserve">
+    <value>Auto Popup</value>
+  </data>
+  <data name="CopySettings" xml:space="preserve">
+    <value>Auto Copy Paste</value>
+  </data>
 </root>
