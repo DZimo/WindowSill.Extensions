@@ -27,7 +27,7 @@ public partial class ColorPickerVm : ObservableObject
 
     private bool exitRequested = true;
 
-    private Color selectedColorWinUI;
+    private Color selectedColorWinUI = Colors.White;
 
     public Color SelectedColorWinUI
     {

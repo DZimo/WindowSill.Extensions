@@ -18,6 +18,7 @@ namespace WindowSill.ColorPicker.UI
                                 .Spacing(4)
                                 .VerticalAlignment(VerticalAlignment.Center)
                                 .HorizontalAlignment(HorizontalAlignment.Center)
+                                .Margin(5)
                                 .Children(
                                     new TextBlock()
                                         .VerticalAlignment(VerticalAlignment.Center)
