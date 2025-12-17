@@ -35,9 +35,14 @@ public sealed class SimpleCalculatorView : UserControl
                                           {
                                               o.TextChanged += (s, e) =>
                                               {
-                                                  UpdateNumberText();
+                                                  SelectedNumberChanged();
                                               };
-                                          })
+                                              o.GotFocus += (s, e) =>
+                                              {
+                                                  SelectedNumberFocused();
+                                              };
+                                          }
+                                          )
                                           .PlaceholderForeground(Colors.Gray)
                                           .FontSize(x => x.Binding(() => vm.ColorFontSize).OneWay())
                                           .TextAlignment(TextAlignment.Center)
@@ -134,8 +139,13 @@ public sealed class SimpleCalculatorView : UserControl
         SimpleCalculatorVm.Instance?.AppendNumberWithOPCommand.Execute('=');
     }
 
-    private void UpdateNumberText()
+    private void SelectedNumberChanged()
     {
         SimpleCalculatorVm.Instance?.NumberTextboxChanging();
+    }
+
+    private void SelectedNumberFocused()
+    {
+        SimpleCalculatorVm.Instance?.NumberTextboxFocused();
     }
 }

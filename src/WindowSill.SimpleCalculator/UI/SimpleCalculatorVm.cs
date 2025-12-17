@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.VisualBasic;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.System;
 using WindowSill.API;
 using WindowSill.SimpleCalculator.Enums;
@@ -108,6 +109,19 @@ public partial class SimpleCalculatorVm : ObservableObject
 
         lastArithmeticOP = op;
         SelectedNumber = Total > 0 && lastArithmeticOP is ArithmeticOperator.Equal ? Total.ToString() : SelectedNumber = "";
+    }
+
+    public async Task NumberTextboxFocused()
+    {
+        if (!AutoCopyPaste || !SelectedNumber.Equals(string.Empty))
+            return;
+
+        var copy = await Clipboard.GetContent().GetTextAsync();
+
+        if (copy is null || !double.TryParse(copy, out double parsed))
+            return;
+
+        SelectedNumber = copy;
     }
 
     [RelayCommand]
