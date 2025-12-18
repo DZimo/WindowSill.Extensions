@@ -124,9 +124,9 @@
     <value>New Tab</value>
   </data>
   <data name="GrabColor" xml:space="preserve">
-    <value>Grab color from screen</value>
+    <value>Tocar color de la pantalla</value>
   </data>
   <data name="CopyColor" xml:space="preserve">
-    <value>Copy the selected color in HEX</value>
+    <value>Copia el color seleccionado en HEX</value>
   </data>
 </root>
