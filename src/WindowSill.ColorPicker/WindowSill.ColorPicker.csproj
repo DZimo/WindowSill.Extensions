@@ -32,4 +32,9 @@
 		</PackageReference>
 		<PackageReference Include="WindowSill.API" Version="0.8.3" />
 	</ItemGroup>
+	<ItemGroup>
+	  <PRIResource Update="Strings\de-DE\Misc.resw">
+	    <Generator></Generator>
+	  </PRIResource>
+	</ItemGroup>
 </Project>

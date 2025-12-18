@@ -58,15 +58,15 @@ public sealed class ColorPickerSill : ISill, ISillListView
         => [
             new SillListViewButtonItem(
                 '\xEf3c',
-                "/WindowSill.Extension/Misc/CommandTitle".GetLocalizedString(),
+                new TextBlock().Margin(5).Text("/WindowSill.ColorPicker/Misc/GrabColor".GetLocalizedString()),
                 _colorPickerVm.GetColor),
 
             new SillListViewButtonItem(
                 '\xE8c8',
-                "/WindowSill.Extension/Misc/CommandTitle".GetLocalizedString(),
+                new TextBlock().Margin(5).Text("/WindowSill.ColorPicker/Misc/CopyColor".GetLocalizedString()),
                 _colorPickerVm.CopyColorHex),
 
-            new SillListViewPopupItem('\xe790', null, new SillPopupContent().Content( new SillOrientedStackPanel()
+            new SillListViewPopupItem('\xe790', null, new SillPopupContent().ToolTipService(toolTip:  "/WindowSill.ColorPicker/Misc/CommandTitle".GetLocalizedString()).DataContext(_colorPickerVm).Content( new SillOrientedStackPanel()
                            .Children(
                                 new StackPanel()
                                 .Spacing(4)
@@ -91,7 +91,9 @@ public sealed class ColorPickerSill : ISill, ISillListView
                                         .Color(x => x.Binding(() => _colorPickerVm.SelectedColorWinUI).TwoWay())
                                     )))),
 
-            new SillListViewPopupItem().DataContext(_colorPickerVm, (view, vm) => view.Content(
+            new SillListViewPopupItem()
+                    .Background(Colors.Transparent)
+                    .DataContext(_colorPickerVm, (view, vm) => view.Content(
                 new Border()
                     .Child(
                         new SillOrientedStackPanel()

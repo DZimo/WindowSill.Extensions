@@ -123,4 +123,10 @@
   <data name="CommandTitle" xml:space="preserve">
     <value>New Tab</value>
   </data>
+  <data name="GrabColor" xml:space="preserve">
+    <value>Grab color from screen</value>
+  </data>
+  <data name="CopyColor" xml:space="preserve">
+    <value>Copy the selected color in HEX</value>
+  </data>
 </root>
