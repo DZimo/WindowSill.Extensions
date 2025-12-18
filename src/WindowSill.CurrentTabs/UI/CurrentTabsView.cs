@@ -1,12 +1,12 @@
 ﻿using Windows.System;
 using WindowSill.API;
-using WindowSill.SimpleCalculator.Services;
+using WindowSill.CurrentTabs.Services;
 
-namespace WindowSill.SimpleCalculator.UI;
+namespace WindowSill.CurrentTabs.UI;
 
-public sealed class SimpleCalculatorView : UserControl
+public sealed class CurrentTabsView : UserControl
 {
-    public SimpleCalculatorView(SimpleCalculatorVm calculatorVm)
+    public CurrentTabsView(CurrentTabsVm calculatorVm)
     {
         KeyboardAccelerator keyboardAccelerator = new KeyboardAccelerator
         {
@@ -136,16 +136,16 @@ public sealed class SimpleCalculatorView : UserControl
 
     private void OnEnterPressed(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
     {
-        SimpleCalculatorVm.Instance?.AppendNumberWithOPCommand.Execute('=');
+        CurrentTabsVm.Instance?.AppendNumberWithOPCommand.Execute('=');
     }
 
     private void SelectedNumberChanged()
     {
-        SimpleCalculatorVm.Instance?.NumberTextboxChanging();
+        CurrentTabsVm.Instance?.NumberTextboxChanging();
     }
 
     private void SelectedNumberFocused()
     {
-        SimpleCalculatorVm.Instance?.NumberTextboxFocused();
+        CurrentTabsVm.Instance?.NumberTextboxFocused();
     }
 }
