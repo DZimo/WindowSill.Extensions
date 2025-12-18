@@ -1,10 +1,11 @@
+using Microsoft.UI.Text;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
-using Windows.UI;
 using WindowSill.API;
 using WindowSill.ColorPicker.Services;
 using WindowSill.ColorPicker.UI;
+using Picker = Microsoft.UI.Xaml.Controls;
 
 namespace WindowSill.ColorPicker;
 
@@ -65,7 +66,30 @@ public sealed class ColorPickerSill : ISill, ISillListView
                 "/WindowSill.Extension/Misc/CommandTitle".GetLocalizedString(),
                 _colorPickerVm.CopyColorHex),
 
-            new SillListViewPopupItem('\xe790', null, new RadialPickerView(_colorPickerVm)),
+            new SillListViewPopupItem('\xe790', null, new SillPopupContent().Content( new SillOrientedStackPanel()
+                           .Children(
+                                new StackPanel()
+                                .Spacing(4)
+                                .VerticalAlignment(VerticalAlignment.Center)
+                                .HorizontalAlignment(HorizontalAlignment.Center)
+                                .Margin(5)
+                                .Children(
+                                    new TextBlock()
+                                        .VerticalAlignment(VerticalAlignment.Center)
+                                        .HorizontalAlignment(HorizontalAlignment.Center)
+                                        .FontWeight(FontWeights.Bold)
+                                        .Text("Color Picker"),
+                                    new Picker.ColorPicker()
+                                        .HorizontalContentAlignment(HorizontalAlignment.Center)
+                                        .VerticalAlignment(VerticalAlignment.Center)
+                                        .HorizontalAlignment(HorizontalAlignment.Center)
+                                        .Margin(5)
+                                        .IsColorPreviewVisible(true)
+                                        .IsColorChannelTextInputVisible(false)
+                                        .IsHexInputVisible(false)
+                                        .ColorSpectrumShape(ColorSpectrumShape.Ring)
+                                        .Color(x => x.Binding(() => _colorPickerVm.SelectedColorWinUI).TwoWay())
+                                    )))),
 
             new SillListViewPopupItem().DataContext(_colorPickerVm, (view, vm) => view.Content(
                 new Border()
@@ -101,11 +125,6 @@ public sealed class ColorPickerSill : ISill, ISillListView
              )),
         ];
 
-    private async Task OnCommandButtonClickAsync()
-    {
-        //throw new NotImplementedException();
-    }
-
     public ValueTask OnActivatedAsync()
     {
         return ValueTask.CompletedTask;
@@ -117,20 +136,5 @@ public sealed class ColorPickerSill : ISill, ISillListView
         _colorPickerVm = null;
 
         return ValueTask.CompletedTask;
-    }
-
-    UIElement CreateColorSlice(Color color, double rotation)
-    {
-        return new Border()
-            .Width(20)
-            .Height(100)
-            .Background(color)
-            .CornerRadius(10)
-            .RenderTransform(
-                new RotateTransform()
-                    .Angle(rotation)
-                    .CenterX(10)
-                    .CenterY(100)
-            );
     }
 }

@@ -6,13 +6,13 @@ namespace WindowSill.ColorPicker.UI
 {
     public sealed class RadialPickerView : SillPopupContent
     {
-        public RadialPickerView(ColorPickerVm colorPickerVm) 
+        public RadialPickerView(ColorPickerVm colorPickerVm)
         {
             this.DataContext(
                 colorPickerVm,
                 (view, vm) => view
                    .Content(
-                       new Grid()
+                       new SillOrientedStackPanel()
                            .Children(
                                 new StackPanel()
                                 .Spacing(4)
@@ -36,6 +36,12 @@ namespace WindowSill.ColorPicker.UI
                                         .ColorSpectrumShape(ColorSpectrumShape.Ring)
                                         .Color(x => x.Binding(() => vm.SelectedColorWinUI).TwoWay())
                                     ))));
-            }
+        }
+
+        internal static SillPopupContent CreateRadialPickerView()
+        {
+            var view = new RadialPickerView(ColorPickerVm.Instance);
+            return view;
+        }
     }
 }

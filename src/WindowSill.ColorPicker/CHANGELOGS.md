@@ -1,3 +1,6 @@
+# 0.3.1
+- Fixed ctrl bug and color picker crash bug
+
 # 0.3.0
 - Add of color wheel picker
 - Integration of keyboard shortcut with CTRL
