@@ -136,9 +136,15 @@
     <value>A. 概况</value>
   </data>
   <data name="DisplayMode" xml:space="preserve">
-    <value>Time Display Mode</value>
+    <value>时间显示模式</value>
   </data>
   <data name="DisplayModeDesc" xml:space="preserve">
-    <value>Choose between showing the time elapsed to 25/50 or the time remaining from the 25/50 pomodoro</value>
+    <value>选择显示已用到 25/50 的时间或25/50 番茄钟剩余时间</value>
+  </data>
+  <data name="ElapsedText" xml:space="preserve">
+    <value>Elapsed Time</value>
+  </data>
+  <data name="RemainingText" xml:space="preserve">
+    <value>Remaining Time</value>
   </data>
 </root>
