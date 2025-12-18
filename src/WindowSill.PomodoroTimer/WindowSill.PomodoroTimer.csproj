@@ -23,6 +23,6 @@
 		<None Include="CHANGELOGS.md" Pack="true" PackagePath="\" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="WindowSill.API" Version="0.7.0" />
+		<PackageReference Include="WindowSill.API" Version="0.8.3" />
 	</ItemGroup>
 </Project>
