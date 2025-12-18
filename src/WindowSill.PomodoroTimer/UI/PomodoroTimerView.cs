@@ -67,11 +67,13 @@ public sealed class PomodoroTimerView : UserControl
                                   .VerticalAlignment(VerticalAlignment.Center)
                                   .HorizontalAlignment(HorizontalAlignment.Center)
                                   .Orientation(Orientation.Horizontal)
-                                  .Spacing(1)
                                   .Children(
-                                      new TextBlock()
-                                          .Style(x => x.StaticResource("SillFontSize"))
-                                          .Text(x => x.Binding(() => vm.TimeLeft).OneWay())
+                                      new Button()
+                                     .Style(x => x.StaticResource("SillButtonStyle"))
+                                     .Command(() => vm.ChangeTimeDisplayCommand)
+                                      .Content(
+                                        new TextBlock()
+                                          .Text(x => x.Binding(() => vm.TimeLeft).OneWay()))
                                           
                                   )
                               )

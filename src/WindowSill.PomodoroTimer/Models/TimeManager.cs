@@ -22,4 +22,9 @@ namespace WindowSill.PomodoroTimer.Models
         Short,
         Long,
     }
+    public enum TimeDisplayMode
+    {
+        TimeLeft,
+        TimeSpent
+    }
 }

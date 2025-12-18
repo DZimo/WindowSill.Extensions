@@ -20,6 +20,9 @@ public partial class PomodoroTimerVm : ObservableObject
     private PomodoroType pomodoroType = PomodoroType.Short;
 
     [ObservableProperty]
+    private TimeDisplayMode timeDisplayMode = TimeDisplayMode.TimeSpent;
+
+    [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(PomodoroStopped))]
     [NotifyCanExecuteChangedFor(nameof(StartPomodoroCommand))]
     [NotifyCanExecuteChangedFor(nameof(StopPomodoroCommand))]
@@ -63,9 +66,16 @@ public partial class PomodoroTimerVm : ObservableObject
         get => $"{_timeHandlerService.GetSeconds(TimeManager):D2}";
     }
 
+    public string MinutesSpent;
+
+    public string SecondsSpent;
+
     public string TimeLeft
     {
-        get => $"{MinutesLeft}:{SecondsLeft}";
+        get
+        {
+          return TimeDisplayMode is TimeDisplayMode.TimeSpent ?  $"{MinutesLeft}:{SecondsLeft}" : $"{MinutesSpent:D2}:{SecondsSpent:D2}";
+        }
     }
 
     public PomodoroTimerVm(ITimeHandlerService timeHandlerService, IPluginInfo? pluginInfo)
@@ -122,6 +132,9 @@ public partial class PomodoroTimerVm : ObservableObject
         ThreadHelper.RunOnUIThreadAsync(() =>
         {
             var remaining = time - TimeManager.Seconds;
+            SecondsSpent = (remaining % 60).ToString();
+            MinutesSpent = (remaining / 60).ToString();
+
             var progressRatio = (double)remaining / time;
 
             if (progressRatio > 0)
@@ -158,5 +171,12 @@ public partial class PomodoroTimerVm : ObservableObject
         };
 
         StopPomodoro();
+    }
+
+
+    [RelayCommand]
+    public void ChangeTimeDisplay()
+    {
+        TimeDisplayMode = TimeDisplayMode is TimeDisplayMode.TimeSpent ? TimeDisplayMode.TimeLeft : TimeDisplayMode.TimeSpent;
     }
 }
