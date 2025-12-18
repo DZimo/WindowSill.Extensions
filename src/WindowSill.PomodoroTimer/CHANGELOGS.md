@@ -1,3 +1,7 @@
+# 0.5.0
+- New setting to change time display mode from remaining to elapsed.
+- Button click on time to also change the display mode time.
+
 # 0.4.0
 - Add of 50 minutes long pomodoro option with 15 minutes break.
 - Add of new languages.
