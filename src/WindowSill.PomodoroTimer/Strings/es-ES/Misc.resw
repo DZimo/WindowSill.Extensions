@@ -147,10 +147,4 @@
   <data name="RemainingText" xml:space="preserve">
     <value>Remaining Time</value>
   </data>
-  <data name="ElapsedText" xml:space="preserve">
-    <value>Elapsed Time</value>
-  </data>
-  <data name="RemainingText" xml:space="preserve">
-    <value>Remaining Time</value>
-  </data>
 </root>
