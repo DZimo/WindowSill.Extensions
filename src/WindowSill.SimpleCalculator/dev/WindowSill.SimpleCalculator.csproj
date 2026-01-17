@@ -6,7 +6,6 @@
 		<Platforms>x64</Platforms>
 		<LangVersion>preview</LangVersion>
 		<RuntimeIdentifiers>win-x64;win-x86;win-arm64</RuntimeIdentifiers>
-		<PublishTrimmed>false</PublishTrimmed>
 
 		<PackageId>WindowSill.SimpleCalculator</PackageId>
 		<Title>Simple Calculator</Title>

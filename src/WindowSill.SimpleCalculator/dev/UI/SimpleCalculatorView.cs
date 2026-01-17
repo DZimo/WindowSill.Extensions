@@ -53,7 +53,7 @@ public sealed class SimpleCalculatorView : UserControl
                                           .MinHeight(x => x.Binding(() => vm.ColorboxHeight).OneWay())
                                           .MaxWidth(75)
                                           .Width(75)
-                                          .MaxLength(7)
+                                          .MaxLength(20)
                                           .Text(x => x.Binding(() => vm.SelectedNumber).TwoWay().UpdateSourceTrigger(UpdateSourceTrigger.PropertyChanged))
                                           .Padding(0),
                                       new StackPanel()
@@ -76,8 +76,8 @@ public sealed class SimpleCalculatorView : UserControl
                                                 .DataContext(this.DataContext)
                                                 .Content(
                                                     new StackPanel()
-                                                        .VerticalAlignment (VerticalAlignment.Center)
-                                                        .HorizontalAlignment (HorizontalAlignment.Center)
+                                                        .VerticalAlignment(VerticalAlignment.Center)
+                                                        .HorizontalAlignment(HorizontalAlignment.Center)
                                                         .Orientation(Orientation.Vertical)
                                                                .Children(
                                                                    new Border()
@@ -126,7 +126,7 @@ public sealed class SimpleCalculatorView : UserControl
                                                                                .CommandParameter('=')
                                                                                .Command(() => vm.AppendNumberWithOPCommand)
                                                                        )
-                                                      
+
                                                                ))
                                             )
                                   ))

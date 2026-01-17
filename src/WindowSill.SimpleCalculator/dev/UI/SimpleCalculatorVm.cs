@@ -86,26 +86,22 @@ public partial class SimpleCalculatorVm : ObservableObject
         _calculatorService = calculatorService;
         Instance = this;
 
-
         AutoPopupOpen = _settingsProvider.GetSetting<bool>(Settings.Settings.AutoPopup);
         AutoCopyPaste = _settingsProvider.GetSetting<bool>(Settings.Settings.AutoCopyPaste);
-
 
         //var mefComposer = new MefComposer(new[] { typeof(SimpleCalculatorVm).Assembly });
         //ParserAndInterpreterFactory parserAndInterpreterFactory = mefComposer.ExportProvider.GetExport<ParserAndInterpreterFactory>()!.Value;
         //parserAndInterpreter = parserAndInterpreterFactory.CreateInstance(Culture.English, textDocumentAPI);
-        //_ = testLine();
 
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-
-        var textDocument = new TextDocument();
 
         var mefComposer
             = new MefComposer(new[] { typeof(SimpleCalculatorVm).Assembly });
         ParserAndInterpreterFactory parserAndInterpreterFactory = mefComposer.ExportProvider.GetExport<ParserAndInterpreterFactory>();
-        ParserAndInterpreter parserAndInterpreter = parserAndInterpreterFactory.CreateInstance(DefaultCulture, textDocument);
+        parserAndInterpreter = parserAndInterpreterFactory.CreateInstance(DefaultCulture, textDocumentAPI);
+        //_ = testLine();
 
-        Task warmupTask = WarmupAsync(textDocument, parserAndInterpreter);
+        //Task warmupTask = WarmupAsync(textDocumentAPI, parserAndInterpreter);
     }
 
     public SillView CreateView()
@@ -147,20 +143,15 @@ public partial class SimpleCalculatorVm : ObservableObject
 
             if (results is not null && results.Count > 0 && results[0].SummarizedResultData is not null)
             {
-                ParserAndInterpreterResultLine result = results[Math.Max(0, results.Count - 2)];
+                var result = results[Math.Max(0, results.Count - 2)];
                 bool isError = result.SummarizedResultData!.IsOfType(PredefinedTokenAndDataTypeNames.Error);
-                string output = result.SummarizedResultData.GetDisplayText(Culture.English);
+                var output = result.SummarizedResultData.GetDisplayText(Culture.English);
                 if (!string.IsNullOrWhiteSpace(output))
                 {
-                    AnsiConsole.Markup("[bold blue]=[/] ");
                     if (isError)
-                    {
-                        AnsiConsole.Markup($"[italic red1]{output}[/]");
-                    }
-                    else
-                    {
-                        AnsiConsole.Write(output);
-                    }
+                        continue;
+
+                    SelectedNumber = output;
                 }
             }
             lastString = SelectedNumber;
@@ -169,8 +160,6 @@ public partial class SimpleCalculatorVm : ObservableObject
         }
 
     }
-
-
     public async Task NumberTextboxChanging()
     {
         char[] buffer = new char[selectedNumber.Length];
@@ -178,6 +167,7 @@ public partial class SimpleCalculatorVm : ObservableObject
         selectedNumber.AsSpan().CopyTo(span);
 
         var op = _calculatorService.GetArithmeticOperator(span);
+        textDocumentAPI.Text = SelectedNumber;
 
         if (op is ArithmeticOperator.None)
             return;
@@ -186,6 +176,24 @@ public partial class SimpleCalculatorVm : ObservableObject
 
         X = _calculatorService.GetNumberX(span, _calculatorService.ArithmeticOperatorToString(SelectedArithmeticOP).ToString().AsSpan());
 
+        var results = await parserAndInterpreter.WaitAsync();
+
+        if (results is not null && results.Count > 0 && results[0].SummarizedResultData is not null)
+        {
+            var result = results[Math.Max(0, results.Count - 2)];
+            bool isError = result.SummarizedResultData!.IsOfType(PredefinedTokenAndDataTypeNames.Error);
+            var output = result.SummarizedResultData.GetDisplayText(Culture.English);
+            if (!string.IsNullOrWhiteSpace(output))
+            {
+                if (isError)
+                    goto SkipUpdate;
+
+                SelectedNumber = output;
+            }
+            textDocumentAPI.Text = "";
+            return;
+        }
+    SkipUpdate:
         Total = Total == 0 ? X : SelectedArithmeticOP is ArithmeticOperator.Equal ? _calculatorService.CalculateTotal(X, Total, lastArithmeticOP) : X;
 
         lastArithmeticOP = op;
