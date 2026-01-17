@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="DisplayName" xml:space="preserve">
-    <value>Calculatrice simple</value>
+    <value>Smart Calculator</value>
   </data>
   <data name="CommandTitle" xml:space="preserve">
     <value>New Tab</value>
