@@ -1,3 +1,3 @@
-# Simple Calculator
+# Smart Calculator
 
-Community extension of a simple Calculator.
+Community extension of a Smart Calculator.

@@ -86,7 +86,7 @@ public sealed class SimpleCalculatorView : UserControl
                                                                    .Child(
                                                                        new TextBlock()
                                                                            .HorizontalAlignment(HorizontalAlignment.Center)
-                                                                           .Text("Simple Calculator")
+                                                                           .Text("Smart Calculator")
                                                                            .Foreground(Colors.Black)
                                                                        ),
                                                                    new TextBlock()
