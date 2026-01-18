@@ -9,7 +9,7 @@
 
 		<PackageId>WindowSill.SimpleCalculator</PackageId>
 		<Title>Smart Calculator</Title>
-		<Version>0.2.0</Version>
+		<Version>0.3.0</Version>
 		<Description>A smart calculator to easily do arithmetic operations and also full integration of the notepad based calculator.</Description>
 		<PackageProjectUrl>https://github.com/DZimo/WindowSill.Extensions</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/DZimo/WindowSill.Extensions</RepositoryUrl>
@@ -42,7 +42,7 @@
 		<PackageReference Include="System.Runtime" Version="4.3.1" />
 		<PackageReference Include="System.Text.RegularExpressions" Version="4.3.0" />
 		<PackageReference Include="System.ValueTuple" Version="4.5.0" />
-		<PackageReference Include="WindowSill.API" Version="0.7.0" />
+		<PackageReference Include="WindowSill.API" Version="0.8.0" />
 		<PackageReference Include="CommunityToolkit.Common" Version="*" />
 		<PackageReference Include="CommunityToolkit.Diagnostics" Version="*" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />

@@ -1,5 +1,6 @@
-# 0.2.0
+# 0.3.0
 - Integration of note based calculator plugin from veler
+- Add of Text activator for smart calculation
 - Updated logo
 
 # 0.2.0

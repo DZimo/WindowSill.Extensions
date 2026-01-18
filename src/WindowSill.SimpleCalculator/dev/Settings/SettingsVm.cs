@@ -8,8 +8,8 @@ namespace WindowSill.SimpleCalculator.Settings
     {
         ISettingsProvider _settingsProvider;
 
-        public SettingsVm(ISettingsProvider settingsProvider) 
-        { 
+        public SettingsVm(ISettingsProvider settingsProvider)
+        {
             Guard.IsNotNull(settingsProvider);
 
             _settingsProvider = settingsProvider;

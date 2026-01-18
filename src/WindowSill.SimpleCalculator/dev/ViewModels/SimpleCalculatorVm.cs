@@ -72,8 +72,8 @@ public partial class SimpleCalculatorVm : ObservableObject
 
     private const string DefaultCulture = Culture.English;
 
+    public ParserAndInterpreter parserAndInterpreter;
 
-    private ParserAndInterpreter parserAndInterpreter;
     public SimpleCalculatorVm(ISettingsProvider settingsProvider, IProcessInteractionService processInteraction, ICalculatorService calculatorService)
     {
         Guard.IsNotNull(settingsProvider, nameof(settingsProvider));
@@ -167,7 +167,7 @@ public partial class SimpleCalculatorVm : ObservableObject
 
         var results = await parserAndInterpreter.WaitAsync();
 
-        if (results is not null && results.Count > 0 && results[0].SummarizedResultData is not null)
+        if (FoundSmartResults(results))
         {
             var result = results[Math.Max(0, results.Count - 2)];
             bool isError = result.SummarizedResultData!.IsOfType(PredefinedTokenAndDataTypeNames.Error);
@@ -202,6 +202,9 @@ public partial class SimpleCalculatorVm : ObservableObject
 
         SelectedNumber = copy;
     }
+
+    public bool FoundSmartResults(IReadOnlyList<ParserAndInterpreterResultLine>? results) => (results is not null && results.Count > 0 && results[0].SummarizedResultData is not null);
+
 
     [RelayCommand]
     private void AppendNumberWithOP(char op) =>
