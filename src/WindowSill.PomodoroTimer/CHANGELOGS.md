@@ -1,3 +1,6 @@
+# 0.5.1
+- Fixed bug where timer would not reset properly after pausing.
+ 
 # 0.5.0
 - New setting to change time display mode from remaining to elapsed.
 - Button click on time to also change the display mode time.

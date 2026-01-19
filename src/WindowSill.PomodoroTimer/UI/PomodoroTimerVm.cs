@@ -1,7 +1,6 @@
 ﻿using CommunityToolkit.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Windows.UI;
 using WindowSill.API;
 using WindowSill.PomodoroTimer.Models;
 using WindowSill.PomodoroTimer.Services;
@@ -52,7 +51,8 @@ public partial class PomodoroTimerVm : ObservableObject
 
     public double progressWidthDefault;
 
-    public double ProgressWidthDefault {  
+    public double ProgressWidthDefault
+    {
         get => progressWidthDefault;
         set
         {
@@ -74,7 +74,7 @@ public partial class PomodoroTimerVm : ObservableObject
     {
         get => $"{_timeHandlerService.GetMinutes(TimeManager):D2}";
     }
-    public string SecondsLeft 
+    public string SecondsLeft
     {
         get => $"{_timeHandlerService.GetSeconds(TimeManager):D2}";
     }
@@ -91,7 +91,7 @@ public partial class PomodoroTimerVm : ObservableObject
     {
         get
         {
-          return TimeDisplayMode is TimeDisplayMode.TimeSpent ?  $"{MinutesLeft}:{SecondsLeft}" : MinutesSpent is not "" ?  $"{MinutesSpent:D2}:{SecondsSpent:D2}" : $"{PomodoroDuration:D2}:{00:D2}";
+            return TimeDisplayMode is TimeDisplayMode.TimeSpent ? $"{MinutesLeft}:{SecondsLeft}" : MinutesSpent is not "" ? $"{MinutesSpent:D2}:{SecondsSpent:D2}" : $"{PomodoroDuration:D2}:{00:D2}";
         }
     }
 
@@ -196,10 +196,15 @@ public partial class PomodoroTimerVm : ObservableObject
         StopPomodoro();
     }
 
-
     [RelayCommand]
     public void ChangeTimeDisplay()
     {
-        TimeDisplayMode = TimeDisplayMode is TimeDisplayMode.TimeSpent ? TimeDisplayMode.TimeLeft : TimeDisplayMode.TimeSpent;
+        ThreadHelper.RunOnUIThreadAsync(() =>
+        {
+            TimeDisplayMode = TimeDisplayMode is TimeDisplayMode.TimeSpent ? TimeDisplayMode.TimeLeft : TimeDisplayMode.TimeSpent;
+            OnPropertyChanged(nameof(MinutesLeft));
+            OnPropertyChanged(nameof(SecondsLeft));
+            OnPropertyChanged(nameof(TimeLeft));
+        });
     }
 }
