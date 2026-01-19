@@ -3,7 +3,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Drawing;
 using Windows.ApplicationModel.DataTransfer;
-using Windows.UI;
 using WindowSill.API;
 using WindowSill.ColorPicker.Services;
 using Color = Windows.UI.Color;
@@ -55,7 +54,8 @@ public partial class ColorPickerVm : ObservableObject
             selectedColorHex = res;
             object? newColor = null;
 
-            try {
+            try
+            {
                 newColor = new ColorConverter().ConvertFromString(selectedColorHex);
             }
             catch (Exception ex) { }
@@ -63,7 +63,7 @@ public partial class ColorPickerVm : ObservableObject
             if (newColor is not System.Drawing.Color converted)
                 return;
 
-            SelectedColorBrush.Color = new Windows.UI.Color() { R = converted.R, G = converted.G, B = converted.B, A = 255  };
+            SelectedColorBrush.Color = new Windows.UI.Color() { R = converted.R, G = converted.G, B = converted.B, A = 255 };
             OnPropertyChanged(nameof(SelectedColorHex));
             OnPropertyChanged(nameof(SelectedColorBrush));
         }
@@ -86,6 +86,7 @@ public partial class ColorPickerVm : ObservableObject
         _mouseService.MouseExited += (s, e) =>
         {
             exitRequested = true;
+            _mouseService.EndHook();
         };
     }
 
@@ -107,6 +108,8 @@ public partial class ColorPickerVm : ObservableObject
     [RelayCommand]
     public async Task GetColor()
     {
+        _mouseService.BeginHook();
+
         exitRequested = false;
         await Task.Run(async () =>
         {
@@ -121,7 +124,7 @@ public partial class ColorPickerVm : ObservableObject
 
                 await ThreadHelper.RunOnUIThreadAsync(() =>
                 {
-                      SelectedColorHex = hex;
+                    SelectedColorHex = hex;
                 });
             }
         });

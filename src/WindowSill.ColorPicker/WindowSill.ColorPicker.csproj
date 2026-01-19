@@ -9,7 +9,7 @@
 
 		<PackageId>WindowSill.ColorPicker</PackageId>
 		<Title>Color Picker</Title>
-		<Version>0.3.2</Version>
+		<Version>0.3.3</Version>
 		<Description>A simple color picker to easily visualise any color, convert to hex or create from rgb/hsv</Description>
 		<PackageProjectUrl>https://github.com/DZimo/WindowSill.Extensions</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/DZimo/WindowSill.Extensions</RepositoryUrl>
@@ -30,7 +30,7 @@
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="WindowSill.API" Version="0.8.3" />
+		<PackageReference Include="WindowSill.API" Version="0.8.4" />
 	</ItemGroup>
 	<ItemGroup>
 	  <PRIResource Update="Strings\de-DE\Misc.resw">

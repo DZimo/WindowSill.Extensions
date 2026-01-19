@@ -1,3 +1,6 @@
+# 0.3.3
+- Performance improvement with slow app on color picking
+
 # 0.3.2
 - Add of tooltips with small bug fixes
 
