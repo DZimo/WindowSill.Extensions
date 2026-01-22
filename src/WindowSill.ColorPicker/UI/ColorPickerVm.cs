@@ -19,6 +19,9 @@ public partial class ColorPickerVm : ObservableObject
     private SolidColorBrush selectedColorBrush = new SolidColorBrush(Colors.IndianRed);
 
     [ObservableProperty]
+    private double selectedColorThickness = 0.5;
+
+    [ObservableProperty]
     private int colorFontSize = 12;
 
     [ObservableProperty]
