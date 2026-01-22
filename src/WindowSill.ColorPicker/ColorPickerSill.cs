@@ -66,7 +66,7 @@ public sealed class ColorPickerSill : ISill, ISillListView
                 new TextBlock().Margin(5).Text("/WindowSill.ColorPicker/Misc/CopyColor".GetLocalizedString()),
                 _colorPickerVm.CopyColorHex),
 
-            new SillListViewPopupItem('\xe790', null, new SillPopupContent().ToolTipService(toolTip:  "/WindowSill.ColorPicker/Misc/CommandTitle".GetLocalizedString()).DataContext(_colorPickerVm).Content( new SillOrientedStackPanel()
+            new SillListViewPopupItem('\xe', null, new SillPopupContent().ToolTipService(toolTip:  "/WindowSill.ColorPicker/Misc/CommandTitle".GetLocalizedString()).DataContext(_colorPickerVm).Content( new SillOrientedStackPanel()
                            .Children(
                                 new StackPanel()
                                 .Spacing(4)
@@ -89,9 +89,7 @@ public sealed class ColorPickerSill : ISill, ISillListView
                                         .IsHexInputVisible(false)
                                         .ColorSpectrumShape(ColorSpectrumShape.Ring)
                                         .Color(x => x.Binding(() => _colorPickerVm.SelectedColorWinUI).TwoWay())
-                                    )))),
-
-            new SillListViewPopupItem()
+                                    ))))
                     .Background(Colors.Transparent)
                     .DataContext(_colorPickerVm, (view, vm) => view.Content(
                 new Border()
@@ -123,7 +121,13 @@ public sealed class ColorPickerSill : ISill, ISillListView
                                               .Text(x => x.Binding(() => _colorPickerVm.SelectedColorHex).TwoWay())
                                               .Padding(0)
                                               .Margin(0)
-                                              .BorderBrush(x => x.Binding(() => _colorPickerVm.SelectedColorBrush).OneWay()))))
+                                              .BorderBrush(x => x.Binding(() => _colorPickerVm.SelectedColorBrush).OneWay())),
+                                      new Button()
+                                              .Style(x => x.StaticResource("IconButton"))
+                                              .IsHitTestVisible(false)
+                                              .Content("\xe790")
+                            )
+                    )
              )),
         ];
 

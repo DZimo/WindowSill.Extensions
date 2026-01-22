@@ -16,7 +16,7 @@ namespace WindowSill.ColorPicker.Services
         private IPluginInfo _pluginInfo;
         public event EventHandler MouseExited;
 
-        private UnhookWindowsHookExSafeHandle _mouseHookHandle;
+        private UnhookWindowsHookExSafeHandle? _mouseHookHandle;
         private HOOKPROC? _mouseDelegate;
 
         private const int WM_LBUTTONDOWN = 0x0201;
@@ -45,11 +45,8 @@ namespace WindowSill.ColorPicker.Services
 
         public void EndHook()
         {
-            //PInvoke.UnhookWindowsHookEx(
-            //    new HHOOK(_mouseHookHandle.DangerousGetHandle())
-            //);
-
-            _mouseHookHandle.Dispose();
+            _mouseHookHandle?.Dispose();
+            _mouseHookHandle = null;
             _mouseDelegate = null;
         }
 
