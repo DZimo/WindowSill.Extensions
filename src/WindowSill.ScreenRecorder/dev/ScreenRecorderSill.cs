@@ -1,18 +1,18 @@
 using Microsoft.UI.Xaml.Media.Imaging;
+using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using WindowSill.API;
-using WindowSill.SimpleCalculator.Services;
-using WindowSill.SimpleCalculator.Settings;
-using WindowSill.SimpleCalculator.UI;
+using WindowSill.ScreenRecorder.Services;
+using WindowSill.ScreenRecorder.ViewModels;
 
-namespace WindowSill.SimpleCalculator;
+namespace WindowSill.ScreenRecorder;
 
 [Export(typeof(ISill))]
-[Name("WindowSill.SimpleCalculator")]
+[Name("WindowSill.ScreenRecorder")]
 [Priority(Priority.Lowest)]
-public sealed class SimpleCalculatorSill : ISill, ISillSingleView
+public sealed class ScreenRecorderSill : ISillListView, ISillSingleView
 {
-    private SimpleCalculatorVm _simpleCalculatorVm;
+    private ScreenRecorderVm _screenRecorderVm;
     private IPluginInfo _pluginInfo;
     private IProcessInteractionService _processInteraction;
     private ISettingsProvider _settingsProvider;
@@ -20,26 +20,12 @@ public sealed class SimpleCalculatorSill : ISill, ISillSingleView
     public SillView? View { get; private set; }
 
     [ImportingConstructor]
-    public SimpleCalculatorSill(IPluginInfo pluginInfo, IProcessInteractionService processInteraction, ICalculatorService calculatorService, ISettingsProvider settingsProvider)
+    public ScreenRecorderSill(IPluginInfo pluginInfo, IProcessInteractionService processInteraction, IRecorderService recorderService, ISettingsProvider settingsProvider)
     {
         _pluginInfo = pluginInfo;
         _processInteraction = processInteraction;
         _settingsProvider = settingsProvider;
-        _simpleCalculatorVm = new SimpleCalculatorVm(settingsProvider, processInteraction, calculatorService);
-
-        View = _simpleCalculatorVm.CreateView();
-        UpdateColorHeight();
-
-        View.IsSillOrientationOrSizeChanged += (o, p) =>
-        {
-            UpdateColorHeight();
-        };
-    }
-
-    private void UpdateColorHeight()
-    {
-        _simpleCalculatorVm?.ColorFontSize = View?.SillOrientationAndSize == SillOrientationAndSize.HorizontalSmall ? 10 : View?.SillOrientationAndSize == SillOrientationAndSize.HorizontalMedium ? 12 : 13;
-        _simpleCalculatorVm?.ColorboxHeight = View?.SillOrientationAndSize == SillOrientationAndSize.HorizontalSmall ? 16 : View?.SillOrientationAndSize == SillOrientationAndSize.HorizontalMedium ? 18 : 18;
+        _screenRecorderVm = new ScreenRecorderVm(recorderService);
     }
 
     public string DisplayName => "/WindowSill.SimpleCalculator/Misc/DisplayName".GetLocalizedString();
@@ -52,28 +38,34 @@ public sealed class SimpleCalculatorSill : ISill, ISillSingleView
 
     public SillView? PlaceholderView => null;
 
-    public SillSettingsView[]? SettingsViews =>
-        [
-        new SillSettingsView(
-            DisplayName,
-            new(() => new SettingsView(_settingsProvider)))
-        ];
+    public SillSettingsView[]? SettingsViews => null;
+
+    public ObservableCollection<SillListViewItem> ViewList => throw new NotImplementedException();
 
     private async Task OnCommandButtonClickAsync()
     {
         throw new NotImplementedException();
     }
 
-    public ValueTask OnActivatedAsync()
+    public async ValueTask OnActivatedAsync()
     {
-        return ValueTask.CompletedTask;
+        await ThreadHelper.RunOnUIThreadAsync(() =>
+        {
+            ViewList.Clear();
+
+            var view = _screenRecorderVm.CreateView();
+            var viewitem = new SillListViewButtonItem(view, null, DoNothing);
+            ViewList.Add(viewitem);
+        });
+    }
+
+    private async Task DoNothing()
+    {
+        return;
     }
 
     public ValueTask OnDeactivatedAsync()
     {
-        View = null;
-        _simpleCalculatorVm = null;
-
         return ValueTask.CompletedTask;
     }
 }

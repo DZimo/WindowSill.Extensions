@@ -5,15 +5,7 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dev", "dev", "{927EA651-2681-4AEB-E3A3-5C3CA4D22F3C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowSill.SimpleCalculator", "dev\WindowSill.SimpleCalculator.csproj", "{AC360FB5-D90A-44D2-914F-81C8243E6AF1}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lib", "lib", "{3A8DF596-E814-FECC-DD4B-D8EF8AAC1A0D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotepadBasedCalculator.Api", "lib\NotepadBasedCalculator.Api\NotepadBasedCalculator.Api.csproj", "{A11F9394-4039-435A-84D1-36EA9F808F3C}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotepadBasedCalculator.Core", "lib\NotepadBasedCalculator.Core\NotepadBasedCalculator.Core.csproj", "{58368AD8-C4C8-4370-A6F7-A6364BB530F7}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotepadBasedCalculator.BuiltInPlugins", "lib\NotepadBasedCalculator.BuiltInPlugins\NotepadBasedCalculator.BuiltInPlugins.csproj", "{39C6F235-DFE7-4AC5-8293-82925E624859}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowSill.SimpleCalculator", "dev\WindowSill.ScreenRecorder.csproj", "{AC360FB5-D90A-44D2-914F-81C8243E6AF1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
