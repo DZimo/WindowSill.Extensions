@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using WindowSill.API;
 using WindowSill.ScreenRecorder.Services;
 
@@ -14,9 +15,14 @@ public partial class ScreenRecorderVm : ObservableObject
     [ObservableProperty]
     private int colorboxHeight = 18;
 
-    public ScreenRecorderVm(IRecorderService recorderService)
+    private IRecorderService _recorderService;
+    private ISillListView _view;
+
+    public ScreenRecorderVm(IRecorderService recorderService, ISillListView view)
     {
         Instance = this;
+        _recorderService = recorderService;
+        _view = view;
     }
 
     public Task TestVm()
@@ -24,8 +30,15 @@ public partial class ScreenRecorderVm : ObservableObject
         return Task.CompletedTask;
     }
 
-    public SillView CreateView()
+    [RelayCommand]
+    public Task Capture()
     {
-        return new SillView { Content = new ScreenRecorderView(this) };
+        _recorderService.CaptureScreenshot("C:\\KHRA\\screenshot.png", _view);
+        return Task.CompletedTask;
     }
+
+    //public SillView CreateView()
+    //{
+    //    return new SillView { Content = new ScreenRecorderView(this) };
+    //}
 }

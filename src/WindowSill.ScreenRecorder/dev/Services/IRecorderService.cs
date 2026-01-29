@@ -1,4 +1,5 @@
-﻿using WindowSill.ScreenRecorder.Enums;
+﻿using WindowSill.API;
+using WindowSill.ScreenRecorder.Enums;
 
 namespace WindowSill.ScreenRecorder.Services
 {
@@ -8,6 +9,6 @@ namespace WindowSill.ScreenRecorder.Services
 
         public void StopRecording();
 
-        public void CaptureScreenshot(string filePath);
+        public void CaptureScreenshot(string filePath, ISillListView view);
     }
 }

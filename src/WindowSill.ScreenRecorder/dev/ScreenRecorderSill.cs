@@ -10,7 +10,7 @@ namespace WindowSill.ScreenRecorder;
 [Export(typeof(ISill))]
 [Name("WindowSill.ScreenRecorder")]
 [Priority(Priority.Lowest)]
-public sealed class ScreenRecorderSill : ISillListView, ISillSingleView
+public sealed class ScreenRecorderSill : ISillListView, ISill
 {
     private ScreenRecorderVm _screenRecorderVm;
     private IPluginInfo _pluginInfo;
@@ -25,10 +25,10 @@ public sealed class ScreenRecorderSill : ISillListView, ISillSingleView
         _pluginInfo = pluginInfo;
         _processInteraction = processInteraction;
         _settingsProvider = settingsProvider;
-        _screenRecorderVm = new ScreenRecorderVm(recorderService);
+        _screenRecorderVm = new ScreenRecorderVm(recorderService, this);
     }
 
-    public string DisplayName => "/WindowSill.SimpleCalculator/Misc/DisplayName".GetLocalizedString();
+    public string DisplayName => "/WindowSill.ScreenRecorder/Misc/DisplayName".GetLocalizedString();
 
     public IconElement CreateIcon()
          => new ImageIcon
@@ -40,12 +40,9 @@ public sealed class ScreenRecorderSill : ISillListView, ISillSingleView
 
     public SillSettingsView[]? SettingsViews => null;
 
-    public ObservableCollection<SillListViewItem> ViewList => throw new NotImplementedException();
-
-    private async Task OnCommandButtonClickAsync()
-    {
-        throw new NotImplementedException();
-    }
+    public ObservableCollection<SillListViewItem> ViewList => [
+            new SillListViewButtonItem('\xF7EE', new TextBlock().Margin(5).Text("/WindowSill.ScreenRecorder/Misc/DisplayName".GetLocalizedString()), _screenRecorderVm.Capture),
+        ];
 
     public async ValueTask OnActivatedAsync()
     {
@@ -53,11 +50,15 @@ public sealed class ScreenRecorderSill : ISillListView, ISillSingleView
         {
             ViewList.Clear();
 
-            var view = _screenRecorderVm.CreateView();
-            var viewitem = new SillListViewButtonItem(view, null, DoNothing);
-            ViewList.Add(viewitem);
+            //var view = _screenRecorderVm.CreateView();
+            //var viewitem = new SillListViewButtonItem(view, null, DoNothing);
+            //ViewList.Add(viewitem);
+
+            var test = new SillListViewButtonItem('\xF7EE', new TextBlock().Margin(5).Text("/WindowSill.ScreenRecorder/Misc/DisplayName".GetLocalizedString()), _screenRecorderVm.Capture);
+            ViewList.Add(test);
         });
     }
+
 
     private async Task DoNothing()
     {
