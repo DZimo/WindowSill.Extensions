@@ -24,31 +24,17 @@ namespace WindowSill.ScreenRecorder.Services
                 HDC hdcWindow = default;
                 HDC hdcMemDC = default;
                 HBITMAP hbmScreen = default;
-                SafeHandle hFile = default;
                 BITMAP bmpScreen;
+                uint dwBytesWritten = 0;
+                uint dwSizeofDIB = 0;
+                SafeHandle hFile = default;
                 HGLOBAL hDIB = default;
+                uint dwBmpSize = 0;
                 char* lpbitmap = null;
                 HWND hWnd = default;
-                uint dwBytesWritten = 0;
 
                 try
                 {
-                    object window = null;
-                    ThreadHelper.RunOnUIThreadAsync(() =>
-                    {
-                        //DependencyInjection.WindowService.
-                        var tst = view.ViewList[0];
-                        DependencyObject? current = tst;
-                        while (current != null && !(current is Window))
-                        {
-                            current = VisualTreeHelper.GetParent(current);
-                        }
-
-                        var window = current;
-                        if (window == null)
-                            return;
-                    });
-
                     hWnd = PInvoke.GetActiveWindow();
 
                     hdcScreen = PInvoke.GetDC(HWND.Null);
@@ -67,15 +53,17 @@ namespace WindowSill.ScreenRecorder.Services
 
                     PInvoke.SetStretchBltMode(hdcWindow, STRETCH_BLT_MODE.HALFTONE);
 
-                    PInvoke.StretchBlt(
-                        hdcWindow,
+                    var stretch = PInvoke.StretchBlt(hdcWindow,
                         0, 0,
-                        width, height,
+                        rcClient.right, rcClient.bottom,
                         hdcScreen,
                         0, 0,
                         PInvoke.GetSystemMetrics(SYSTEM_METRICS_INDEX.SM_CXSCREEN),
                         PInvoke.GetSystemMetrics(SYSTEM_METRICS_INDEX.SM_CYSCREEN),
                         ROP_CODE.SRCCOPY);
+
+                    if (!stretch)
+                        throw new InvalidOperationException("StretchBlt failed");
 
                     hbmScreen = PInvoke.CreateCompatibleBitmap(hdcWindow, width, height);
                     if (hbmScreen.IsNull)
@@ -83,8 +71,7 @@ namespace WindowSill.ScreenRecorder.Services
 
                     PInvoke.SelectObject(hdcMemDC, hbmScreen);
 
-                    PInvoke.BitBlt(
-                        hdcMemDC,
+                    PInvoke.BitBlt(hdcMemDC,
                         0, 0,
                         width, height,
                         hdcWindow,
@@ -100,40 +87,40 @@ namespace WindowSill.ScreenRecorder.Services
                         biHeight = bmpScreen.bmHeight,
                         biPlanes = 1,
                         biBitCount = 32,
-                        biCompression = (uint)BI_COMPRESSION.BI_RGB
+                        biCompression = (uint)BI_COMPRESSION.BI_RGB,
+                        biSizeImage = 0,
+                        biXPelsPerMeter = 0,
+                        biYPelsPerMeter = 0,
+                        biClrUsed = 0,
+                        biClrImportant = 0
                     };
 
-                    int dwBmpSize = ((bmpScreen.bmWidth * bi.biBitCount + 31) / 32) * 4 * bmpScreen.bmHeight;
+                    dwBmpSize = (uint)(((bmpScreen.bmWidth * bi.biBitCount + 31) / 32) * 4 * bmpScreen.bmHeight);
                     //byte[] pixels = new byte[dwBmpSize];
 
-                    hDIB = PInvoke.GlobalAlloc(GLOBAL_ALLOC_FLAGS.GHND, (nuint)dwBmpSize);
+                    hDIB = PInvoke.GlobalAlloc(GLOBAL_ALLOC_FLAGS.GHND, dwBmpSize);
                     lpbitmap = (char*)PInvoke.GlobalLock(hDIB);
 
-                    PInvoke.GetDIBits(
-                        hdcWindow,
-                        hbmScreen,
-                        0,
+                    PInvoke.GetDIBits(hdcWindow, hbmScreen, 0,
                         (uint)bmpScreen.bmHeight,
                         lpbitmap,
-                        (BITMAPINFO*)&bi,
-                        DIB_USAGE.DIB_RGB_COLORS);
+                        (BITMAPINFO*)&bi, DIB_USAGE.DIB_RGB_COLORS);
 
                     hFile = PInvoke.CreateFile(
                         filePath,
                         GENERIC_WRITE,
-                        FILE_SHARE_MODE.FILE_SHARE_NONE,
+                        0,
                         null,
                         FILE_CREATION_DISPOSITION.CREATE_ALWAYS,
-                        FILE_FLAGS_AND_ATTRIBUTES.FILE_ATTRIBUTE_NORMAL,
-                        default);
+                        FILE_FLAGS_AND_ATTRIBUTES.FILE_ATTRIBUTE_NORMAL, null);
 
-                    var dwSizeofDIB = dwBmpSize + Marshal.SizeOf<BITMAPFILEHEADER>() + Marshal.SizeOf<BITMAPINFOHEADER>();
+                    dwSizeofDIB = (uint)(dwBmpSize + Marshal.SizeOf<BITMAPFILEHEADER>() + Marshal.SizeOf<BITMAPINFOHEADER>());
 
                     BITMAPFILEHEADER bmfHeader = new BITMAPFILEHEADER
                     {
-                        bfType = 0x4D42, // BM
                         bfOffBits = (uint)(Marshal.SizeOf<BITMAPFILEHEADER>() + Marshal.SizeOf<BITMAPINFOHEADER>()),
-                        bfSize = (uint)(dwBmpSize + Marshal.SizeOf<BITMAPFILEHEADER>() + Marshal.SizeOf<BITMAPINFOHEADER>())
+                        bfSize = dwSizeofDIB,
+                        bfType = 0x4D42
                     };
 
                     var unsafeHandle = (HANDLE)hFile.DangerousGetHandle();
