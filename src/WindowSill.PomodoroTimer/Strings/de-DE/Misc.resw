@@ -142,15 +142,9 @@
     <value>Wählen Sie zwischen der Anzeige der Verlaufszeit auf 25/50 oder der verbleibenden Zeit aus dem 25/50 Pomodoro</value>
   </data>
   <data name="ElapsedText" xml:space="preserve">
-    <value>Elapsed Time</value>
+    <value>Verstrichene Zeit</value>
   </data>
   <data name="RemainingText" xml:space="preserve">
-    <value>Remaining Time</value>
-  </data>
-  <data name="ElapsedText" xml:space="preserve">
-    <value>Elapsed Time</value>
-  </data>
-  <data name="RemainingText" xml:space="preserve">
-    <value>Remaining Time</value>
+    <value>Verbleibende Zeit</value>
   </data>
 </root>

@@ -118,21 +118,12 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="DisplayName" xml:space="preserve">
-    <value>Intelligenter Rechner</value>
+    <value>Bildschirmaufnahme</value>
   </data>
-  <data name="CommandTitle" xml:space="preserve">
-    <value>New Tab</value>
+  <data name="ScreenShotPath" xml:space="preserve">
+    <value>Screenshot-Pfad</value>
   </data>
-  <data name="CalculatorPopup" xml:space="preserve">
-    <value>Zusätzliche</value>
-  </data>
-  <data name="General" xml:space="preserve">
-    <value>Allgemein</value>
-  </data>
-  <data name="PopupSettings" xml:space="preserve">
-    <value>Auto Popup</value>
-  </data>
-  <data name="CopySettings" xml:space="preserve">
-    <value>Auto-Kopieren</value>
+  <data name="ScreenShotPathDesc" xml:space="preserve">
+    <value>Wählen Sie einen Pfad, in dem Ihre Screenshots gespeichert werden.</value>
   </data>
 </root>

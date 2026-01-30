@@ -142,15 +142,9 @@
     <value>Elija entre mostrar el tiempo transcurrido hasta 25/50 o el tiempo restante del pomodoro 25/50</value>
   </data>
   <data name="ElapsedText" xml:space="preserve">
-    <value>Elapsed Time</value>
+    <value>Tiempo transcurrido</value>
   </data>
   <data name="RemainingText" xml:space="preserve">
-    <value>Remaining Time</value>
-  </data>
-  <data name="ElapsedText" xml:space="preserve">
-    <value>Elapsed Time</value>
-  </data>
-  <data name="RemainingText" xml:space="preserve">
-    <value>Remaining Time</value>
+    <value>Tiempo restante</value>
   </data>
 </root>
