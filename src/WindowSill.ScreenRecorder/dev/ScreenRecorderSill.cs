@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using WindowSill.API;
 using WindowSill.ScreenRecorder.Services;
+using WindowSill.ScreenRecorder.Settings;
 using WindowSill.ScreenRecorder.ViewModels;
 
 namespace WindowSill.ScreenRecorder;
@@ -25,7 +26,7 @@ public sealed class ScreenRecorderSill : ISillListView, ISill
         _pluginInfo = pluginInfo;
         _processInteraction = processInteraction;
         _settingsProvider = settingsProvider;
-        _screenRecorderVm = new ScreenRecorderVm(recorderService, this);
+        _screenRecorderVm = new ScreenRecorderVm(recorderService, this, settingsProvider);
     }
 
     public string DisplayName => "/WindowSill.ScreenRecorder/Misc/DisplayName".GetLocalizedString();
@@ -37,8 +38,12 @@ public sealed class ScreenRecorderSill : ISillListView, ISill
          };
 
     public SillView? PlaceholderView => null;
-
-    public SillSettingsView[]? SettingsViews => null;
+    public SillSettingsView[]? SettingsViews =>
+    [
+    new SillSettingsView(
+            DisplayName,
+            new(() => new SettingsView(_settingsProvider)))
+    ];
 
     public ObservableCollection<SillListViewItem> ViewList => [
             new SillListViewButtonItem('\xF7EE', new TextBlock().Margin(5).Text("/WindowSill.ScreenRecorder/Misc/DisplayName".GetLocalizedString()), _screenRecorderVm.Capture),
@@ -60,10 +65,6 @@ public sealed class ScreenRecorderSill : ISillListView, ISill
     }
 
 
-    private async Task DoNothing()
-    {
-        return;
-    }
 
     public ValueTask OnDeactivatedAsync()
     {
