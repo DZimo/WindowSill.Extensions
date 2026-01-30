@@ -14,12 +14,12 @@
 		<PackageProjectUrl>https://github.com/DZimo/WindowSill.Extensions</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/DZimo/WindowSill.Extensions</RepositoryUrl>
 		<Authors>Mohamed-Nazim BELABED</Authors>
-		<PackageIcon>Assets/calculator_logo.png</PackageIcon>
+		<PackageIcon>Assets/screen_recorder.png</PackageIcon>
 		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
 	</PropertyGroup>
 	<ItemGroup>
-		<None Include="Assets/calculator_logo.png" Pack="true" PackagePath="\Assets\" />
-		<None Include="Assets/calculator_logo.svg" Pack="true" PackagePath="\Assets\" />
+		<None Include="Assets/screen_recorder.png" Pack="true" PackagePath="\Assets\" />
+		<None Include="Assets/screen_recorder.svg" Pack="true" PackagePath="\Assets\" />
 		<None Include="LICENSE.md" Pack="true" PackagePath="\" />
 		<None Include="CHANGELOGS.md" Pack="true" PackagePath="\" />
 	</ItemGroup>
@@ -27,7 +27,7 @@
 		<PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.259">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>		
+		</PackageReference>
 		<PackageReference Include="WindowSill.API" Version="0.8.4" />
 	</ItemGroup>
 </Project>

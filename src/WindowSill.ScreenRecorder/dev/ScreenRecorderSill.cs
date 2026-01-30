@@ -34,7 +34,7 @@ public sealed class ScreenRecorderSill : ISillListView, ISill
     public IconElement CreateIcon()
          => new ImageIcon
          {
-             Source = new SvgImageSource(new Uri(System.IO.Path.Combine(_pluginInfo.GetPluginContentDirectory(), "Assets", "calculator_logo.svg")))
+             Source = new SvgImageSource(new Uri(System.IO.Path.Combine(_pluginInfo.GetPluginContentDirectory(), "Assets", "screen_recorder.svg")))
          };
 
     public SillView? PlaceholderView => null;
