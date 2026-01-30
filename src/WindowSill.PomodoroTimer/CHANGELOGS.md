@@ -1,3 +1,8 @@
+# 0.6.0
+- Fixed issues related to settings.
+- Update logo
+- New languages added.
+
 # 0.5.1
 - Fixed bug where timer would not reset properly after pausing.
  
