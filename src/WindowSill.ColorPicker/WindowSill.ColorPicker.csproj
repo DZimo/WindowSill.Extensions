@@ -18,7 +18,7 @@
 		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
 	</PropertyGroup>
 	<ItemGroup>
-	  <None Remove="Assets\colorpicker_cursor.cur" />
+	  <Content Remove="Assets\colorpicker_logo.svg" />
 	</ItemGroup>
 	<ItemGroup>
 		<None Include="Assets/colorpicker_logo.png" Pack="true" PackagePath="\Assets\" />

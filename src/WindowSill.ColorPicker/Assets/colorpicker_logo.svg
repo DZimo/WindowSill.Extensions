@@ -1,22 +1,20 @@
-<!-- Created with PixiEditor (https://pixieditor.net) -->
-<svg version="1.1" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-  <path d="" fill-rule="nonzero" transform="matrix(1, 0, 0, 1, 0, 0)" fill="#ffffff" fill-opacity="0" stroke="#000000" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" opacity="1" id="Path" />
-  <g opacity="1" id="ColorPicker">
-    <g opacity="1" id="Logo">
-      <path d="M82.2231 363.249C82.2231 363.249 79.0126 366.604 74.2484 372.296C69.4842 377.988 63.1664 386.015 56.9517 395.358C50.737 404.701 44.6256 415.359 40.2742 426.313C35.9227 437.268 33.3313 448.517 34.1568 459.042C34.9824 469.567 38.1512 477.38 42.44 483.179C46.7289 488.978 52.1378 492.763 57.4435 495.233C62.7493 497.702 67.9518 498.856 71.8279 499.392C75.704 499.929 78.2537 499.848 78.2537 499.848C78.2537 499.848 79.8637 499.962 82.4518 499.609C85.04 499.257 88.6063 498.438 92.5192 496.571C96.432 494.704 100.691 491.789 104.665 487.246C108.639 482.703 112.328 476.531 115.1 468.149C117.872 459.767 117.203 449.02 114.64 437.614C112.078 426.208 107.622 414.144 102.819 403.126C98.0165 392.109 92.8675 382.14 88.9192 374.925C84.9708 367.71 82.2231 363.249 82.2231 363.249Z" fill-rule="nonzero" transform="matrix(1, 0, 1.505014E-16, 1, -5.6929817, -3.1152954)" fill="url(#linearGradient0)" stroke="#222225" stroke-width="0" stroke-linecap="round" stroke-linejoin="round" opacity="1" id="Path" />
-    </g>
-  </g>
-  <path d="M433.81 59.4279C395.933 21.5505 355.951 44.6978 337.013 61.5322C328.595 69.9494 322.282 80.4708 322.282 93.0966L322.282 93.0966C322.282 116.244 299.135 130.974 278.092 124.661L275.988 122.557L261.258 139.391L275.988 154.121L149.73 280.379L132.895 328.778L118.165 343.508L149.73 375.073L166.564 358.238L214.963 341.404L341.221 215.146L355.951 229.876L370.681 217.25L368.577 213.042C362.264 191.999 376.994 168.851 400.141 168.851L400.141 168.851C412.767 168.851 423.289 164.643 429.602 156.226C448.54 137.287 471.688 97.3052 433.81 59.4278L433.81 59.4279ZM200.233 324.57L158.147 339.3L153.938 341.404L156.043 337.195L170.773 295.109L292.822 173.06L324.387 204.625L200.233 324.57Z" fill-rule="nonzero" transform="matrix(1.1758883, 0, 0, 1.1758885, -27.749702, -42.80863)" fill="url(#linearGradient1)" stroke="#ffffff" stroke-width="0" stroke-linecap="butt" stroke-linejoin="miter" opacity="1" id="Path" />
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Color_Picker" data-name="Color Picker" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1270 1240">
   <defs>
-    <linearGradient x1="0.06" y1="0.96" x2="0.76" y2="0.21" id="linearGradient0">
-      <stop stop-color="#de0d3b" offset="0%" stop-opacity="1" />
-      <stop stop-color="#0dde3b" offset="50%" stop-opacity="1" />
-      <stop stop-color="#0a7fff" offset="100%" stop-opacity="1" />
+    <linearGradient id="linear-gradient" x1="253.53" y1="552.74" x2="1182.23" y2="446.29" gradientTransform="translate(24.95 -25.62) rotate(2.74)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#de5568"/>
+      <stop offset="1" stop-color="#bd751b"/>
     </linearGradient>
-    <linearGradient x1="0" y1="0" x2="1" y2="0" id="linearGradient1">
-      <stop stop-color="#de0d3b" offset="0%" stop-opacity="1" />
-      <stop stop-color="#0dde3b" offset="50%" stop-opacity="1" />
-      <stop stop-color="#0a7fff" offset="100%" stop-opacity="1" />
+    <linearGradient id="linear-gradient-2" x1="815.25" y1="622.82" x2="815.25" y2="314.92" gradientTransform="translate(-46.2 39.59) rotate(-3.79)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#93485a"/>
+      <stop offset="1" stop-color="#4d0000"/>
     </linearGradient>
+    <linearGradient id="linear-gradient-3" x1="182.12" y1="1165.14" x2="182.12" y2="907.05" gradientTransform="translate(12.38 -4.37) rotate(1.05)" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient-4" x1="181.79" y1="1138.1" x2="181.79" y2="939.88" gradientTransform="translate(12.38 -4.37) rotate(1.05)" xlink:href="#linear-gradient"/>
   </defs>
+  <path d="M287.45,920.08l-11.07-9.69,13.52-63.47,87.57-97.78,314.5-361.25-39.73-40.45,43.66-41.46s93.59,47,131.15-84.54c37.56-131.54,215.3-155.84,291-72.51,78.67,86.59,76.1,216.16-52.66,294.37,0,0-158.62-15.94-127.09,130.38l-45.2,30.13-32.36-42.18-396.13,277.88-112.43,81.5-64.72-.92Z" style="fill: url(#linear-gradient);"/>
+  <path d="M750.65,312.42c-29.52,6.23-54.75-6.44-54.75-6.44l-41.82,41.25,40.27,41.13-18.42,21.04,158.17,167.83,27-17.43,31.96,41.68,45.23-27.81c-6.13-28.45-5.07-50.77.62-68.26-38.06-39.28-126.95-130.9-188.26-192.99Z" style="fill: url(#linear-gradient-2);"/>
+  <path d="M168.37,1159.69s-19.99-30.4-22.03-32.14c-2.04-1.75-26.87-35.49-24.3-41,2.58-5.51-13.37-67.3-10.7-73.23,2.67-5.93,24.7-43.1,24.7-43.1,0,0,33.21-48.65,36.72-50,3.51-1.36,23.75-14,23.75-14l15.51,19.28s.45,27.64,1.19,30.92,6.37,32.96,6.24,34.82,4.43,35.18,11.1,42.6c6.67,7.42,10.39,37.38,8.44,51.01-1.96,13.63-4.04,34.09-4.99,39.19-.95,5.11-10,33.12-10,33.12l-22.34,7.28-33.29-4.74Z" style="fill: url(#linear-gradient-3);"/>
+  <path d="M185.54,938.84c-25.71,24.29-73.48,158.05-18.56,191.92,77.6,47.85,18.56-191.92,18.56-191.92Z" style="fill: url(#linear-gradient-4);"/>
+  <polygon points="319.99 883.97 673.39 468.46 787.47 573.77 319.99 883.97" style="fill: #ccc; opacity: .43;"/>
 </svg>
