@@ -142,9 +142,9 @@
     <value>选择显示已用到 25/50 的时间或25/50 番茄钟剩余时间</value>
   </data>
   <data name="ElapsedText" xml:space="preserve">
-    <value>Elapsed Time</value>
+    <value>已用时间</value>
   </data>
   <data name="RemainingText" xml:space="preserve">
-    <value>Remaining Time</value>
+    <value>剩余时间</value>
   </data>
 </root>
