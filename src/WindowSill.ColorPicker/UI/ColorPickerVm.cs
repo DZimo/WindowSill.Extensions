@@ -36,6 +36,9 @@ public partial class ColorPickerVm : ObservableObject
         get => selectedColorWinUI;
         set
         {
+            if (selectedColorWinUI == value)
+                return;
+
             selectedColorWinUI = value;
             SelectedColorHex = _mouseService.ColorToHEX(selectedColorWinUI);
             OnPropertyChanged(nameof(SelectedColorWinUI));
@@ -67,6 +70,7 @@ public partial class ColorPickerVm : ObservableObject
                 return;
 
             SelectedColorBrush.Color = new Windows.UI.Color() { R = converted.R, G = converted.G, B = converted.B, A = 255 };
+            SelectedColorWinUI = new Windows.UI.Color() { R = converted.R, G = converted.G, B = converted.B, A = 255 };
             OnPropertyChanged(nameof(SelectedColorHex));
             OnPropertyChanged(nameof(SelectedColorBrush));
         }

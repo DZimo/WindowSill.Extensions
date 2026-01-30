@@ -1,4 +1,8 @@
 # 0.4.0
+- New logo.
+- Fixed color not updating correctly.
+
+# 0.4.0
 - Fixed layouts with different sizes.
 
 # 0.3.3
