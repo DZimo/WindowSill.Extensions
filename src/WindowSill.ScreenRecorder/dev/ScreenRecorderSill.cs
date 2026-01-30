@@ -47,24 +47,19 @@ public sealed class ScreenRecorderSill : ISillListView, ISill
 
     public ObservableCollection<SillListViewItem> ViewList => [
             new SillListViewButtonItem('\xF7EE', new TextBlock().Margin(5).Text("/WindowSill.ScreenRecorder/Misc/DisplayName".GetLocalizedString()), _screenRecorderVm.Capture),
+            new SillListViewButtonItem('\xE7C8', new TextBlock().Margin(5).Text("/WindowSill.ScreenRecorder/Misc/DisplayName".GetLocalizedString()), _screenRecorderVm.Capture)
         ];
 
-    public async ValueTask OnActivatedAsync()
+    public ValueTask OnActivatedAsync()
     {
-        await ThreadHelper.RunOnUIThreadAsync(() =>
-        {
-            ViewList.Clear();
-
-            //var view = _screenRecorderVm.CreateView();
-            //var viewitem = new SillListViewButtonItem(view, null, DoNothing);
-            //ViewList.Add(viewitem);
-
-            var test = new SillListViewButtonItem('\xF7EE', new TextBlock().Margin(5).Text("/WindowSill.ScreenRecorder/Misc/DisplayName".GetLocalizedString()), _screenRecorderVm.Capture);
-            ViewList.Add(test);
-        });
+        //await ThreadHelper.RunOnUIThreadAsync(() =>
+        //{
+        //    var test = new SillListViewButtonItem('\xF7EE', new TextBlock().Margin(5).Text("/WindowSill.ScreenRecorder/Misc/DisplayName".GetLocalizedString()), _screenRecorderVm.Capture);
+        //    ViewList.Add(test);
+        //    ViewList.Add(new SillListViewButtonItem('\xE7C8', new TextBlock().Margin(5).Text("/WindowSill.ScreenRecorder/Misc/DisplayName".GetLocalizedString()), _screenRecorderVm.Capture));
+        //});
+        return ValueTask.CompletedTask;
     }
-
-
 
     public ValueTask OnDeactivatedAsync()
     {

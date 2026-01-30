@@ -19,6 +19,7 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<None Include="Assets/pomodoro_logo.png" Pack="true" PackagePath="\Assets\" />
+		<None Include="Assets/pomodoro_logo.svg" Pack="true" PackagePath="\Assets\" />
 		<None Include="LICENSE.md" Pack="true" PackagePath="\" />
 		<None Include="CHANGELOGS.md" Pack="true" PackagePath="\" />
 	</ItemGroup>
