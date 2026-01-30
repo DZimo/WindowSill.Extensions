@@ -23,11 +23,10 @@ namespace WindowSill.PomodoroTimer.Services
         private int _shortPomoTime = 25;
         private int _LongPomoTime = 50;
 
-
         [ImportingConstructor]
         public TimeHandlerService()
         {
-            
+
         }
 
         public void StartTimer(TimeManager timeManager, PomodoroType type)
@@ -46,7 +45,7 @@ namespace WindowSill.PomodoroTimer.Services
 
         public void ChangeTime(TimeManager timeManager, PomodoroType type)
         {
-            ShowNotification(timeManager.IsBreakTime ? "/WindowSill.PomodoroTimer/Misc/BreakEnd".GetLocalizedString() : "/WindowSill.PomodoroTimer/Misc/BreakTime".GetLocalizedString(), 
+            ShowNotification(timeManager.IsBreakTime ? "/WindowSill.PomodoroTimer/Misc/BreakEnd".GetLocalizedString() : "/WindowSill.PomodoroTimer/Misc/BreakTime".GetLocalizedString(),
                 timeManager.IsBreakTime ? "/WindowSill.PomodoroTimer/Misc/BreakEndDesc".GetLocalizedString() : "/WindowSill.PomodoroTimer/Misc/BreakTimeDesc".GetLocalizedString());
 
             if (timeManager.MainTimer is null)
@@ -97,7 +96,7 @@ namespace WindowSill.PomodoroTimer.Services
 
         public int GetTimeFromType(PomodoroType type)
         {
-            switch (type) 
+            switch (type)
             {
                 case PomodoroType.Short:
                     return _shortPomoTime;

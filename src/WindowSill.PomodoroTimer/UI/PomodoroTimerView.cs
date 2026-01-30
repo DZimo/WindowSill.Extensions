@@ -73,8 +73,8 @@ public sealed class PomodoroTimerView : UserControl
                                      .Command(() => vm.ChangeTimeDisplayCommand)
                                       .Content(
                                         new TextBlock()
-                                          .Text(x => x.Binding(() => vm.TimeLeft).OneWay()))
-                                          
+                                          .Text(x => x.Binding(() => vm.TimeToDisplay).TwoWay()))
+
                                   )
                               )
                       )

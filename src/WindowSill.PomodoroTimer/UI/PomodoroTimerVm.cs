@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using WindowSill.API;
 using WindowSill.PomodoroTimer.Models;
 using WindowSill.PomodoroTimer.Services;
@@ -8,7 +9,7 @@ using WindowSill.PomodoroTimer.Settings;
 
 namespace WindowSill.PomodoroTimer.UI;
 
-public partial class PomodoroTimerVm : ObservableObject
+public partial class PomodoroTimerVm : ObservableObject, IRecipient<string>
 {
     private readonly IPluginInfo _pluginInfo;
     private readonly ISettingsProvider _settingsProvider;
@@ -19,20 +20,6 @@ public partial class PomodoroTimerVm : ObservableObject
 
     [ObservableProperty]
     private PomodoroType pomodoroType = PomodoroType.Short;
-
-    private TimeDisplayMode timeDisplayMode;
-
-    public TimeDisplayMode TimeDisplayMode
-    {
-        get => _settingsProvider.GetSetting(Settings.Settings.DisplayMode);
-        set
-        {
-            timeDisplayMode = value;
-            _settingsProvider.SetSetting<TimeDisplayMode>(Settings.Settings.DisplayMode, value);
-            OnPropertyChanged(nameof(TimeDisplayMode));
-            OnPropertyChanged(nameof(SettingsVm.TimeDisplayMode));
-        }
-    }
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(PomodoroStopped))]
@@ -87,17 +74,17 @@ public partial class PomodoroTimerVm : ObservableObject
 
     public string SecondsSpent = "00";
 
-    public string TimeLeft
+    public string TimeToDisplay
     {
         get
         {
-            return TimeDisplayMode is TimeDisplayMode.TimeSpent ? $"{MinutesLeft}:{SecondsLeft}" : MinutesSpent is not "" ? $"{MinutesSpent:D2}:{SecondsSpent:D2}" : $"{PomodoroDuration:D2}:{00:D2}";
+            return SettingsVm.Instance?.TimeDisplayMode is TimeDisplayMode.TimeLeft ? $"{MinutesLeft}:{SecondsLeft}" : MinutesSpent is not "" ? $"{MinutesSpent:D2}:{SecondsSpent:D2}" : $"{PomodoroDuration:D2}:{00:D2}";
         }
     }
 
     private int PomodoroDuration => _timeHandlerService.GetTimeFromType(PomodoroType);
 
-    public PomodoroTimerVm(ITimeHandlerService timeHandlerService, IPluginInfo? pluginInfo, ISettingsProvider settingsProvider)
+    public PomodoroTimerVm(ITimeHandlerService timeHandlerService, IPluginInfo? pluginInfo, ISettingsProvider settingsProvider, SettingsVm settingsVm)
     {
         Guard.IsNotNull(pluginInfo, nameof(pluginInfo));
         Guard.IsNotNull(timeHandlerService, nameof(timeHandlerService));
@@ -106,9 +93,10 @@ public partial class PomodoroTimerVm : ObservableObject
         _timeHandlerService = timeHandlerService;
         _settingsProvider = settingsProvider;
 
-        TimeDisplayMode = settingsProvider.GetSetting<TimeDisplayMode>(Settings.Settings.DisplayMode);
+        var tes = _settingsProvider.GetSetting(Settings.Settings.DisplayMode);
         MinutesSpent = PomodoroDuration.ToString();
         Instance = this;
+        WeakReferenceMessenger.Default.RegisterAll(this);
     }
 
     public SillView CreateView()
@@ -165,7 +153,7 @@ public partial class PomodoroTimerVm : ObservableObject
 
             OnPropertyChanged(nameof(MinutesLeft));
             OnPropertyChanged(nameof(SecondsLeft));
-            OnPropertyChanged(nameof(TimeLeft));
+            OnPropertyChanged(nameof(TimeToDisplay));
             OnPropertyChanged(nameof(ProgressWidth));
         });
     }
@@ -176,10 +164,12 @@ public partial class PomodoroTimerVm : ObservableObject
         {
             TimeManager.Seconds = 0;
             TimeManager.Minutes = 0;
+            MinutesSpent = "";
 
+            OnPropertyChanged(nameof(PomodoroType));
             OnPropertyChanged(nameof(MinutesLeft));
             OnPropertyChanged(nameof(SecondsLeft));
-            OnPropertyChanged(nameof(TimeLeft));
+            OnPropertyChanged(nameof(TimeToDisplay));
         });
     }
 
@@ -201,10 +191,21 @@ public partial class PomodoroTimerVm : ObservableObject
     {
         ThreadHelper.RunOnUIThreadAsync(() =>
         {
-            TimeDisplayMode = TimeDisplayMode is TimeDisplayMode.TimeSpent ? TimeDisplayMode.TimeLeft : TimeDisplayMode.TimeSpent;
-            OnPropertyChanged(nameof(MinutesLeft));
-            OnPropertyChanged(nameof(SecondsLeft));
-            OnPropertyChanged(nameof(TimeLeft));
+            SettingsVm.Instance?.TimeDisplayMode = SettingsVm.Instance?.TimeDisplayMode is TimeDisplayMode.TimeElapsed ? TimeDisplayMode.TimeLeft : TimeDisplayMode.TimeElapsed;
+        });
+        NotifyTimeLeftChanged();
+    }
+
+    public void NotifyTimeLeftChanged()
+    {
+        ThreadHelper.RunOnUIThreadAsync(() =>
+        {
+            OnPropertyChanged(nameof(this.MinutesLeft));
+            OnPropertyChanged(nameof(this.SecondsLeft));
+            OnPropertyChanged(nameof(this.TimeToDisplay));
         });
     }
+
+    public void Receive(string message) =>
+        NotifyTimeLeftChanged();
 }

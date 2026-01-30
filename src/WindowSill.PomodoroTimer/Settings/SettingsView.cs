@@ -9,10 +9,10 @@ namespace WindowSill.PomodoroTimer.Settings
         private string elapsedText = "/WindowSill.PomodoroTimer/Misc/ElapsedText".GetLocalizedString();
         private string remainingText = "/WindowSill.PomodoroTimer/Misc/RemainingText".GetLocalizedString();
 
-        public SettingsView(ISettingsProvider settingsProvider)
+        public SettingsView(ISettingsProvider settingsProvider, SettingsVm settingsVm)
         {
             this.DataContext(
-                new SettingsVm(settingsProvider),
+                settingsVm,
                 (view, viewModel) => view
                 .Content(
                     new StackPanel()
@@ -31,7 +31,7 @@ namespace WindowSill.PomodoroTimer.Settings
                                         .Glyph("\uECC5"))
                                 .Content(
                               new ComboBox()
-                                  .ItemsSource(new[] { remainingText, elapsedText})
+                                  .ItemsSource(new[] { remainingText, elapsedText })
                                   .SelectedItem(
                                         x => x.Binding(() => viewModel.TimeDisplayMode)
                                               .TwoWay()
@@ -39,7 +39,7 @@ namespace WindowSill.PomodoroTimer.Settings
                                               .Convert(o => o switch
                                               {
                                                   TimeDisplayMode.TimeLeft => remainingText,
-                                                  TimeDisplayMode.TimeSpent => elapsedText,
+                                                  TimeDisplayMode.TimeElapsed => elapsedText,
                                                   _ => ""
                                               })
                                             .ConvertBack(o =>
@@ -47,7 +47,7 @@ namespace WindowSill.PomodoroTimer.Settings
                                                 if (o is not string res)
                                                     return TimeDisplayMode.TimeLeft;
 
-                                                return res.Equals(remainingText) ? TimeDisplayMode.TimeLeft : TimeDisplayMode.TimeSpent;
+                                                return res.Equals(remainingText) ? TimeDisplayMode.TimeLeft : TimeDisplayMode.TimeElapsed;
                                             })
                                               )
                                    )

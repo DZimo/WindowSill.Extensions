@@ -25,6 +25,6 @@ namespace WindowSill.PomodoroTimer.Models
     public enum TimeDisplayMode
     {
         TimeLeft,
-        TimeSpent
+        TimeElapsed
     }
 }
