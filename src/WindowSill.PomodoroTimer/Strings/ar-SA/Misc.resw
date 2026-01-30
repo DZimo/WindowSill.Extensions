@@ -142,9 +142,9 @@
     <value>اختر بين إظهار الوقت المنقضي إلى 25/50 أو الوقت المتبقي من بومودورو 25/50</value>
   </data>
   <data name="ElapsedText" xml:space="preserve">
-    <value>Elapsed Time</value>
+    <value>الوقت المنقضي</value>
   </data>
   <data name="RemainingText" xml:space="preserve">
-    <value>Remaining Time</value>
+    <value>الوقت المتبقي</value>
   </data>
 </root>
