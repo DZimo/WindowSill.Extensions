@@ -120,4 +120,10 @@
   <data name="DisplayName" xml:space="preserve">
     <value>Screen Recorder</value>
   </data>
+  <data name="ScreenShotPath" xml:space="preserve">
+    <value>Screenshot Path</value>
+  </data>
+  <data name="ScreenShotPathDesc" xml:space="preserve">
+    <value>Choose a path where your screenshots will be saved.</value>
+  </data>
 </root>
