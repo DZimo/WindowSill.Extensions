@@ -118,12 +118,12 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="DisplayName" xml:space="preserve">
-    <value>Screen Recorder</value>
+    <value>Grabadora de pantalla</value>
   </data>
   <data name="ScreenShotPath" xml:space="preserve">
-    <value>Screenshot Path</value>
+    <value>Ruta de captura de pantalla</value>
   </data>
   <data name="ScreenShotPathDesc" xml:space="preserve">
-    <value>Choose a path where your screenshots will be saved.</value>
+    <value>Elija una ruta donde se guardarán las capturas de pantalla.</value>
   </data>
 </root>
