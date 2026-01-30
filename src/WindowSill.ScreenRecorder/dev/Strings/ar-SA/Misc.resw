@@ -118,21 +118,12 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="DisplayName" xml:space="preserve">
-    <value>Intelligenter Rechner</value>
+    <value>مسجل الشاشة</value>
   </data>
-  <data name="CommandTitle" xml:space="preserve">
-    <value>New Tab</value>
+  <data name="ScreenShotPath" xml:space="preserve">
+    <value>مسار لقطة الشاشة</value>
   </data>
-  <data name="CalculatorPopup" xml:space="preserve">
-    <value>Zusätzliche</value>
-  </data>
-  <data name="General" xml:space="preserve">
-    <value>Allgemein</value>
-  </data>
-  <data name="PopupSettings" xml:space="preserve">
-    <value>Auto Popup</value>
-  </data>
-  <data name="CopySettings" xml:space="preserve">
-    <value>Auto-Kopieren</value>
+  <data name="ScreenShotPathDesc" xml:space="preserve">
+    <value>اختر مسارا حيث سيتم حفظ لقطات الشاشة.</value>
   </data>
 </root>

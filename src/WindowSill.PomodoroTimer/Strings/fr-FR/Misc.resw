@@ -142,15 +142,9 @@
     <value>Choisissez entre afficher le temps écoulé à 25/50 ou le temps restant du pomodoro 25/50</value>
   </data>
   <data name="ElapsedText" xml:space="preserve">
-    <value>Elapsed Time</value>
+    <value>Temps écoulé</value>
   </data>
   <data name="RemainingText" xml:space="preserve">
-    <value>Remaining Time</value>
-  </data>
-  <data name="ElapsedText" xml:space="preserve">
-    <value>Elapsed Time</value>
-  </data>
-  <data name="RemainingText" xml:space="preserve">
-    <value>Remaining Time</value>
+    <value>Temps restant</value>
   </data>
 </root>
