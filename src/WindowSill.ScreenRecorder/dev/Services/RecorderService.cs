@@ -5,7 +5,6 @@ using Windows.Win32.Foundation;
 using Windows.Win32.Graphics.Gdi;
 using Windows.Win32.Storage.FileSystem;
 using Windows.Win32.System.Memory;
-using Windows.Win32.UI.WindowsAndMessaging;
 using WindowSill.API;
 using WindowSill.ScreenRecorder.Enums;
 
@@ -48,22 +47,25 @@ namespace WindowSill.ScreenRecorder.Services
                     RECT rcClient;
                     PInvoke.GetClientRect(hWnd, out rcClient);
 
-                    int width = rcClient.right - rcClient.left;
-                    int height = rcClient.bottom - rcClient.top;
+                    //int width = rcClient.right - rcClient.left;
+                    //int height = rcClient.bottom - rcClient.top;
 
-                    PInvoke.SetStretchBltMode(hdcWindow, STRETCH_BLT_MODE.HALFTONE);
+                    int width = 1920;
+                    int height = 1080;
 
-                    var stretch = PInvoke.StretchBlt(hdcWindow,
-                        0, 0,
-                        rcClient.right, rcClient.bottom,
-                        hdcScreen,
-                        0, 0,
-                        PInvoke.GetSystemMetrics(SYSTEM_METRICS_INDEX.SM_CXSCREEN),
-                        PInvoke.GetSystemMetrics(SYSTEM_METRICS_INDEX.SM_CYSCREEN),
-                        ROP_CODE.SRCCOPY);
+                    //PInvoke.SetStretchBltMode(hdcWindow, STRETCH_BLT_MODE.HALFTONE);
 
-                    if (!stretch)
-                        throw new InvalidOperationException("StretchBlt failed");
+                    //var stretch = PInvoke.StretchBlt(hdcWindow,
+                    //    0, 0,
+                    //    rcClient.right, rcClient.bottom,
+                    //    hdcScreen,
+                    //    0, 0,
+                    //    PInvoke.GetSystemMetrics(SYSTEM_METRICS_INDEX.SM_CXSCREEN),
+                    //    PInvoke.GetSystemMetrics(SYSTEM_METRICS_INDEX.SM_CYSCREEN),
+                    //    ROP_CODE.SRCCOPY);
+
+                    //if (!stretch)
+                    //    throw new InvalidOperationException("StretchBlt failed");
 
                     hbmScreen = PInvoke.CreateCompatibleBitmap(hdcWindow, width, height);
                     if (hbmScreen.IsNull)
@@ -74,7 +76,7 @@ namespace WindowSill.ScreenRecorder.Services
                     PInvoke.BitBlt(hdcMemDC,
                         0, 0,
                         width, height,
-                        hdcWindow,
+                        hdcScreen,
                         0, 0,
                         ROP_CODE.SRCCOPY);
 
