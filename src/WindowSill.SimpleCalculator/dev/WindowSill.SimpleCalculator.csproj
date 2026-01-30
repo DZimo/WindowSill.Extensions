@@ -1,0 +1,59 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net9.0-windows10.0.22621</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Platforms>x64</Platforms>
+		<LangVersion>preview</LangVersion>
+		<RuntimeIdentifiers>win-x64;win-x86;win-arm64</RuntimeIdentifiers>
+
+		<PackageId>WindowSill.SimpleCalculator</PackageId>
+		<Title>Smart Calculator</Title>
+		<Version>0.3.0</Version>
+		<Description>A smart calculator to easily do arithmetic operations and also full integration of the notepad based calculator.</Description>
+		<PackageProjectUrl>https://github.com/DZimo/WindowSill.Extensions</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/DZimo/WindowSill.Extensions</RepositoryUrl>
+		<Authors>Mohamed-Nazim BELABED</Authors>
+		<PackageIcon>Assets/calculator_logo.png</PackageIcon>
+		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+	</PropertyGroup>
+	<ItemGroup>
+		<None Include="Assets/calculator_logo.png" Pack="true" PackagePath="\Assets\" />
+		<None Include="Assets/calculator_logo.svg" Pack="true" PackagePath="\Assets\" />
+		<None Include="..\lib\NotepadBasedCalculator.Api\bin\$(Configuration)\net9.0-windows10.0.22621\NotepadBasedCalculator.Api.dll" Pack="true" PackagePath="lib\net9.0-windows10.0.22621\" />
+		<None Include="..\lib\NotepadBasedCalculator.Core\bin\$(Configuration)\net9.0-windows10.0.22621\NotepadBasedCalculator.Core.dll" Pack="true" PackagePath="lib\net9.0-windows10.0.22621\" />
+		<None Include="..\lib\NotepadBasedCalculator.BuiltInPlugins\bin\$(Configuration)\net9.0-windows10.0.22621\NotepadBasedCalculator.BuiltInPlugins.dll" Pack="true" PackagePath="lib\net9.0-windows10.0.22621\" />
+		<None Include="LICENSE.md" Pack="true" PackagePath="\" />
+		<None Include="CHANGELOGS.md" Pack="true" PackagePath="\" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="6.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="2.2.0" />
+		<PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="2.2.0" />
+		<PackageReference Include="Microsoft.Recognizers.Definitions" Version="1.8.5" />
+		<PackageReference Include="Microsoft.Recognizers.Text" Version="1.8.5" />
+		<PackageReference Include="Microsoft.Recognizers.Text.Number" Version="1.8.5" />
+		<PackageReference Include="Microsoft.Recognizers.Text.DateTime" Version="1.8.5" />
+		<PackageReference Include="Microsoft.Recognizers.Text.NumberWithUnit" Version="1.8.5" />
+		<PackageReference Include="Microsoft.Recognizers.Text.DataTypes.TimexExpression" Version="1.8.5" />
+		<PackageReference Include="NETStandard.Library" Version="2.0.3" />
+		<PackageReference Include="Spectre.Console" Version="0.45.0" />
+		<PackageReference Include="System.Memory" Version="4.5.5" />
+		<PackageReference Include="System.Runtime" Version="4.3.1" />
+		<PackageReference Include="System.Text.RegularExpressions" Version="4.3.0" />
+		<PackageReference Include="System.ValueTuple" Version="4.5.0" />
+		<PackageReference Include="WindowSill.API" Version="0.8.0" />
+		<PackageReference Include="CommunityToolkit.Common" Version="*" />
+		<PackageReference Include="CommunityToolkit.Diagnostics" Version="*" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+		<PackageReference Include="System.Composition" Version="*" />
+		<PackageReference Include="System.Composition.Hosting" Version="*" />
+		<PackageReference Include="System.Composition.Runtime" Version="*" />
+		<PackageReference Include="System.Composition.TypedParts" Version="*" />
+		<PackageReference Include="System.Composition.AttributedModel" Version="*" />
+		<PackageReference Include="UnitsNet" Version="4.144.0" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\lib\NotepadBasedCalculator.Core\NotepadBasedCalculator.Core.csproj" Pack="true" IncludeAssets="all" />
+	</ItemGroup>
+</Project>

@@ -1,5 +1,4 @@
-﻿using System.Numerics;
-using WindowSill.API;
+﻿using WindowSill.API;
 
 namespace WindowSill.ColorPicker.UI;
 

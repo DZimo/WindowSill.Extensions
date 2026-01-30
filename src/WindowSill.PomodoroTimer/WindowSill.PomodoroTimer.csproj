@@ -9,7 +9,7 @@
 
 		<PackageId>WindowSill.PomodoroTimer</PackageId>
 		<Title>Pomodoro Timer</Title>
-		<Version>0.5.0</Version>
+		<Version>0.5.1</Version>
 		<Description>The famous Pomodoro Timer with 25/5 min mode that can boost your productivity and keeps you always in time and efficient</Description>
 		<PackageProjectUrl>https://github.com/DZimo/WindowSill.Extensions</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/DZimo/WindowSill.Extensions</RepositoryUrl>
@@ -19,6 +19,7 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<None Include="Assets/pomodoro_logo.png" Pack="true" PackagePath="\Assets\" />
+		<None Include="Assets/pomodoro_logo.svg" Pack="true" PackagePath="\Assets\" />
 		<None Include="LICENSE.md" Pack="true" PackagePath="\" />
 		<None Include="CHANGELOGS.md" Pack="true" PackagePath="\" />
 	</ItemGroup>

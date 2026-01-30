@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+	  <TargetFramework>net9.0-windows10.0.22621</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Grammars\en-us\FunctionDefinition.json" />
+    <None Remove="Grammars\en-us\TokenDefinition.json" />
+    <None Remove="Grammars\en-us\UnitNames.json" />
+    <None Remove="Grammars\fr-fr\UnitNames.json" />
+    <None Remove="Grammars\SpecialTokenDefinition.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Grammars\en-us\FunctionDefinition.json" />
+    <EmbeddedResource Include="Grammars\en-us\UnitNames.json" />
+    <EmbeddedResource Include="Grammars\en-us\TokenDefinition.json" />
+    <EmbeddedResource Include="Grammars\fr-fr\UnitNames.json" />
+    <EmbeddedResource Include="Grammars\SpecialTokenDefinition.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Common" Version="*"/>
+    <PackageReference Include="CommunityToolkit.Diagnostics" Version="*"/>
+    <PackageReference Include="Microsoft.Recognizers.Text" Version="*"/>
+    <PackageReference Include="Microsoft.Recognizers.Text.Number" Version="*"/>
+    <PackageReference Include="Microsoft.Recognizers.Text.NumberWithUnit" Version="*"/>
+    <PackageReference Include="Microsoft.Recognizers.Text.DateTime" Version="*"/>
+	<PackageReference Include="System.Composition" Version="*" />
+	<PackageReference Include="System.Text.RegularExpressions" Version="*"/>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NotepadBasedCalculator.Api\NotepadBasedCalculator.Api.csproj" />
+  </ItemGroup>
+  <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
+</Project>

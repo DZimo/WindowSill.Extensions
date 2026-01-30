@@ -38,8 +38,12 @@ public sealed class ColorPickerSill : ISill, ISillListView
 
     private void UpdateColorHeight()
     {
-        _colorPickerVm?.ColorFontSize = View?.SillOrientationAndSize == SillOrientationAndSize.HorizontalSmall ? 10 : View?.SillOrientationAndSize == SillOrientationAndSize.HorizontalMedium ? 12 : 13;
-        _colorPickerVm?.ColorboxHeight = View?.SillOrientationAndSize == SillOrientationAndSize.HorizontalSmall ? 16 : View?.SillOrientationAndSize == SillOrientationAndSize.HorizontalMedium ? 18 : 18;
+        var isSmall = ViewList[0]?.SillOrientationAndSize == SillOrientationAndSize.HorizontalSmall;
+        var isMedium = ViewList[0]?.SillOrientationAndSize == SillOrientationAndSize.HorizontalMedium;
+
+        _colorPickerVm?.ColorFontSize = isSmall ? 10 : isMedium ? 12 : 13;
+        _colorPickerVm?.ColorboxHeight = isSmall ? 16 : isMedium ? 18 : 18;
+        _colorPickerVm?.SelectedColorThickness = isSmall ? 0 : isMedium ? 0.5 : 1;
     }
 
     public string DisplayName => "/WindowSill.ColorPicker/Misc/DisplayName".GetLocalizedString();
@@ -66,7 +70,7 @@ public sealed class ColorPickerSill : ISill, ISillListView
                 new TextBlock().Margin(5).Text("/WindowSill.ColorPicker/Misc/CopyColor".GetLocalizedString()),
                 _colorPickerVm.CopyColorHex),
 
-            new SillListViewPopupItem('\xe790', null, new SillPopupContent().ToolTipService(toolTip:  "/WindowSill.ColorPicker/Misc/CommandTitle".GetLocalizedString()).DataContext(_colorPickerVm).Content( new SillOrientedStackPanel()
+            new SillListViewPopupItem('\xe', null, new SillPopupContent().ToolTipService(toolTip:  "/WindowSill.ColorPicker/Misc/CommandTitle".GetLocalizedString()).DataContext(_colorPickerVm).Content( new SillOrientedStackPanel()
                            .Children(
                                 new StackPanel()
                                 .Spacing(4)
@@ -89,41 +93,49 @@ public sealed class ColorPickerSill : ISill, ISillListView
                                         .IsHexInputVisible(false)
                                         .ColorSpectrumShape(ColorSpectrumShape.Ring)
                                         .Color(x => x.Binding(() => _colorPickerVm.SelectedColorWinUI).TwoWay())
-                                    )))),
-
-            new SillListViewPopupItem()
+                                    ))))
                     .Background(Colors.Transparent)
                     .DataContext(_colorPickerVm, (view, vm) => view.Content(
-                new Border()
-                    .Child(
+                new Grid()
+                    .Children(
                         new SillOrientedStackPanel()
                             .Children(
                                   new StackPanel()
                                       .Orientation(Orientation.Horizontal)
-                                      .Spacing(4)
+                                      .Spacing(1)
                                       .Children(
                                         new StackPanel()
                                               .Width(7)
-                                              .Margin(5, 0, 0, 0)
+                                              .Margin(5, 0, 5, 0)
                                               .Background(x => x.Binding(() => vm.SelectedColorBrush).OneWay()),
-                                        new TextBox()
-                                              .PlaceholderText("#FFFFFF")
-                                              .PlaceholderForeground(Colors.Gray)
-                                              .FontSize(x => x.Binding(() => _colorPickerVm.ColorFontSize).OneWay())
-                                              .TextAlignment(TextAlignment.Center)
-                                              .AcceptsReturn(false)
-                                              .FontStretch(Windows.UI.Text.FontStretch.Expanded)
-                                              .VerticalContentAlignment(VerticalAlignment.Center)
-                                              .VerticalAlignment(VerticalAlignment.Center)
-                                              .TextWrapping(TextWrapping.Wrap)
-                                              .MinHeight(x => x.Binding(() => _colorPickerVm.ColorboxHeight).OneWay())
-                                              .MaxWidth(75)
-                                              .Width(75)
-                                              .MaxLength(7)
-                                              .Text(x => x.Binding(() => _colorPickerVm.SelectedColorHex).TwoWay())
+                                        new Border()
+                                              .BorderBrush(x => x.Binding(() => vm.SelectedColorBrush).OneWay())
+                                              .BorderThickness(x => x.Binding(() => vm.SelectedColorThickness).OneWay().Convert(o => new Thickness(o)))
+                                              .CornerRadius(2)
                                               .Padding(0)
-                                              .Margin(0)
-                                              .BorderBrush(x => x.Binding(() => _colorPickerVm.SelectedColorBrush).OneWay()))))
+                                              .Margin(0, 0, 0, 2)
+                                              .Child(
+                                                 new TextBox()
+                                                      .PlaceholderText("#FFFFFF")
+                                                      .PlaceholderForeground(Colors.Gray)
+                                                      .FontSize(x => x.Binding(() => vm.ColorFontSize).OneWay())
+                                                      .TextAlignment(TextAlignment.Center)
+                                                      .AcceptsReturn(false)
+                                                      .FontStretch(Windows.UI.Text.FontStretch.Expanded)
+                                                      .VerticalContentAlignment(VerticalAlignment.Center)
+                                                      .TextWrapping(TextWrapping.Wrap)
+                                                      .MinHeight(x => x.Binding(() => vm.ColorboxHeight).OneWay())
+                                                      .MaxWidth(75)
+                                                      .Width(75)
+                                                      .MaxLength(7)
+                                                      .Text(x => x.Binding(() => vm.SelectedColorHex).TwoWay())
+                                                      .Padding(0))),
+                                      new Button()
+                                              .Style(x => x.StaticResource("IconButton"))
+                                              .IsHitTestVisible(false)
+                                              .Content("\xe790")
+                            )
+                    )
              )),
         ];
 

@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net9.0-windows10.0.22621</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Platforms>x64</Platforms>
+		<LangVersion>preview</LangVersion>
+		<RuntimeIdentifiers>win-x64;win-x86;win-arm64</RuntimeIdentifiers>
+
+		<PackageId>WindowSill.ScreenRecorder</PackageId>
+		<Title>Screen Recorder</Title>
+		<Version>0.1.0</Version>
+		<Description>A screen recorder extension to record the selected screen or take snap images.</Description>
+		<PackageProjectUrl>https://github.com/DZimo/WindowSill.Extensions</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/DZimo/WindowSill.Extensions</RepositoryUrl>
+		<Authors>Mohamed-Nazim BELABED</Authors>
+		<PackageIcon>Assets/screen_recorder.png</PackageIcon>
+		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+	</PropertyGroup>
+	<ItemGroup>
+		<None Include="Assets/screen_recorder.png" Pack="true" PackagePath="\Assets\" />
+		<None Include="Assets/screen_recorder.svg" Pack="true" PackagePath="\Assets\" />
+		<None Include="LICENSE.md" Pack="true" PackagePath="\" />
+		<None Include="CHANGELOGS.md" Pack="true" PackagePath="\" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.259">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="WindowSill.API" Version="0.8.4" />
+	</ItemGroup>
+</Project>

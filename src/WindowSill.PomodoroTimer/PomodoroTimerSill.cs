@@ -1,8 +1,5 @@
-using CommunityToolkit.Diagnostics;
 using Microsoft.UI.Xaml.Media.Imaging;
-using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
-using Windows.System;
 using WindowSill.API;
 using WindowSill.PomodoroTimer.Services;
 using WindowSill.PomodoroTimer.Settings;
@@ -16,6 +13,8 @@ namespace WindowSill.PomodoroTimer;
 public sealed class PomodoroTimerSill : ISill, ISillSingleView
 {
     private PomodoroTimerVm? pomodoroTimerVm;
+    private SettingsVm? settingsVm;
+
     private IPluginInfo _pluginInfo;
     private ISettingsProvider _settingsProvider;
 
@@ -27,7 +26,8 @@ public sealed class PomodoroTimerSill : ISill, ISillSingleView
         _pluginInfo = pluginInfo;
         _settingsProvider = settingsProvider;
 
-        pomodoroTimerVm = new PomodoroTimerVm(timeHandlerService, pluginInfo, settingsProvider);
+        settingsVm = new SettingsVm(settingsProvider);
+        pomodoroTimerVm = new PomodoroTimerVm(timeHandlerService, pluginInfo, settingsProvider, settingsVm);
 
         View = pomodoroTimerVm.CreateView();
         UpdateColorHeight();
@@ -56,11 +56,7 @@ public sealed class PomodoroTimerSill : ISill, ISillSingleView
 
 
     public SillSettingsView[]? SettingsViews =>
-        [
-        new SillSettingsView(
-            DisplayName,
-            new(() => new SettingsView(_settingsProvider)))
-        ];
+        [new SillSettingsView(DisplayName, new(() => new SettingsView(_settingsProvider, settingsVm)))];
 
 
     public ValueTask OnActivatedAsync()

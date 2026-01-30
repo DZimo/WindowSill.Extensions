@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+	  <TargetFramework>net9.0-windows10.0.22621</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Assets\defaultExchangeRates.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\defaultExchangeRates.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Common" Version="*"/>
+    <PackageReference Include="CommunityToolkit.Diagnostics" Version="*" />
+	<PackageReference Include="System.Composition" Version="*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NotepadBasedCalculator.Api\NotepadBasedCalculator.Api.csproj" />
+    <ProjectReference Include="..\NotepadBasedCalculator.BuiltInPlugins\NotepadBasedCalculator.BuiltInPlugins.csproj" />
+  </ItemGroup>
+
+  <!-- Update defaultExchangeRates.json -->
+  <Target Name="DownloadExchangeRates" BeforeTargets="Build" Condition="'$(Configuration)'=='Release'">
+    <DownloadFile SourceUrl="https://api.exchangerate.host/latest?base=USD&amp;amount=1" DestinationFolder="$(MSBuildProjectDirectory)\Assets\" DestinationFileName="defaultExchangeRates.json">
+      <Output TaskParameter="DownloadedFile" ItemName="Content" />
+    </DownloadFile>
+  </Target>
+</Project>
+
+

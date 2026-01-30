@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+	  <TargetFramework>net9.0-windows10.0.22621</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Common" Version="*" />
+    <PackageReference Include="CommunityToolkit.Diagnostics" Version="*" />
+    <PackageReference Include="Newtonsoft.Json" Version="*"/>
+	<PackageReference Include="System.Composition" Version="*" />
+	<PackageReference Include="UnitsNet" Version="*"/>
+  </ItemGroup>
+</Project>
+
+

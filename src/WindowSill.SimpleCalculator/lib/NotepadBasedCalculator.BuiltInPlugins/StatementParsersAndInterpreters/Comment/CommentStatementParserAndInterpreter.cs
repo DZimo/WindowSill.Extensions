@@ -1,0 +1,41 @@
+﻿using NotepadBasedCalculator.Api;
+using System;
+using System.Composition;
+using System.Threading;
+using System.Threading.Tasks;
+using LinkedToken = NotepadBasedCalculator.Api.Lexer.LinkedToken;
+
+namespace NotepadBasedCalculator.BuiltInPlugins.StatementParsersAndInterpreters.Comment
+{
+    [Export(typeof(IStatementParserAndInterpreter))]
+    [Culture(SupportedCultures.Any)]
+    [Name(PredefinedStatementParserAndInterpreterNames.CommentStatement)]
+    internal sealed class CommentStatementParserAndInterpreter : IStatementParserAndInterpreter
+    {
+        public IParserAndInterpreterService ParserAndInterpreterService => throw new NotImplementedException();
+
+        public Task<bool> TryParseAndInterpretStatementAsync(
+            string culture,
+            LinkedToken currentToken,
+            IVariableService variableService,
+            StatementParserAndInterpreterResult result,
+            CancellationToken cancellationToken)
+        {
+            if (currentToken.Token.IsOfType(PredefinedTokenAndDataTypeNames.CommentOperator))
+            {
+                LinkedToken lastTokenInLine = currentToken;
+                LinkedToken? nextToken = currentToken.Next;
+                while (nextToken is not null)
+                {
+                    lastTokenInLine = nextToken;
+                    nextToken = nextToken.Next;
+                }
+
+                result.ParsedStatement = new CommentStatement(currentToken.SkipNextWordTokens()!, lastTokenInLine);
+                return Task.FromResult(true);
+            }
+
+            return Task.FromResult(false);
+        }
+    }
+}

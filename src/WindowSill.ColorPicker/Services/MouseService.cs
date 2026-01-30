@@ -16,8 +16,8 @@ namespace WindowSill.ColorPicker.Services
         private IPluginInfo _pluginInfo;
         public event EventHandler MouseExited;
 
-        private UnhookWindowsHookExSafeHandle _mouseHookHandle;
-        private HOOKPROC _mouseDelegate;
+        private UnhookWindowsHookExSafeHandle? _mouseHookHandle;
+        private HOOKPROC? _mouseDelegate;
 
         private const int WM_LBUTTONDOWN = 0x0201;
         private const int WM_RBUTTONDOWN = 0x0204;
@@ -27,10 +27,9 @@ namespace WindowSill.ColorPicker.Services
         public MouseService(IPluginInfo pluginInfo)
         {
             _pluginInfo = pluginInfo;
-            GetMouseEvent();
         }
 
-        private void GetMouseEvent()
+        public void BeginHook()
         {
             if (_mouseHookHandle != null && !_mouseHookHandle.IsInvalid)
                 return;
@@ -44,17 +43,24 @@ namespace WindowSill.ColorPicker.Services
                 0);
         }
 
+        public void EndHook()
+        {
+            _mouseHookHandle?.Dispose();
+            _mouseHookHandle = null;
+            _mouseDelegate = null;
+        }
+
         private LRESULT MouseHookProc(int nCode, WPARAM wParam, LPARAM lParam)
         {
-            if (nCode >= 0)
-            {
-                uint msg = (uint)wParam;
+            uint msg = (uint)wParam;
 
-                if (msg == WM_LBUTTONDOWN || msg == WM_RBUTTONDOWN ||msg == WM_MBUTTONDOWN)
-                    MouseExited?.Invoke(this, EventArgs.Empty);
-            }
+            if (nCode < 0)
+                return PInvoke.CallNextHookEx(default, nCode, new WPARAM((nuint)wParam), new LPARAM((nint)lParam));
 
-            return PInvoke.CallNextHookEx(default,nCode,new WPARAM((nuint)wParam),new LPARAM((nint)lParam));
+            if (msg == WM_LBUTTONDOWN || msg == WM_RBUTTONDOWN || msg == WM_MBUTTONDOWN)
+                MouseExited?.Invoke(this, EventArgs.Empty);
+
+            return PInvoke.CallNextHookEx(default, nCode, new WPARAM((nuint)wParam), new LPARAM((nint)lParam));
         }
 
         public string GetColorAtCursorNative()
@@ -90,14 +96,14 @@ namespace WindowSill.ColorPicker.Services
 
         public void Dispoese()
         {
-            throw new NotImplementedException();
+            EndHook();
         }
 
         private void ChangeCursor()
         {
             PInvoke.SetCursor(
               PInvoke.LoadCursor(null, "IDC_CROSS")
-          );
+            );
 
             var cursorPath = System.IO.Path.Combine(
                 _pluginInfo.GetPluginContentDirectory(),
