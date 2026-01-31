@@ -23,11 +23,11 @@ public sealed class SmmartCalculatorSill : ISillActivatedByTextSelection, ISillL
             Source = new SvgImageSource(new Uri(System.IO.Path.Combine(_pluginInfo.GetPluginContentDirectory(), "Assets", "calculator_logo.svg")))
         };
 
-    public SillSettingsView[]? SettingsViews => throw new NotImplementedException();
+    public SillSettingsView[]? SettingsViews => null;
 
     public ObservableCollection<SillListViewItem> ViewList { get; } = new();
 
-    public SillView? PlaceholderView => throw new NotImplementedException();
+    public SillView? PlaceholderView => null;
 
     public string[] TextSelectionActivatorTypeNames { get; } = [SmartCalculatorActivator.ActivatorName];
 

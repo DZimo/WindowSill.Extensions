@@ -3,6 +3,7 @@
     public enum InterVmMessage
     {
         SelectedNumberChanged,
-        SelectedNumberFocused
+        SelectedNumberFocused,
+        ExecutedRequested,
     }
 }

@@ -221,6 +221,10 @@ public partial class SimpleCalculatorVm : ObservableObject, IRecipient<RequestNu
             case InterVmMessage.SelectedNumberFocused:
                 _ = NumberTextboxFocused();
                 break;
+            case InterVmMessage.ExecutedRequested:
+                if (!SelectedNumber.Contains('='))
+                    AppendNumberWithOPCommand.Execute('=');
+                break;
         }
     }
 }

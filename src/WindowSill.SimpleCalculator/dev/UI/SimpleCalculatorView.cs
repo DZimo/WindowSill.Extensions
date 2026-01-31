@@ -139,7 +139,8 @@ public sealed class SimpleCalculatorView : UserControl
 
     private void OnEnterPressed(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
     {
-        SimpleCalculatorVm.Instance?.AppendNumberWithOPCommand.Execute('=');
+        WeakReferenceMessenger.Default.Send(new RequestNumberChanged(InterVmMessage.ExecutedRequested));
+        //SimpleCalculatorVm.Instance?.AppendNumberWithOPCommand.Execute('=');
     }
 
     private void SelectedNumberChanged()
