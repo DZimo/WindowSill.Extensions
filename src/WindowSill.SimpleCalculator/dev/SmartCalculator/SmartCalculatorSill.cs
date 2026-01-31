@@ -2,7 +2,6 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using WindowSill.API;
-using WindowSill.SimpleCalculator.ViewModels;
 
 namespace WindowSill.SimpleCalculator.SmartCalculator;
 
@@ -14,7 +13,7 @@ public sealed class SmmartCalculatorSill : ISillActivatedByTextSelection, ISillL
     [Import]
     private IPluginInfo _pluginInfo = null!;
 
-    private readonly SmartCalculatorVm _viewModel = new();
+    //private readonly SmartCalculatorVm _viewModel = new();
 
     public string DisplayName => "/WindowSill.SimpleCalculator/SmartCalculator/DisplayName".GetLocalizedString();
 
@@ -40,7 +39,7 @@ public sealed class SmmartCalculatorSill : ISillActivatedByTextSelection, ISillL
 
             if (textSelectionActivatorTypeName == SmartCalculatorActivator.ActivatorName)
             {
-                var view = _viewModel.CreateView();
+                var view = SmartCalculatorActivator.SmartCalculatorVm.CreateView();
                 var viewitem = new SillListViewButtonItem(view, null, DoNothing);
                 ViewList.Add(viewitem);
             }

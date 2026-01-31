@@ -145,14 +145,12 @@ public sealed class SimpleCalculatorView : UserControl
     private void SelectedNumberChanged()
     {
         WeakReferenceMessenger.Default.Send(new RequestNumberChanged(InterVmMessage.SelectedNumberChanged));
-
         //SimpleCalculatorVm.Instance?.NumberTextboxChanging();
     }
 
     private void SelectedNumberFocused()
     {
         WeakReferenceMessenger.Default.Send(new RequestNumberChanged(InterVmMessage.SelectedNumberChanged));
-
         //SimpleCalculatorVm.Instance?.NumberTextboxFocused();
     }
 }

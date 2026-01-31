@@ -8,7 +8,7 @@ namespace WindowSill.SimpleCalculator.ViewModels;
 
 public partial class SmartCalculatorVm : ObservableObject
 {
-    public static SmartCalculatorVm Instance { get; private set; }
+    //public static SmartCalculatorVm Instance { get; private set; }
 
     [ObservableProperty]
     private int colorFontSize = 12;
@@ -38,7 +38,7 @@ public partial class SmartCalculatorVm : ObservableObject
 
     public SmartCalculatorVm()
     {
-        Instance = this;
+        //Instance = this;
     }
 
     public SillView CreateView()
