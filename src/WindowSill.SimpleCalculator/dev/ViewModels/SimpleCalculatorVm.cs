@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Recognizers.Text;
 using NotepadBasedCalculator.Api;
 using NotepadBasedCalculator.Core;
@@ -10,11 +11,12 @@ using System.Text;
 using Windows.ApplicationModel.DataTransfer;
 using WindowSill.API;
 using WindowSill.SimpleCalculator.Enums;
+using WindowSill.SimpleCalculator.Models;
 using WindowSill.SimpleCalculator.Services;
 
 namespace WindowSill.SimpleCalculator.UI;
 
-public partial class SimpleCalculatorVm : ObservableObject
+public partial class SimpleCalculatorVm : ObservableObject, IRecipient<RequestNumberChanged>
 {
     private readonly ISettingsProvider _settingsProvider;
     private readonly IProcessInteractionService _processInteraction;
@@ -35,8 +37,6 @@ public partial class SimpleCalculatorVm : ObservableObject
     private float y = 0;
 
     public event EventHandler testEvent;
-
-    private bool numberUpdated = true;
 
     private string selectedNumber = "";
     public string SelectedNumber
@@ -93,6 +93,7 @@ public partial class SimpleCalculatorVm : ObservableObject
         var mefComposer = new MefComposer(new[] { typeof(SimpleCalculatorVm).Assembly });
         ParserAndInterpreterFactory parserAndInterpreterFactory = mefComposer.ExportProvider.GetExport<ParserAndInterpreterFactory>();
         parserAndInterpreter = parserAndInterpreterFactory.CreateInstance(DefaultCulture, textDocumentAPI);
+        WeakReferenceMessenger.Default.RegisterAll(this);
     }
 
     public SillView CreateView()
@@ -151,9 +152,9 @@ public partial class SimpleCalculatorVm : ObservableObject
     }
     public async Task NumberTextboxChanging()
     {
-        char[] buffer = new char[selectedNumber.Length];
+        char[] buffer = new char[SelectedNumber.Length];
         var span = buffer.AsSpan();
-        selectedNumber.AsSpan().CopyTo(span);
+        SelectedNumber.AsSpan().CopyTo(span);
 
         var op = _calculatorService.GetArithmeticOperator(span);
         textDocumentAPI.Text = SelectedNumber;
@@ -209,4 +210,17 @@ public partial class SimpleCalculatorVm : ObservableObject
     [RelayCommand]
     private void AppendNumberWithOP(char op) =>
         SelectedNumber += op;
+
+    public void Receive(RequestNumberChanged message)
+    {
+        switch (message.VmMessage)
+        {
+            case InterVmMessage.SelectedNumberChanged:
+                _ = NumberTextboxChanging();
+                break;
+            case InterVmMessage.SelectedNumberFocused:
+                _ = NumberTextboxFocused();
+                break;
+        }
+    }
 }

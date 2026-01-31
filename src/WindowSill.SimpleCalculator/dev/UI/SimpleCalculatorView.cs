@@ -1,5 +1,8 @@
-﻿using Windows.System;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using Windows.System;
 using WindowSill.API;
+using WindowSill.SimpleCalculator.Enums;
+using WindowSill.SimpleCalculator.Models;
 using WindowSill.SimpleCalculator.Services;
 
 namespace WindowSill.SimpleCalculator.UI;
@@ -141,11 +144,15 @@ public sealed class SimpleCalculatorView : UserControl
 
     private void SelectedNumberChanged()
     {
-        SimpleCalculatorVm.Instance?.NumberTextboxChanging();
+        WeakReferenceMessenger.Default.Send(new RequestNumberChanged(InterVmMessage.SelectedNumberChanged));
+
+        //SimpleCalculatorVm.Instance?.NumberTextboxChanging();
     }
 
     private void SelectedNumberFocused()
     {
-        SimpleCalculatorVm.Instance?.NumberTextboxFocused();
+        WeakReferenceMessenger.Default.Send(new RequestNumberChanged(InterVmMessage.SelectedNumberChanged));
+
+        //SimpleCalculatorVm.Instance?.NumberTextboxFocused();
     }
 }
