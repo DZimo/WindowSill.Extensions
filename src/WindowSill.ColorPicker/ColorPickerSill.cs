@@ -70,14 +70,15 @@ public sealed class ColorPickerSill : ISill, ISillListView
                 new TextBlock().Margin(5).Text("/WindowSill.ColorPicker/Misc/CopyColor".GetLocalizedString()),
                 _colorPickerVm.CopyColorHex),
 
-            new SillListViewPopupItem('\xe', null, new SillPopupContent().ToolTipService(toolTip:  "/WindowSill.ColorPicker/Misc/CommandTitle".GetLocalizedString()).DataContext(_colorPickerVm).Content( new SillOrientedStackPanel()
+            new SillListViewPopupItem('\xe', null, new SillPopupContent().ToolTipService(toolTip:  "/WindowSill.ColorPicker/Misc/CommandTitle".GetLocalizedString()).DataContext(_colorPickerVm)
+                .Content( new SillOrientedStackPanel()
                            .Children(
                                 new StackPanel()
-                                .Spacing(4)
-                                .VerticalAlignment(VerticalAlignment.Center)
-                                .HorizontalAlignment(HorizontalAlignment.Center)
-                                .Margin(5)
-                                .Children(
+                                    .Spacing(4)
+                                    .VerticalAlignment(VerticalAlignment.Center)
+                                    .HorizontalAlignment(HorizontalAlignment.Center)
+                                    .Margin(5)
+                                    .Children(
                                     new TextBlock()
                                         .VerticalAlignment(VerticalAlignment.Center)
                                         .HorizontalAlignment(HorizontalAlignment.Center)
@@ -92,10 +93,43 @@ public sealed class ColorPickerSill : ISill, ISillListView
                                         .IsColorChannelTextInputVisible(false)
                                         .IsHexInputVisible(false)
                                         .ColorSpectrumShape(ColorSpectrumShape.Ring)
-                                        .Color(x => x.Binding(() => _colorPickerVm.SelectedColorWinUI).TwoWay())
-                                    ))))
-                    .Background(Colors.Transparent)
-                    .DataContext(_colorPickerVm, (view, vm) => view.Content(
+                                        .Color(x => x.Binding(() => _colorPickerVm.SelectedColorWinUI).TwoWay()),
+                                    new StackPanel()
+                                        .Orientation(Orientation.Horizontal)
+                                        .HorizontalAlignment(HorizontalAlignment.Center)
+                                        .VerticalAlignment(VerticalAlignment.Center)
+                                        .Spacing(4)
+                                        .Children(
+                                            new TextBlock()
+                                            .Text("RGB: "),
+                                                new TextBlock()
+                                                .Text(x => x.Binding(() => _colorPickerVm.SelectedColorWinUI.R)),
+                                                new TextBlock()
+                                                .Text(x => x.Binding(() => _colorPickerVm.SelectedColorWinUI.G)),
+                                                new TextBlock()
+                                                .Text(x => x.Binding(() => _colorPickerVm.SelectedColorWinUI.B)),
+
+                                            new TextBlock()
+                                            .Text("HSV: "),
+                                                new TextBlock()
+                                                .Text(x => x.Binding(() => _colorPickerVm.CombinedColor.H)),
+                                                new TextBlock()
+                                                .Text(x => x.Binding(() => _colorPickerVm.CombinedColor.S)),
+                                                 new TextBlock()
+                                                .Text(x => x.Binding(() => _colorPickerVm.CombinedColor.V)),
+
+                                            new TextBlock()
+                                                .Text("HSL: "),
+                                                new TextBlock()
+                                                .Text(x => x.Binding(() => _colorPickerVm.CombinedColor.HL)),
+                                                new TextBlock()
+                                                .Text(x => x.Binding(() => _colorPickerVm.CombinedColor.SL)),
+                                                 new TextBlock()
+                                                .Text(x => x.Binding(() => _colorPickerVm.CombinedColor.L))
+                                        )
+                                )
+                           )
+                )).Background(Colors.Transparent).DataContext(_colorPickerVm, (view, vm) => view.Content(
                 new Grid()
                     .Children(
                         new SillOrientedStackPanel()
