@@ -16,6 +16,7 @@
 		<Authors>Mohamed-Nazim BELABED</Authors>
 		<PackageIcon>Assets/calculator_logo.png</PackageIcon>
 		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>
 	<ItemGroup>
 		<None Include="Assets/calculator_logo.png" Pack="true" PackagePath="\Assets\" />
