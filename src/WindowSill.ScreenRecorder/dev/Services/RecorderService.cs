@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.Composition;
+﻿using ScreenRecorderLib;
+using System.ComponentModel.Composition;
 using System.Runtime.InteropServices;
 using Windows.Win32;
 using Windows.Win32.Foundation;
@@ -14,6 +15,10 @@ namespace WindowSill.ScreenRecorder.Services
 
     public class RecorderService : IRecorderService
     {
+        private Recorder _rec = Recorder.CreateRecorder();
+
+        private bool isRecording = false;
+
         public void CaptureScreenshot(string filePath, ISillListView view)
         {
             unsafe
@@ -146,12 +151,37 @@ namespace WindowSill.ScreenRecorder.Services
 
         public void StartRecording(string filePath, RecordQuality quality)
         {
-            throw new NotImplementedException();
+            if (isRecording)
+            {
+                isRecording = false;
+                StopRecording();
+                return;
+            }
+
+            _rec.OnRecordingComplete += Rec_OnRecordingComplete;
+            _rec.OnRecordingFailed += Rec_OnRecordingFailed;
+            _rec.OnStatusChanged += Rec_OnStatusChanged;
+
+            _rec.Record(filePath);
+            isRecording = true;
         }
 
         public void StopRecording()
         {
-            throw new NotImplementedException();
+            _rec.Stop();
+        }
+
+        private void Rec_OnRecordingComplete(object sender, RecordingCompleteEventArgs e)
+        {
+            var path = e.FilePath;
+        }
+        private void Rec_OnRecordingFailed(object sender, RecordingFailedEventArgs e)
+        {
+            var error = e.Error;
+        }
+        private void Rec_OnStatusChanged(object sender, RecordingStatusEventArgs e)
+        {
+            RecorderStatus status = e.Status;
         }
     }
 }
