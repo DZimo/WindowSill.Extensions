@@ -14,7 +14,7 @@
 <div align="center">
 
 ### Pomodoro Timer
-<img alt="Pomodoro Timer" src="img/pomodro-preview.gif" />
+<img alt="Pomodoro Timer" src="img/pomodoro-preview.gif" />
 <img width="126" height="30" alt="Pomodoro Timer" src="https://github.com/user-attachments/assets/cdb0653e-1850-4567-bc9a-541c6505a6d5" />
 
 ### Color Picker
