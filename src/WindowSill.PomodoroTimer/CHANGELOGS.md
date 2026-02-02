@@ -1,3 +1,6 @@
+# 0.6.1
+- Settings bug fix.
+
 # 0.6.0
 - Fixed issues related to settings.
 - Update logo
