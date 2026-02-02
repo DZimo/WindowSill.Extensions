@@ -191,7 +191,7 @@ public partial class PomodoroTimerVm : ObservableObject, IRecipient<string>
     {
         ThreadHelper.RunOnUIThreadAsync(() =>
         {
-            SettingsVm.Instance?.TimeDisplayMode = SettingsVm.Instance?.TimeDisplayMode is TimeDisplayMode.TimeElapsed ? TimeDisplayMode.TimeLeft : TimeDisplayMode.TimeElapsed;
+            SettingsVm.Instance?.TimeDisplayMode = SettingsVm.Instance?.TimeDisplayMode is TimeDisplayMode.TimeSpent ? TimeDisplayMode.TimeLeft : TimeDisplayMode.TimeSpent;
         });
         NotifyTimeLeftChanged();
     }
