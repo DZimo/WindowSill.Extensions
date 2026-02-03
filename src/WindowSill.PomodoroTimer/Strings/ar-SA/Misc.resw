@@ -139,7 +139,7 @@
     <value>وضع عرض الوقت</value>
   </data>
   <data name="DisplayModeDesc" xml:space="preserve">
-    <value>Show Time elapsed or remaining.</value>
+    <value>إظهار الوقت المنقضي أو المتبقي.</value>
   </data>
   <data name="ElapsedText" xml:space="preserve">
     <value>الوقت المنقضي</value>
@@ -148,9 +148,9 @@
     <value>الوقت المتبقي</value>
   </data>
   <data name="LongBreakSettings" xml:space="preserve">
-    <value>Time for the long break.</value>
+    <value>حان وقت الراحة الطويلة.</value>
   </data>
   <data name="ShortBreakSettings" xml:space="preserve">
-    <value>Time for the short break.</value>
+    <value>وقت الاستراحة القصيرة.</value>
   </data>
 </root>
