@@ -11,6 +11,7 @@ namespace WindowSill.PomodoroTimer.Settings
 
         public SettingsView(ISettingsProvider settingsProvider, SettingsVm settingsVm)
         {
+            var full_desc = "/WindowSill.PomodoroTimer/Misc/DisplayModeDesc".GetLocalizedString() + "\n" + "/WindowSill.PomodoroTimer/Misc/ShortBreakSettings".GetLocalizedString() + "\n" + "/WindowSill.PomodoroTimer/Misc/LongBreakSettings".GetLocalizedString();
             this.DataContext(
                 settingsVm,
                 (view, viewModel) => view
@@ -24,7 +25,7 @@ namespace WindowSill.PomodoroTimer.Settings
                                 .Text("/WindowSill.PomodoroTimer/Misc/General".GetLocalizedString()),
                             new SettingsCard()
                                 .Header("/WindowSill.PomodoroTimer/Misc/DisplayMode".GetLocalizedString())
-                                .Description("/WindowSill.PomodoroTimer/Misc/DisplayModeDesc".GetLocalizedString())
+                                .Description(full_desc)
                                 .Tag("test")
                                 .HeaderIcon(
                                     new FontIcon()

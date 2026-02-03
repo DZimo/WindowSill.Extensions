@@ -21,7 +21,7 @@ namespace WindowSill.PomodoroTimer.Services
         public int _shortBreakTime => _settingsProvider.GetSetting(Settings.Settings.ShortBreakDuration);
         public int _longBreakTime => _settingsProvider.GetSetting(Settings.Settings.LongBreakDuration);
 
-        private int _shortPomoTime = 1;
+        private int _shortPomoTime = 25;
         private int _LongPomoTime = 50;
 
         private ISettingsProvider _settingsProvider;
