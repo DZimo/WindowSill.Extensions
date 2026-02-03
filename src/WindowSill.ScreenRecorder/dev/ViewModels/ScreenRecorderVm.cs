@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using WindowSill.API;
+using WindowSill.ScreenRecorder.Enums;
 using WindowSill.ScreenRecorder.Services;
 
 namespace WindowSill.ScreenRecorder.ViewModels;
@@ -51,6 +52,14 @@ public partial class ScreenRecorderVm : ObservableObject
     {
         selectedScreenshotName = DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".png";
         _recorderService.CaptureScreenshot(System.IO.Path.Combine(selectedScreenshotPath, selectedScreenshotName), _view);
+        return Task.CompletedTask;
+    }
+
+    [RelayCommand]
+    public Task Record()
+    {
+        selectedScreenshotName = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+        _recorderService.StartRecording(System.IO.Path.Combine(selectedScreenshotPath, selectedScreenshotName), RecordQuality.High);
         return Task.CompletedTask;
     }
 

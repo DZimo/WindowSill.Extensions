@@ -11,11 +11,12 @@ namespace WindowSill.PomodoroTimer.Settings
 
         public SettingsView(ISettingsProvider settingsProvider, SettingsVm settingsVm)
         {
+            var full_desc = "/WindowSill.PomodoroTimer/Misc/DisplayModeDesc".GetLocalizedString() + "\n" + "/WindowSill.PomodoroTimer/Misc/ShortBreakSettings".GetLocalizedString() + "\n" + "/WindowSill.PomodoroTimer/Misc/LongBreakSettings".GetLocalizedString();
             this.DataContext(
                 settingsVm,
                 (view, viewModel) => view
                 .Content(
-                    new StackPanel()
+                new StackPanel()
                         .Spacing(2)
                         .Children(
                             new TextBlock()
@@ -24,34 +25,47 @@ namespace WindowSill.PomodoroTimer.Settings
                                 .Text("/WindowSill.PomodoroTimer/Misc/General".GetLocalizedString()),
                             new SettingsCard()
                                 .Header("/WindowSill.PomodoroTimer/Misc/DisplayMode".GetLocalizedString())
-                                .Description("/WindowSill.PomodoroTimer/Misc/DisplayModeDesc".GetLocalizedString())
+                                .Description(full_desc)
                                 .Tag("test")
                                 .HeaderIcon(
                                     new FontIcon()
                                         .Glyph("\uECC5"))
                                 .Content(
-                              new ComboBox()
-                                  .ItemsSource(new[] { remainingText, elapsedText })
-                                  .SelectedItem(
-                                        x => x.Binding(() => viewModel.TimeDisplayMode)
-                                              .TwoWay()
-                                              .UpdateSourceTrigger(UpdateSourceTrigger.Default)
-                                              .Convert(o => o switch
-                                              {
-                                                  TimeDisplayMode.TimeLeft => remainingText,
-                                                  TimeDisplayMode.TimeElapsed => elapsedText,
-                                                  _ => ""
-                                              })
-                                            .ConvertBack(o =>
-                                            {
-                                                if (o is not string res)
-                                                    return TimeDisplayMode.TimeLeft;
+                                    new StackPanel()
+                                        .Spacing(8)
+                                        .Children(
+                                            new ComboBox()
+                                              .ItemsSource(new[] { remainingText, elapsedText })
+                                              .SelectedItem(
+                                                    x => x.Binding(() => viewModel.TimeDisplayMode)
+                                                          .TwoWay()
+                                                          .UpdateSourceTrigger(UpdateSourceTrigger.Default)
+                                                          .Convert(o => o switch
+                                                          {
+                                                              TimeDisplayMode.TimeLeft => remainingText,
+                                                              TimeDisplayMode.TimeElapsed => elapsedText,
+                                                              _ => ""
+                                                          })
+                                                        .ConvertBack(o =>
+                                                        {
+                                                            if (o is not string res)
+                                                                return TimeDisplayMode.TimeLeft;
 
-                                                return res.Equals(remainingText) ? TimeDisplayMode.TimeLeft : TimeDisplayMode.TimeElapsed;
-                                            })
-                                              )
-                                   )
+                                                            return res.Equals(remainingText) ? TimeDisplayMode.TimeLeft : TimeDisplayMode.TimeElapsed;
+                                                        })
+                                              ),
+                                              new TextBox()
+                                                  .Text(
+                                                      x => x.Binding(() => viewModel.ShortBreakDuration)
+                                                          .TwoWay()
+                                                          .UpdateSourceTrigger(UpdateSourceTrigger.PropertyChanged)),
+                                             new TextBox()
+                                                  .Text(
+                                                      x => x.Binding(() => viewModel.LongBreakDuration)
+                                                          .TwoWay()
+                                                          .UpdateSourceTrigger(UpdateSourceTrigger.PropertyChanged)))
                                 )
+                        )
                 )
             );
         }

@@ -2,7 +2,6 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using WindowSill.API;
-using WindowSill.SimpleCalculator.ViewModels;
 
 namespace WindowSill.SimpleCalculator.SmartCalculator;
 
@@ -14,7 +13,7 @@ public sealed class SmmartCalculatorSill : ISillActivatedByTextSelection, ISillL
     [Import]
     private IPluginInfo _pluginInfo = null!;
 
-    private readonly SmartCalculatorVm _viewModel = new();
+    //private readonly SmartCalculatorVm _viewModel = new();
 
     public string DisplayName => "/WindowSill.SimpleCalculator/SmartCalculator/DisplayName".GetLocalizedString();
 
@@ -24,11 +23,11 @@ public sealed class SmmartCalculatorSill : ISillActivatedByTextSelection, ISillL
             Source = new SvgImageSource(new Uri(System.IO.Path.Combine(_pluginInfo.GetPluginContentDirectory(), "Assets", "calculator_logo.svg")))
         };
 
-    public SillSettingsView[]? SettingsViews => throw new NotImplementedException();
+    public SillSettingsView[]? SettingsViews => null;
 
     public ObservableCollection<SillListViewItem> ViewList { get; } = new();
 
-    public SillView? PlaceholderView => throw new NotImplementedException();
+    public SillView? PlaceholderView => null;
 
     public string[] TextSelectionActivatorTypeNames { get; } = [SmartCalculatorActivator.ActivatorName];
 
@@ -40,7 +39,7 @@ public sealed class SmmartCalculatorSill : ISillActivatedByTextSelection, ISillL
 
             if (textSelectionActivatorTypeName == SmartCalculatorActivator.ActivatorName)
             {
-                var view = _viewModel.CreateView();
+                var view = SmartCalculatorActivator.SmartCalculatorVm.CreateView();
                 var viewitem = new SillListViewButtonItem(view, null, DoNothing);
                 ViewList.Add(viewitem);
             }

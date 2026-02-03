@@ -13,6 +13,8 @@ namespace WindowSill.SimpleCalculator.SmartCalculator
     {
         internal const string ActivatorName = "SmartCalculator";
 
+        public static SmartCalculatorVm SmartCalculatorVm = new SmartCalculatorVm();
+
         public async ValueTask<bool> GetShouldBeActivatedAsync(string selectedText, bool isReadOnly, CancellationToken cancellationToken)
         {
             if (SimpleCalculatorVm.Instance is null)
@@ -32,7 +34,8 @@ namespace WindowSill.SimpleCalculator.SmartCalculator
 
             await ThreadHelper.RunOnUIThreadAsync(() =>
             {
-                SmartCalculatorVm.Instance.CalculatedNumber = output;
+                SmartCalculatorVm.CalculatedNumber = output;
+                //SmartCalculatorVm.Instance.CalculatedNumber = output;
             });
             return SimpleCalculatorVm.Instance.FoundSmartResults(results);
         }

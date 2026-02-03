@@ -1,9 +1,12 @@
 ﻿using CommunityToolkit.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.WinUI;
+using CommunityToolkit.WinUI.Helpers;
 using System.Drawing;
 using Windows.ApplicationModel.DataTransfer;
 using WindowSill.API;
+using WindowSill.ColorPicker.Model;
 using WindowSill.ColorPicker.Services;
 using Color = Windows.UI.Color;
 
@@ -36,9 +39,74 @@ public partial class ColorPickerVm : ObservableObject
         get => selectedColorWinUI;
         set
         {
+            if (selectedColorWinUI == value)
+                return;
+
             selectedColorWinUI = value;
             SelectedColorHex = _mouseService.ColorToHEX(selectedColorWinUI);
+            SelectedColorHSV = selectedColorWinUI.ToHsv();
+            SelectedColorHSL = selectedColorWinUI.ToHsl();
+
+            CombinedColor.H = Math.Round(SelectedColorHSV.H);
+            CombinedColor.S = Math.Round(SelectedColorHSV.S);
+            CombinedColor.V = Math.Round(SelectedColorHSV.V);
+            CombinedColor.A = Math.Round(SelectedColorHSV.A);
+
+            CombinedColor.HL = Math.Round(SelectedColorHSL.H);
+            CombinedColor.SL = Math.Round(SelectedColorHSL.S);
+            CombinedColor.L = Math.Round(SelectedColorHSL.L);
+            CombinedColor.AL = Math.Round(SelectedColorHSL.A);
+
             OnPropertyChanged(nameof(SelectedColorWinUI));
+            OnPropertyChanged(nameof(CombinedColor));
+        }
+    }
+
+    private CombinedColor combinedColor = new() { H = 156, S = 0, V = 100, HL = 156, SL = 156, L = 100 };
+
+    public CombinedColor CombinedColor
+    {
+        get => combinedColor;
+        set
+        {
+            if (combinedColor.Equals(value))
+                return;
+
+            combinedColor = value;
+
+            OnPropertyChanged(nameof(CombinedColor));
+        }
+    }
+
+    private HsvColor selectedColorHSV = Colors.White.ToHsv();
+
+    public HsvColor SelectedColorHSV
+    {
+        get => selectedColorHSV;
+        set
+        {
+            if (selectedColorHSV.Equals(value))
+                return;
+
+            selectedColorHSV = value;
+
+            OnPropertyChanged(nameof(SelectedColorHSV));
+        }
+    }
+
+    private HslColor selectedColorHSL = Colors.White.ToHsl();
+
+    public HslColor SelectedColorHSL
+    {
+        get => selectedColorHSL;
+        set
+        {
+            if (selectedColorHSL.Equals(value))
+                return;
+
+            selectedColorHSL = value;
+
+            OnPropertyChanged(nameof(SelectedColorHSL));
         }
     }
 
@@ -67,6 +135,7 @@ public partial class ColorPickerVm : ObservableObject
                 return;
 
             SelectedColorBrush.Color = new Windows.UI.Color() { R = converted.R, G = converted.G, B = converted.B, A = 255 };
+            SelectedColorWinUI = new Windows.UI.Color() { R = converted.R, G = converted.G, B = converted.B, A = 255 };
             OnPropertyChanged(nameof(SelectedColorHex));
             OnPropertyChanged(nameof(SelectedColorBrush));
         }

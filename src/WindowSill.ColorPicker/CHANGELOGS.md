@@ -1,3 +1,8 @@
+# 0.4.1
+- Support of HSV and HSL color formats.
+- New logo.
+- Fixed color not updating correctly.
+
 # 0.4.0
 - Fixed layouts with different sizes.
 

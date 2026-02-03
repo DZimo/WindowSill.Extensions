@@ -9,13 +9,14 @@
 
 		<PackageId>WindowSill.SimpleCalculator</PackageId>
 		<Title>Smart Calculator</Title>
-		<Version>0.3.0</Version>
+		<Version>0.3.1</Version>
 		<Description>A smart calculator to easily do arithmetic operations and also full integration of the notepad based calculator.</Description>
 		<PackageProjectUrl>https://github.com/DZimo/WindowSill.Extensions</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/DZimo/WindowSill.Extensions</RepositoryUrl>
 		<Authors>Mohamed-Nazim BELABED</Authors>
 		<PackageIcon>Assets/calculator_logo.png</PackageIcon>
 		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>
 	<ItemGroup>
 		<None Include="Assets/calculator_logo.png" Pack="true" PackagePath="\Assets\" />

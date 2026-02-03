@@ -17,7 +17,16 @@ namespace WindowSill.PomodoroTimer.Settings
             Guard.IsNotNull(settingsProvider);
 
             _settingsProvider = settingsProvider;
-            TimeDisplayMode = _settingsProvider.GetSetting(Settings.DisplayMode);
+
+            try
+            {
+                TimeDisplayMode = _settingsProvider.GetSetting(Settings.DisplayMode);
+            }
+            catch (ArgumentException ex)
+            {
+                _settingsProvider.SetSetting(Settings.DisplayMode, TimeDisplayMode.TimeLeft);
+                TimeDisplayMode = _settingsProvider.GetSetting(Settings.DisplayMode);
+            }
             Instance = this;
         }
 
@@ -33,6 +42,33 @@ namespace WindowSill.PomodoroTimer.Settings
 
                 OnPropertyChanged(nameof(TimeDisplayMode));
                 WeakReferenceMessenger.Default.Send("");
+            }
+        }
+        public int ShortBreakDuration
+        {
+            get => _settingsProvider.GetSetting(Settings.ShortBreakDuration);
+            set
+            {
+                if (ShortBreakDuration == value)
+                    return;
+
+                _settingsProvider.SetSetting(Settings.ShortBreakDuration, value);
+
+                OnPropertyChanged(nameof(ShortBreakDuration));
+            }
+        }
+
+        public int LongBreakDuration
+        {
+            get => _settingsProvider.GetSetting(Settings.LongBreakDuration);
+            set
+            {
+                if (LongBreakDuration == value)
+                    return;
+
+                _settingsProvider.SetSetting(Settings.LongBreakDuration, value);
+
+                OnPropertyChanged(nameof(LongBreakDuration));
             }
         }
     }

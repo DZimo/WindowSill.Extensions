@@ -8,6 +8,9 @@ namespace WindowSill.PomodoroTimer.Services
 
         public event EventHandler<TimeManager?>? TimerReduced;
 
+        public int _shortBreakTime { get; }
+        public int _longBreakTime { get; }
+
         public void StartTimer(TimeManager timeManager, PomodoroType type);
 
         public void ResetTimer(TimeManager timeManager, PomodoroType type);
