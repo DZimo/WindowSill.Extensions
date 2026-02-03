@@ -1,4 +1,8 @@
 # 0.6.1
+- Support of break time user selection.
+- Updated language localizations.
+
+# 0.6.1
 - Settings bug fix.
 
 # 0.6.0
