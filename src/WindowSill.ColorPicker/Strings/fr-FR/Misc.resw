@@ -120,9 +120,6 @@
   <data name="DisplayName" xml:space="preserve">
     <value>Sélecteur de couleur</value>
   </data>
-  <data name="CommandTitle" xml:space="preserve">
-    <value>New Tab</value>
-  </data>
   <data name="GrabColor" xml:space="preserve">
     <value>Prendre la couleur à partir de l'écran</value>
   </data>
