@@ -139,12 +139,18 @@
     <value>Mode d'affichage du temps</value>
   </data>
   <data name="DisplayModeDesc" xml:space="preserve">
-    <value>Choisissez entre afficher le temps écoulé à 25/50 ou le temps restant du pomodoro 25/50</value>
+    <value>Show Time elapsed or remaining.</value>
   </data>
   <data name="ElapsedText" xml:space="preserve">
     <value>Temps écoulé</value>
   </data>
   <data name="RemainingText" xml:space="preserve">
     <value>Temps restant</value>
+  </data>
+  <data name="LongBreakSettings" xml:space="preserve">
+    <value>Time for the long break.</value>
+  </data>
+  <data name="ShortBreakSettings" xml:space="preserve">
+    <value>Time for the short break.</value>
   </data>
 </root>
