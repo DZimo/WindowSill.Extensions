@@ -126,4 +126,10 @@
   <data name="ScreenShotPathDesc" xml:space="preserve">
     <value>Wählen Sie einen Pfad, in dem Ihre Screenshots gespeichert werden.</value>
   </data>
+  <data name="VideoPath" xml:space="preserve">
+    <value>Video Path</value>
+  </data>
+  <data name="VideoPathDesc" xml:space="preserve">
+    <value>Choose a path where your videos will be saved.</value>
+  </data>
 </root>
