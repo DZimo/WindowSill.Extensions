@@ -17,7 +17,7 @@ namespace WindowSill.ScreenRecorder.Services
     {
         private Recorder _rec = Recorder.CreateRecorder();
 
-        private bool isRecording = false;
+        public bool IsRecording { get; set; } = false;
 
         public void CaptureScreenshot(string filePath, ISillListView view)
         {
@@ -151,9 +151,9 @@ namespace WindowSill.ScreenRecorder.Services
 
         public void StartRecording(string filePath, RecordQuality quality)
         {
-            if (isRecording)
+            if (IsRecording)
             {
-                isRecording = false;
+                IsRecording = false;
                 StopRecording();
                 return;
             }
@@ -163,7 +163,7 @@ namespace WindowSill.ScreenRecorder.Services
             _rec.OnStatusChanged += Rec_OnStatusChanged;
 
             _rec.Record(filePath);
-            isRecording = true;
+            IsRecording = true;
         }
 
         public void StopRecording()

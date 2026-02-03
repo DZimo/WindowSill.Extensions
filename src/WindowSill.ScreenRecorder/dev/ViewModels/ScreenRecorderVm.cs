@@ -16,6 +16,24 @@ public partial class ScreenRecorderVm : ObservableObject
     [ObservableProperty]
     private int colorboxHeight = 18;
 
+
+    [ObservableProperty]
+    private Visibility recordButtonVisible = Visibility.Visible;
+
+
+    [ObservableProperty]
+    private Visibility recordButtonInvisible = Visibility.Collapsed;
+
+    //[ObservableProperty]
+    //private ImageIcon iconTest = new ImageIcon('\xE722');
+
+    [ObservableProperty]
+    public FontIconSource iconTest = new FontIconSource
+    {
+        Glyph = "\xE722",
+    };
+
+
     private string selectedScreenshotPath
     {
         get
@@ -26,6 +44,9 @@ public partial class ScreenRecorderVm : ObservableObject
             return _settingsProvider.GetSetting<string>(Settings.Settings.ScreenshotSavePath);
         }
     }
+
+    [ObservableProperty]
+    private char recordGlyph = '\xE714';
 
     private string selectedScreenshotName = string.Empty;
 
@@ -56,15 +77,17 @@ public partial class ScreenRecorderVm : ObservableObject
     }
 
     [RelayCommand]
-    public Task Record()
+    public async Task Record()
     {
+        await ThreadHelper.RunOnUIThreadAsync(() =>
+        {
+            RecordGlyph = _recorderService.IsRecording ? '\xE714' : '\xE71A';
+
+            RecordButtonVisible = _recorderService.IsRecording ? Visibility.Visible : Visibility.Collapsed;
+            RecordButtonInvisible = _recorderService.IsRecording ? Visibility.Collapsed : Visibility.Visible;
+        });
+
         selectedScreenshotName = DateTime.Now.ToString("yyyyMMdd_HHmmss");
         _recorderService.StartRecording(System.IO.Path.Combine(selectedScreenshotPath, selectedScreenshotName), RecordQuality.High);
-        return Task.CompletedTask;
     }
-
-    //public SillView CreateView()
-    //{
-    //    return new SillView { Content = new ScreenRecorderView(this) };
-    //}
 }
