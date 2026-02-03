@@ -120,9 +120,6 @@
   <data name="DisplayName" xml:space="preserve">
     <value>Farbauswahl</value>
   </data>
-  <data name="CommandTitle" xml:space="preserve">
-    <value>New Tab</value>
-  </data>
   <data name="GrabColor" xml:space="preserve">
     <value>Farbe vom Bildschirm nehmen</value>
   </data>
