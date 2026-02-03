@@ -45,6 +45,18 @@ public partial class ScreenRecorderVm : ObservableObject
         }
     }
 
+    private string selectedVideoPath
+    {
+        get
+        {
+            if (_settingsProvider.GetSetting<string>(Settings.Settings.VideoSavePath) == string.Empty)
+                _settingsProvider.SetSetting<string>(Settings.Settings.VideoSavePath, (Environment.GetFolderPath(Environment.SpecialFolder.MyVideos)));
+
+            return _settingsProvider.GetSetting<string>(Settings.Settings.VideoSavePath);
+        }
+    }
+
+
     [ObservableProperty]
     private char recordGlyph = '\xE714';
 
@@ -88,6 +100,6 @@ public partial class ScreenRecorderVm : ObservableObject
         });
 
         selectedScreenshotName = DateTime.Now.ToString("yyyyMMdd_HHmmss");
-        _recorderService.StartRecording(System.IO.Path.Combine(selectedScreenshotPath, selectedScreenshotName), RecordQuality.High);
+        _recorderService.StartRecording(System.IO.Path.Combine(selectedVideoPath, selectedScreenshotName), RecordQuality.High);
     }
 }
