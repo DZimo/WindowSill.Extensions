@@ -18,15 +18,18 @@ namespace WindowSill.PomodoroTimer.Services
 
         public Timer _timerReducer = new Timer(TimeSpan.FromSeconds(1));
 
-        private int _shortBreakTime = 5;
-        private int _longBreakTime = 5;
-        private int _shortPomoTime = 25;
+        public int _shortBreakTime => _settingsProvider.GetSetting(Settings.Settings.ShortBreakDuration);
+        public int _longBreakTime => _settingsProvider.GetSetting(Settings.Settings.LongBreakDuration);
+
+        private int _shortPomoTime = 1;
         private int _LongPomoTime = 50;
 
-        [ImportingConstructor]
-        public TimeHandlerService()
-        {
+        private ISettingsProvider _settingsProvider;
 
+        [ImportingConstructor]
+        public TimeHandlerService(ISettingsProvider settingsProvider)
+        {
+            _settingsProvider = settingsProvider;
         }
 
         public void StartTimer(TimeManager timeManager, PomodoroType type)

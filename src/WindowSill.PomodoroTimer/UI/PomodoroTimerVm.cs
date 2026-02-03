@@ -93,7 +93,6 @@ public partial class PomodoroTimerVm : ObservableObject, IRecipient<string>
         _timeHandlerService = timeHandlerService;
         _settingsProvider = settingsProvider;
 
-        var tes = _settingsProvider.GetSetting(Settings.Settings.DisplayMode);
         MinutesSpent = PomodoroDuration.ToString();
         Instance = this;
         WeakReferenceMessenger.Default.RegisterAll(this);
