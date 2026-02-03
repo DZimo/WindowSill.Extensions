@@ -120,9 +120,6 @@
   <data name="DisplayName" xml:space="preserve">
     <value>颜色选择器</value>
   </data>
-  <data name="CommandTitle" xml:space="preserve">
-    <value>New Tab</value>
-  </data>
   <data name="GrabColor" xml:space="preserve">
     <value>从屏幕上抓取颜色</value>
   </data>
