@@ -126,4 +126,10 @@
   <data name="ScreenShotPathDesc" xml:space="preserve">
     <value>选择保存屏幕截图的路径。</value>
   </data>
+  <data name="VideoPath" xml:space="preserve">
+    <value>Video Path</value>
+  </data>
+  <data name="VideoPathDesc" xml:space="preserve">
+    <value>Choose a path where your videos will be saved.</value>
+  </data>
 </root>
