@@ -139,7 +139,7 @@
     <value>时间显示模式</value>
   </data>
   <data name="DisplayModeDesc" xml:space="preserve">
-    <value>Show Time elapsed or remaining.</value>
+    <value>显示已经过或剩余时间。</value>
   </data>
   <data name="ElapsedText" xml:space="preserve">
     <value>已用时间</value>
@@ -148,9 +148,9 @@
     <value>剩余时间</value>
   </data>
   <data name="LongBreakSettings" xml:space="preserve">
-    <value>Time for the long break.</value>
+    <value>长间休息的时间。</value>
   </data>
   <data name="ShortBreakSettings" xml:space="preserve">
-    <value>Time for the short break.</value>
+    <value>短暂休息的时间。</value>
   </data>
 </root>

@@ -139,7 +139,7 @@
     <value>Zeitanzeige Modus</value>
   </data>
   <data name="DisplayModeDesc" xml:space="preserve">
-    <value>Show Time elapsed or remaining.</value>
+    <value>Verfallene oder verbleibende Zeit anzeigen.</value>
   </data>
   <data name="ElapsedText" xml:space="preserve">
     <value>Verstrichene Zeit</value>
@@ -148,9 +148,9 @@
     <value>Verbleibende Zeit</value>
   </data>
   <data name="LongBreakSettings" xml:space="preserve">
-    <value>Time for the long break.</value>
+    <value>Zeit für die lange Pause.</value>
   </data>
   <data name="ShortBreakSettings" xml:space="preserve">
-    <value>Time for the short break.</value>
+    <value>Zeit für die kurze Pause.</value>
   </data>
 </root>
