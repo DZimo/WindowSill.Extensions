@@ -2,7 +2,9 @@ using Microsoft.UI.Text;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
+using Windows.UI;
 using WindowSill.API;
+using WindowSill.ColorPicker.Enum;
 using WindowSill.ColorPicker.Services;
 using WindowSill.ColorPicker.UI;
 using Picker = Microsoft.UI.Xaml.Controls;
@@ -70,15 +72,19 @@ public sealed class ColorPickerSill : ISill, ISillListView
                 new TextBlock().Margin(5).Text("/WindowSill.ColorPicker/Misc/CopyColor".GetLocalizedString()),
                 _colorPickerVm.CopyColorHex),
 
-            new SillListViewPopupItem('\xe', null, new SillPopupContent().ToolTipService(toolTip:  "/WindowSill.ColorPicker/Misc/CommandTitle".GetLocalizedString()).DataContext(_colorPickerVm)
+            new SillListViewPopupItem('\xe', null, new SillPopupContent()
+                .Background(Color.FromArgb(140, 0, 0, 0))
+                .DataContext(_colorPickerVm)
                 .Content( new SillOrientedStackPanel()
                            .Children(
                                 new StackPanel()
-                                    .Background(Colors.Transparent)
                                     .Spacing(4)
                                     .VerticalAlignment(VerticalAlignment.Center)
                                     .HorizontalAlignment(HorizontalAlignment.Center)
-                                    .Margin(5)
+                                    .MinWidth(375)
+                                    .Width(375)
+                                    .MaxWidth(375)
+                                    .Margin(1)
                                     .Children(
                                     new TextBlock()
                                         .VerticalAlignment(VerticalAlignment.Center)
@@ -102,6 +108,8 @@ public sealed class ColorPickerSill : ISill, ISillListView
                                         .Spacing(1)
                                         .Children(
                                                  new Button()
+                                                    .Command(_colorPickerVm.CopyColorAnyCommand)
+                                                    .CommandParameter(ColorTypes.RGB)
                                                     .Content(
                                                         new StackPanel()
                                                             .Orientation(Orientation.Horizontal)
@@ -117,6 +125,8 @@ public sealed class ColorPickerSill : ISill, ISillListView
                                                     ),
 
                                                 new Button()
+                                                    .Command(_colorPickerVm.CopyColorAnyCommand)
+                                                    .CommandParameter(ColorTypes.HSV)
                                                     .Content(
                                                         new StackPanel()
                                                             .Orientation(Orientation.Horizontal)
@@ -132,6 +142,8 @@ public sealed class ColorPickerSill : ISill, ISillListView
                                                     ),
 
                                                 new Button()
+                                                    .Command(_colorPickerVm.CopyColorAnyCommand)
+                                                    .CommandParameter(ColorTypes.HSL)
                                                     .Content(
                                                         new StackPanel()
                                                             .Orientation(Orientation.Horizontal)

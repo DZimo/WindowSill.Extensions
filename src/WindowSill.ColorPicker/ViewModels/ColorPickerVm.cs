@@ -6,6 +6,7 @@ using CommunityToolkit.WinUI.Helpers;
 using System.Drawing;
 using Windows.ApplicationModel.DataTransfer;
 using WindowSill.API;
+using WindowSill.ColorPicker.Enum;
 using WindowSill.ColorPicker.Model;
 using WindowSill.ColorPicker.Services;
 using Color = Windows.UI.Color;
@@ -174,6 +175,30 @@ public partial class ColorPickerVm : ObservableObject
 
         var data = new DataPackage();
         data.SetText(new string(SelectedColorHex));
+        Clipboard.SetContent(data);
+    }
+
+    [RelayCommand]
+    public async Task CopyColorAny(ColorTypes colorTypes)
+    {
+        var data = new DataPackage();
+
+        switch (colorTypes)
+        {
+            case ColorTypes.HEX:
+                data.SetText(new string(SelectedColorHex));
+                break;
+            case ColorTypes.RGB:
+                data.SetText($"RGB({SelectedColorWinUI.R}, {SelectedColorWinUI.G}, {SelectedColorWinUI.B})");
+                break;
+            case ColorTypes.HSV:
+                data.SetText($"HSV({Math.Round(SelectedColorHSV.H)}, {Math.Round(SelectedColorHSV.S)}%, {Math.Round(SelectedColorHSV.V)}%)");
+                break;
+            case ColorTypes.HSL:
+                data.SetText($"HSL({Math.Round(SelectedColorHSL.H)}, {Math.Round(SelectedColorHSL.S)}%, {Math.Round(SelectedColorHSL.L)}%)");
+                break;
+        }
+
         Clipboard.SetContent(data);
     }
 
