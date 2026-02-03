@@ -10,7 +10,7 @@
 		<PackageId>WindowSill.ScreenRecorder</PackageId>
 		<Title>Screen Recorder</Title>
 		<Version>0.1.0</Version>
-		<Description>A screen recorder extension to record the selected screen or take snap images.</Description>
+		<Description>A screen recorder extension to record the selected screen or take screenshots.</Description>
 		<PackageProjectUrl>https://github.com/DZimo/WindowSill.Extensions</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/DZimo/WindowSill.Extensions</RepositoryUrl>
 		<Authors>Mohamed-Nazim BELABED</Authors>

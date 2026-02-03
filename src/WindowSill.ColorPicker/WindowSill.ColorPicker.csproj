@@ -9,7 +9,7 @@
 
 		<PackageId>WindowSill.ColorPicker</PackageId>
 		<Title>Color Picker</Title>
-		<Version>0.4.1</Version>
+		<Version>0.4.2</Version>
 		<Description>A color picker to easily visualise any color, convert instantly to any format RGB/HEX/HSV/HSL</Description>
 		<PackageProjectUrl>https://github.com/DZimo/WindowSill.Extensions</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/DZimo/WindowSill.Extensions</RepositoryUrl>
@@ -19,13 +19,11 @@
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>
 	<ItemGroup>
-	  <Content Remove="Assets\colorpicker_logo.svg" />
-	</ItemGroup>
-	<ItemGroup>
 		<None Include="Assets/colorpicker_logo.png" Pack="true" PackagePath="\Assets\" />
 		<None Include="Assets/colorpicker_logo.svg" Pack="true" PackagePath="\Assets\" />
 		<None Include="LICENSE.md" Pack="true" PackagePath="\" />
 		<None Include="CHANGELOGS.md" Pack="true" PackagePath="\" />
+		<None Include="README.md" Pack="true" PackagePath="\" />
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.259">

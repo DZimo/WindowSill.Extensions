@@ -74,6 +74,7 @@ public sealed class ColorPickerSill : ISill, ISillListView
                 .Content( new SillOrientedStackPanel()
                            .Children(
                                 new StackPanel()
+                                    .Background(Colors.Transparent)
                                     .Spacing(4)
                                     .VerticalAlignment(VerticalAlignment.Center)
                                     .HorizontalAlignment(HorizontalAlignment.Center)
@@ -98,34 +99,53 @@ public sealed class ColorPickerSill : ISill, ISillListView
                                         .Orientation(Orientation.Horizontal)
                                         .HorizontalAlignment(HorizontalAlignment.Center)
                                         .VerticalAlignment(VerticalAlignment.Center)
-                                        .Spacing(4)
+                                        .Spacing(1)
                                         .Children(
-                                            new TextBlock()
-                                            .Text("RGB: "),
-                                                new TextBlock()
-                                                .Text(x => x.Binding(() => _colorPickerVm.SelectedColorWinUI.R)),
-                                                new TextBlock()
-                                                .Text(x => x.Binding(() => _colorPickerVm.SelectedColorWinUI.G)),
-                                                new TextBlock()
-                                                .Text(x => x.Binding(() => _colorPickerVm.SelectedColorWinUI.B)),
+                                                 new Button()
+                                                    .Content(
+                                                        new StackPanel()
+                                                            .Orientation(Orientation.Horizontal)
+                                                            .Children(
+                                                                new TextBlock()
+                                                                .Text("RGB: "),
+                                                                new TextBlock()
+                                                                .Text(() => _colorPickerVm.SelectedColorWinUI.R, R => $"({R},"),
+                                                                new TextBlock()
+                                                                .Text(() => _colorPickerVm.SelectedColorWinUI.G, G => $"{G},"),
+                                                                new TextBlock()
+                                                                .Text(() => _colorPickerVm.SelectedColorWinUI.B, B => $"{B})"))
+                                                    ),
 
-                                            new TextBlock()
-                                            .Text("HSV: "),
-                                                new TextBlock()
-                                                .Text(x => x.Binding(() => _colorPickerVm.CombinedColor.H)),
-                                                new TextBlock()
-                                                .Text(x => x.Binding(() => _colorPickerVm.CombinedColor.S)),
-                                                 new TextBlock()
-                                                .Text(x => x.Binding(() => _colorPickerVm.CombinedColor.V)),
+                                                new Button()
+                                                    .Content(
+                                                        new StackPanel()
+                                                            .Orientation(Orientation.Horizontal)
+                                                            .Children(
+                                                                new TextBlock()
+                                                                .Text("HSV: "),
+                                                                new TextBlock()
+                                                                .Text(() => _colorPickerVm.CombinedColor.H, H => $"({H},"),
+                                                                new TextBlock()
+                                                                .Text(() => _colorPickerVm.CombinedColor.S, S => $"{S},"),
+                                                                 new TextBlock()
+                                                                .Text(() => _colorPickerVm.CombinedColor.V, V => $"{V})"))
+                                                    ),
 
-                                            new TextBlock()
-                                                .Text("HSL: "),
-                                                new TextBlock()
-                                                .Text(x => x.Binding(() => _colorPickerVm.CombinedColor.HL)),
-                                                new TextBlock()
-                                                .Text(x => x.Binding(() => _colorPickerVm.CombinedColor.SL)),
-                                                 new TextBlock()
-                                                .Text(x => x.Binding(() => _colorPickerVm.CombinedColor.L))
+                                                new Button()
+                                                    .Content(
+                                                        new StackPanel()
+                                                            .Orientation(Orientation.Horizontal)
+                                                            .Children(
+                                                                new TextBlock()
+                                                                .Text("HSL: "),
+                                                                new TextBlock()
+                                                                .Text(() => _colorPickerVm.CombinedColor.HL, HL => $"({HL},"),
+                                                                new TextBlock()
+                                                                .Text(() => _colorPickerVm.CombinedColor.SL, SL => $"{SL},"),
+                                                                 new TextBlock()
+                                                                .Text(() => _colorPickerVm.CombinedColor.SL, L => $"{L})")
+                                                            )
+                                                    )
                                         )
                                 )
                            )
