@@ -39,7 +39,7 @@ namespace WindowSill.PomodoroTimer.Settings
                                               .Convert(o => o switch
                                               {
                                                   TimeDisplayMode.TimeLeft => remainingText,
-                                                  TimeDisplayMode.TimeSpent => elapsedText,
+                                                  TimeDisplayMode.TimeElapsed => elapsedText,
                                                   _ => ""
                                               })
                                             .ConvertBack(o =>
@@ -47,7 +47,7 @@ namespace WindowSill.PomodoroTimer.Settings
                                                 if (o is not string res)
                                                     return TimeDisplayMode.TimeLeft;
 
-                                                return res.Equals(remainingText) ? TimeDisplayMode.TimeLeft : TimeDisplayMode.TimeSpent;
+                                                return res.Equals(remainingText) ? TimeDisplayMode.TimeLeft : TimeDisplayMode.TimeElapsed;
                                             })
                                               )
                                    )
