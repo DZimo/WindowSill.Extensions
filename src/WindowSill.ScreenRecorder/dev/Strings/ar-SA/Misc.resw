@@ -121,10 +121,10 @@
     <value>مسجل الشاشة</value>
   </data>
   <data name="StartRecordButton" xml:space="preserve">
-    <value>Start Recording</value>
+    <value>بدء التسجيل</value>
   </data>
   <data name="StopRecordButton" xml:space="preserve">
-    <value>Stop Recording</value>
+    <value>إيقاف التسجيل</value>
   </data>
   <data name="ScreenShotPath" xml:space="preserve">
     <value>مسار لقطة الشاشة</value>
@@ -140,5 +140,14 @@
   </data>
   <data name="TakeSnapshotButton" xml:space="preserve">
     <value>Take a screen capture</value>
+  </data>
+  <data name="VideoPath" xml:space="preserve">
+    <value>مسار الفيديو</value>
+  </data>
+  <data name="VideoPathDesc" xml:space="preserve">
+    <value>اختر مسارا حيث سيتم حفظ الفيديوهات الخاصة بك.</value>
+  </data>
+  <data name="TakeSnapshotButton" xml:space="preserve">
+    <value>التقاط الشاشة</value>
   </data>
 </root>
