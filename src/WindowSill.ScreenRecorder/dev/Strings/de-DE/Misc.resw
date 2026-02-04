@@ -121,10 +121,10 @@
     <value>Bildschirmaufnahme</value>
   </data>
   <data name="StartRecordButton" xml:space="preserve">
-    <value>Start Recording</value>
+    <value>Aufnahme starten</value>
   </data>
   <data name="StopRecordButton" xml:space="preserve">
-    <value>Stop Recording</value>
+    <value>Aufnahme stoppen</value>
   </data>
   <data name="ScreenShotPath" xml:space="preserve">
     <value>Screenshot-Pfad</value>
@@ -133,12 +133,12 @@
     <value>Wählen Sie einen Pfad, in dem Ihre Screenshots gespeichert werden.</value>
   </data>
   <data name="VideoPath" xml:space="preserve">
-    <value>Video Path</value>
+    <value>Videopfad</value>
   </data>
   <data name="VideoPathDesc" xml:space="preserve">
-    <value>Choose a path where your videos will be saved.</value>
+    <value>Wählen Sie einen Pfad aus, in dem Ihre Videos gespeichert werden.</value>
   </data>
   <data name="TakeSnapshotButton" xml:space="preserve">
-    <value>Take a screen capture</value>
+    <value>Bildschirmaufnahme machen</value>
   </data>
 </root>
