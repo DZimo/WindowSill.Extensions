@@ -33,7 +33,6 @@ public partial class ScreenRecorderVm : ObservableObject
         Glyph = "\xE722",
     };
 
-
     private string selectedScreenshotPath
     {
         get
@@ -55,7 +54,6 @@ public partial class ScreenRecorderVm : ObservableObject
             return _settingsProvider.GetSetting<string>(Settings.Settings.VideoSavePath);
         }
     }
-
 
     [ObservableProperty]
     private char recordGlyph = '\xE714';

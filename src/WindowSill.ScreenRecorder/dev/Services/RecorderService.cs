@@ -103,7 +103,6 @@ namespace WindowSill.ScreenRecorder.Services
                     };
 
                     dwBmpSize = (uint)(((bmpScreen.bmWidth * bi.biBitCount + 31) / 32) * 4 * bmpScreen.bmHeight);
-                    //byte[] pixels = new byte[dwBmpSize];
 
                     hDIB = PInvoke.GlobalAlloc(GLOBAL_ALLOC_FLAGS.GHND, dwBmpSize);
                     lpbitmap = (char*)PInvoke.GlobalLock(hDIB);
@@ -138,6 +137,7 @@ namespace WindowSill.ScreenRecorder.Services
 
                     PInvoke.GlobalUnlock(hDIB);
                     PInvoke.GlobalFree(hDIB);
+                    PInvoke.CloseHandle(unsafeHandle);
                 }
                 finally
                 {
