@@ -121,10 +121,10 @@
     <value>Enregistreur d'écran</value>
   </data>
   <data name="StartRecordButton" xml:space="preserve">
-    <value>Start Recording</value>
+    <value>Démarrer l'enregistrement</value>
   </data>
   <data name="StopRecordButton" xml:space="preserve">
-    <value>Stop Recording</value>
+    <value>Arrêter l'enregistrement</value>
   </data>
   <data name="ScreenShotPath" xml:space="preserve">
     <value>Chemin de la capture d'écran</value>
@@ -133,12 +133,12 @@
     <value>Choisissez un chemin où vos captures d'écran seront enregistrées.</value>
   </data>
   <data name="VideoPath" xml:space="preserve">
-    <value>Video Path</value>
+    <value>Chemin de la vidéo</value>
   </data>
   <data name="VideoPathDesc" xml:space="preserve">
-    <value>Choose a path where your videos will be saved.</value>
+    <value>Choisissez un chemin où vos vidéos seront enregistrées.</value>
   </data>
   <data name="TakeSnapshotButton" xml:space="preserve">
-    <value>Take a screen capture</value>
+    <value>Prendre une capture d'écran</value>
   </data>
 </root>
