@@ -7,5 +7,7 @@ namespace WindowSill.ScreenRecorder.Settings
     internal class Settings
     {
         internal static readonly SettingDefinition<string> ScreenshotSavePath = new(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures), typeof(Settings).Assembly);
+
+        internal static readonly SettingDefinition<string> VideoSavePath = new(Environment.GetFolderPath(Environment.SpecialFolder.MyVideos), typeof(Settings).Assembly);
     }
 }

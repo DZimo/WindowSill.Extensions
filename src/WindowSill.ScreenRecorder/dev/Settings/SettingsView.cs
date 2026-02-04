@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.WinUI.Controls;
+using Microsoft.UI.Xaml.Controls;
 using WindowSill.API;
 
 namespace WindowSill.ScreenRecorder.Settings
@@ -28,6 +29,17 @@ namespace WindowSill.ScreenRecorder.Settings
                                 .Content(
                                     new TextBox()
                                         .Text(x => x.Binding(() => viewModel.ScreenshotSavePath).TwoWay().UpdateSourceTrigger(UpdateSourceTrigger.PropertyChanged))
+                                ),
+                           new SettingsCard()
+                                .Header("/WindowSill.ScreenRecorder/Misc/VideoPath".GetLocalizedString())
+                                .Description("/WindowSill.ScreenRecorder/Misc/VideoPathDesc".GetLocalizedString())
+                                .Tag("test")
+                                .HeaderIcon(
+                                    new FontIcon()
+                                        .Glyph("\uECC5"))
+                                .Content(
+                                    new TextBox()
+                                        .Text(x => x.Binding(() => viewModel.VideoSavePath).TwoWay().UpdateSourceTrigger(UpdateSourceTrigger.PropertyChanged))
                                 )
                 )));
         }

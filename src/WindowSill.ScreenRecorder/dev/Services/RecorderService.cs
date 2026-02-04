@@ -17,7 +17,7 @@ namespace WindowSill.ScreenRecorder.Services
     {
         private Recorder _rec = Recorder.CreateRecorder();
 
-        private bool isRecording = false;
+        public bool IsRecording { get; set; } = false;
 
         public void CaptureScreenshot(string filePath, ISillListView view)
         {
@@ -103,7 +103,6 @@ namespace WindowSill.ScreenRecorder.Services
                     };
 
                     dwBmpSize = (uint)(((bmpScreen.bmWidth * bi.biBitCount + 31) / 32) * 4 * bmpScreen.bmHeight);
-                    //byte[] pixels = new byte[dwBmpSize];
 
                     hDIB = PInvoke.GlobalAlloc(GLOBAL_ALLOC_FLAGS.GHND, dwBmpSize);
                     lpbitmap = (char*)PInvoke.GlobalLock(hDIB);
@@ -138,6 +137,7 @@ namespace WindowSill.ScreenRecorder.Services
 
                     PInvoke.GlobalUnlock(hDIB);
                     PInvoke.GlobalFree(hDIB);
+                    PInvoke.CloseHandle(unsafeHandle);
                 }
                 finally
                 {
@@ -151,9 +151,9 @@ namespace WindowSill.ScreenRecorder.Services
 
         public void StartRecording(string filePath, RecordQuality quality)
         {
-            if (isRecording)
+            if (IsRecording)
             {
-                isRecording = false;
+                IsRecording = false;
                 StopRecording();
                 return;
             }
@@ -163,7 +163,7 @@ namespace WindowSill.ScreenRecorder.Services
             _rec.OnStatusChanged += Rec_OnStatusChanged;
 
             _rec.Record(filePath);
-            isRecording = true;
+            IsRecording = true;
         }
 
         public void StopRecording()

@@ -24,5 +24,15 @@ namespace WindowSill.ScreenRecorder.Settings
                 OnPropertyChanged(nameof(SettingsVm.ScreenshotSavePath));
             }
         }
+
+        public string VideoSavePath
+        {
+            get => _settingsProvider.GetSetting(Settings.VideoSavePath);
+            set
+            {
+                _settingsProvider.SetSetting(Settings.VideoSavePath, value);
+                OnPropertyChanged(nameof(SettingsVm.VideoSavePath));
+            }
+        }
     }
 }
