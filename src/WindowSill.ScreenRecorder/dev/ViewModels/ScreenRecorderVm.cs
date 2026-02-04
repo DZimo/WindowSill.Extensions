@@ -110,6 +110,8 @@ public partial class ScreenRecorderVm : ObservableObject
     [RelayCommand]
     public async Task Record()
     {
+        if (_recorderService.IsRecording)
+            elapsedSeconds = 0;
 
         await ThreadHelper.RunOnUIThreadAsync(() =>
         {
