@@ -120,6 +120,12 @@
   <data name="DisplayName" xml:space="preserve">
     <value>Screen Recorder</value>
   </data>
+  <data name="StartRecordButton" xml:space="preserve">
+    <value>Start Recording</value>
+  </data>
+  <data name="StopRecordButton" xml:space="preserve">
+    <value>Stop Recording</value>
+  </data>
   <data name="ScreenShotPath" xml:space="preserve">
     <value>Screenshot Path</value>
   </data>
@@ -131,5 +137,8 @@
   </data>
   <data name="VideoPathDesc" xml:space="preserve">
     <value>Choose a path where your videos will be saved.</value>
+  </data>
+  <data name="TakeSnapshotButton" xml:space="preserve">
+    <value>Take a screen capture</value>
   </data>
 </root>

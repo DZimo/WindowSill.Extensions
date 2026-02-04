@@ -1,4 +1,6 @@
-﻿using WindowSill.API;
+﻿using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using WindowSill.API;
 using WindowSill.ScreenRecorder.ViewModels;
 
 namespace WindowSill.ScreenRecorder.Views;
