@@ -1,7 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
 using WindowSill.API;
 using WindowSill.ScreenRecorder.Enums;
 using WindowSill.ScreenRecorder.Services;
@@ -110,7 +108,7 @@ public partial class ScreenRecorderVm : ObservableObject
     [RelayCommand]
     public async Task Record()
     {
-        if (_recorderService.IsRecording)
+        if (!_recorderService.IsRecording)
             elapsedSeconds = 0;
 
         await ThreadHelper.RunOnUIThreadAsync(() =>

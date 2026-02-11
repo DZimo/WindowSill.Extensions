@@ -6,6 +6,7 @@ using Windows.Win32.Foundation;
 using Windows.Win32.Graphics.Gdi;
 using Windows.Win32.Storage.FileSystem;
 using Windows.Win32.System.Memory;
+using Windows.Win32.UI.WindowsAndMessaging;
 using WindowSill.API;
 using WindowSill.ScreenRecorder.Enums;
 
@@ -55,8 +56,11 @@ namespace WindowSill.ScreenRecorder.Services
                     //int width = rcClient.right - rcClient.left;
                     //int height = rcClient.bottom - rcClient.top;
 
-                    int width = 1920;
-                    int height = 1080;
+                    int width = PInvoke.GetSystemMetrics(SYSTEM_METRICS_INDEX.SM_CXSCREEN);
+                    int height = PInvoke.GetSystemMetrics(SYSTEM_METRICS_INDEX.SM_CYSCREEN);
+
+                    //int totalWidth = GetSystemMetrics(SM_CXVIRTUALSCREEN);
+                    //int totalHeight = GetSystemMetrics(SM_CYVIRTUALSCREEN);
 
                     //PInvoke.SetStretchBltMode(hdcWindow, STRETCH_BLT_MODE.HALFTONE);
 
