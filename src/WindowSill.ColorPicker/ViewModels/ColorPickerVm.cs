@@ -40,30 +40,31 @@ public partial class ColorPickerVm : ObservableObject
         get => selectedColorWinUI;
         set
         {
-            if (selectedColorWinUI == value)
+            if (selectedColorWinUI.Equals(value))
                 return;
 
             selectedColorWinUI = value;
+            OnPropertyChanged(nameof(SelectedColorWinUI));
+
             SelectedColorHex = _mouseService.ColorToHEX(selectedColorWinUI);
             SelectedColorHSV = selectedColorWinUI.ToHsv();
             SelectedColorHSL = selectedColorWinUI.ToHsl();
 
             CombinedColor.H = Math.Round(SelectedColorHSV.H);
-            CombinedColor.S = Math.Round(SelectedColorHSV.S);
-            CombinedColor.V = Math.Round(SelectedColorHSV.V);
-            CombinedColor.A = Math.Round(SelectedColorHSV.A);
+            CombinedColor.S = Math.Round(SelectedColorHSV.S, 1) * 100;
+            CombinedColor.V = Math.Round(SelectedColorHSV.V, 1) * 100;
+            CombinedColor.A = Math.Round(SelectedColorHSV.A, 1);
 
             CombinedColor.HL = Math.Round(SelectedColorHSL.H);
-            CombinedColor.SL = Math.Round(SelectedColorHSL.S);
-            CombinedColor.L = Math.Round(SelectedColorHSL.L);
-            CombinedColor.AL = Math.Round(SelectedColorHSL.A);
+            CombinedColor.SL = Math.Round(SelectedColorHSL.S, 1) * 100;
+            CombinedColor.L = Math.Round(SelectedColorHSL.L, 1) * 100;
+            CombinedColor.AL = Math.Round(SelectedColorHSL.A, 2);
 
-            OnPropertyChanged(nameof(SelectedColorWinUI));
             OnPropertyChanged(nameof(CombinedColor));
         }
     }
 
-    private CombinedColor combinedColor = new() { H = 156, S = 0, V = 100, HL = 156, SL = 156, L = 100 };
+    private CombinedColor combinedColor = new() { H = 0, S = 0, V = 100, HL = 0, SL = 0, L = 100 };
 
     public CombinedColor CombinedColor
     {
@@ -118,6 +119,9 @@ public partial class ColorPickerVm : ObservableObject
         get => selectedColorHex;
         set
         {
+            if (selectedColorHex.Equals(value))
+                return;
+
             if (value.AsSpan().Length < 1)
                 return;
 
@@ -192,10 +196,10 @@ public partial class ColorPickerVm : ObservableObject
                 data.SetText($"RGB({SelectedColorWinUI.R}, {SelectedColorWinUI.G}, {SelectedColorWinUI.B})");
                 break;
             case ColorTypes.HSV:
-                data.SetText($"HSV({Math.Round(SelectedColorHSV.H)}, {Math.Round(SelectedColorHSV.S)}%, {Math.Round(SelectedColorHSV.V)}%)");
+                data.SetText($"HSV({CombinedColor.H}, {CombinedColor.S}, {CombinedColor.V})");
                 break;
             case ColorTypes.HSL:
-                data.SetText($"HSL({Math.Round(SelectedColorHSL.H)}, {Math.Round(SelectedColorHSL.S)}%, {Math.Round(SelectedColorHSL.L)}%)");
+                data.SetText($"HSL({CombinedColor.H}, {CombinedColor.S}%, {CombinedColor.L})");
                 break;
         }
 

@@ -81,9 +81,9 @@ public sealed class ColorPickerSill : ISill, ISillListView
                                     .Spacing(4)
                                     .VerticalAlignment(VerticalAlignment.Center)
                                     .HorizontalAlignment(HorizontalAlignment.Center)
-                                    .MinWidth(375)
-                                    .Width(375)
-                                    .MaxWidth(375)
+                                    .MinWidth(400)
+                                    .Width(400)
+                                    .MaxWidth(400)
                                     .Margin(1)
                                     .Children(
                                     new TextBlock()
@@ -155,7 +155,7 @@ public sealed class ColorPickerSill : ISill, ISillListView
                                                                 new TextBlock()
                                                                 .Text(() => _colorPickerVm.CombinedColor.SL, SL => $"{SL},"),
                                                                  new TextBlock()
-                                                                .Text(() => _colorPickerVm.CombinedColor.SL, L => $"{L})")
+                                                                .Text(() => _colorPickerVm.CombinedColor.L, L => $"{L})")
                                                             )
                                                     )
                                         )
