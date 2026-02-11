@@ -1,3 +1,6 @@
+# 0.4.5
+- Fixed HSV/HSL color format bugs.
+
 # 0.4.2
 - Better UI for color picker.
 - Fixed svg bug.
