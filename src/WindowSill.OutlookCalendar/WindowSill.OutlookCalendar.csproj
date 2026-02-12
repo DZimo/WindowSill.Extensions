@@ -9,7 +9,7 @@
 
 		<PackageId>WindowSill.OutlookCalendar</PackageId>
 		<Title>Outlook Calendar</Title>
-		<Version>0.1.2</Version>
+		<Version>0.1.0</Version>
 		<Description>A screen recorder extension to record the selected screen or take screenshots.</Description>
 		<PackageProjectUrl>https://github.com/DZimo/WindowSill.Extensions</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/DZimo/WindowSill.Extensions</RepositoryUrl>
@@ -17,7 +17,6 @@
 		<PackageIcon>Assets/outlook_calendar.png</PackageIcon>
 		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<PublishTrimmed>false</PublishTrimmed>
 	</PropertyGroup>
 	<ItemGroup>
 		<None Include="Assets/outlook_calendar.png" Pack="true" PackagePath="\Assets\" />
