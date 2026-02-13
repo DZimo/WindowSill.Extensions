@@ -24,12 +24,13 @@ public partial class OutlookCalendarVm : ObservableObject
     private Visibility recordButtonInvisible = Visibility.Collapsed;
 
     [ObservableProperty]
-    private string videoTimeElapsed = string.Empty;
+    private string nextAppointmentLeftTime = string.Empty;
 
     private Timer recordTimer = new();
 
     private int elapsedSeconds = 0;
 
+    private int appointmentCheckTime = 5000;
 
     [ObservableProperty]
     private char recordGlyph = '\xE714';
@@ -47,18 +48,28 @@ public partial class OutlookCalendarVm : ObservableObject
         _view = view;
 
         _settingsProvider = settingsProvider;
-        recordTimer.Interval = 1000;
+        recordTimer.Interval = appointmentCheckTime;
         recordTimer.Start();
         recordTimer.Elapsed += RecordTimer_Elapsed;
     }
 
     private async void RecordTimer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
     {
+        _outlookService.InitAllAppointments();
         await ThreadHelper.RunOnUIThreadAsync(() =>
         {
-            VideoTimeElapsed = $"{(elapsedSeconds / 60):D2}:{(elapsedSeconds % 60):D2}";
+            if (_outlookService.FirstAppointment() is null)
+                return;
+
+            var left = _outlookService.FirstAppointment()?.Start - DateTime.Now;
+
+            if (left is null)
+                return;
+
+            var subject = _outlookService.FirstAppointment().Subject;
+
+            NextAppointmentLeftTime = left.Value.TotalMinutes < 30 ? $"{Math.Round(left.Value.TotalMinutes).ToString()}m / {subject}" : "No meeting";
         });
-        elapsedSeconds++;
     }
 
 

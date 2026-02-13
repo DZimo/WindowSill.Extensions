@@ -2,29 +2,28 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using WindowSill.API;
+using WindowSill.OutlookCalendar.Services;
 using WindowSill.ScreenRecorder.ViewModels;
-
 
 namespace WindowSill.OutlookCalendar;
 
 [Export(typeof(ISill))]
 [Name("WindowSill.OutlookCalendar")]
 [Priority(Priority.Lowest)]
-[HideIconInSillListView]
 public sealed class OutlookCalendarSill : ISillListView, ISill
 {
-    private OutlookCalendarVm _screenRecorderVm;
+    private OutlookCalendarVm _outlookCalendarVm;
     private IPluginInfo _pluginInfo;
     private ISettingsProvider _settingsProvider;
 
     public SillView? View { get; private set; }
 
     [ImportingConstructor]
-    public OutlookCalendarSill(IPluginInfo pluginInfo, ISettingsProvider settingsProvider)
+    public OutlookCalendarSill(IPluginInfo pluginInfo, ISettingsProvider settingsProvider, IOutlookService outlookService)
     {
         _pluginInfo = pluginInfo;
         _settingsProvider = settingsProvider;
-        //_screenRecorderVm = new ScreenRecorderVm(recorderService, this, settingsProvider);
+        _outlookCalendarVm = new OutlookCalendarVm(outlookService, this, settingsProvider);
 
         CreateViewList().ForgetSafely();
     }
@@ -49,9 +48,13 @@ public sealed class OutlookCalendarSill : ISillListView, ISill
 
     public async Task CreateViewList()
     {
-        await ThreadHelper.RunOnUIThreadAsync(() =>
+        await Task.Delay(10000);
+
+        await ThreadHelper.RunOnUIThreadAsync(async () =>
         {
             ViewList.Clear();
+
+            ViewList.Add(new SillListViewButtonItem('\xE787', new TextBlock().Margin(5).Text(_outlookCalendarVm.NextAppointmentLeftTime), _outlookCalendarVm.ExpandCommand));
         });
     }
 

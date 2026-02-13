@@ -15,6 +15,7 @@ namespace WindowSill.OutlookCalendar.Services
 
         public void InitAllAppointments()
         {
+            Appointments.Clear();
             var outlookApp = new Application();
             Outlook.NameSpace ns = outlookApp.GetNamespace("MAPI");
             ns.Logon();
@@ -26,23 +27,26 @@ namespace WindowSill.OutlookCalendar.Services
             items.IncludeRecurrences = true;
 
             items.Sort("[Start]");
+            var filter = "[Start] >= '" + DateTime.Now.ToString("g") + "'";
 
-            foreach (object item in items)
+            Outlook.Items filtereditems = items.Restrict(filter);
+
+            foreach (var item in items)
             {
-                if (item is Outlook.AppointmentItem appt)
-                {
-                    Console.WriteLine($"Subject: {appt.Subject}");
-                    Console.WriteLine($"Start: {appt.Start}");
-                    Console.WriteLine($"End: {appt.End}");
-                    Console.WriteLine($"Location: {appt.Location}");
-                    Console.WriteLine("---------------------------");
-                }
+                if (item is not Outlook.AppointmentItem appt)
+                    continue;
+
+                if (DateTime.Compare(DateTime.Now, appt.Start) < 0)
+                    Appointments.Add(new CalendarAppointment(appt.Subject, appt.Start, appt.End, appt.Location));
             }
         }
 
-        public CalendarAppointment FirstAppointment()
+        public CalendarAppointment? FirstAppointment()
         {
-            throw new NotImplementedException();
+            if (Appointments.Count > 0)
+                return Appointments[0];
+
+            return null;
         }
 
         public List<CalendarAppointment> GetAllAppointments()

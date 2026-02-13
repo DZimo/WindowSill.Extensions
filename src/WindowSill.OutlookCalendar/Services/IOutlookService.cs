@@ -12,7 +12,7 @@ namespace WindowSill.OutlookCalendar.Services
 
         public List<CalendarAppointment> GetAllAppointments();
 
-        public CalendarAppointment FirstAppointment();
+        public CalendarAppointment? FirstAppointment();
 
     }
 }
