@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using WindowSill.API;
 using WindowSill.OutlookCalendar.Services;
+using WindowSill.OutlookCalendar.ViewModels;
 using Timer = System.Timers.Timer;
 
 namespace WindowSill.ScreenRecorder.ViewModels;
@@ -11,20 +12,14 @@ public partial class OutlookCalendarVm : ObservableObject
     public static OutlookCalendarVm Instance { get; private set; }
 
     [ObservableProperty]
-    private int colorFontSize = 12;
-
-    [ObservableProperty]
-    private int colorboxHeight = 18;
-
-    [ObservableProperty]
-    private Visibility recordButtonVisible = Visibility.Visible;
-
-
-    [ObservableProperty]
-    private Visibility recordButtonInvisible = Visibility.Collapsed;
+    private Visibility appointmentVisibility = Visibility.Collapsed;
 
     [ObservableProperty]
     private string nextAppointmentLeftTime = string.Empty;
+
+    [ObservableProperty]
+    private bool foundAppointment;
+
 
     private Timer recordTimer = new();
 
@@ -38,19 +33,19 @@ public partial class OutlookCalendarVm : ObservableObject
     private string selectedScreenshotName = string.Empty;
 
     private IOutlookService _outlookService;
-    private ISillListView _view;
+    private ISillSingleView _view;
     private ISettingsProvider _settingsProvider;
 
-    public OutlookCalendarVm(IOutlookService outlookService, ISillListView view, ISettingsProvider settingsProvider)
+    public OutlookCalendarVm(IOutlookService outlookService, ISettingsProvider settingsProvider, ISillSingleView sillView)
     {
         Instance = this;
         _outlookService = outlookService;
-        _view = view;
 
         _settingsProvider = settingsProvider;
         recordTimer.Interval = appointmentCheckTime;
         recordTimer.Start();
         recordTimer.Elapsed += RecordTimer_Elapsed;
+        _view = sillView;
     }
 
     private async void RecordTimer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
@@ -66,9 +61,11 @@ public partial class OutlookCalendarVm : ObservableObject
             if (left is null)
                 return;
 
-            var subject = _outlookService.FirstAppointment().Subject;
+            var subject = _outlookService.FirstAppointment().Subject ?? "Meeting";
+            var canShow = left.Value.TotalMinutes < 30;
 
-            NextAppointmentLeftTime = left.Value.TotalMinutes < 30 ? $"{Math.Round(left.Value.TotalMinutes).ToString()}m / {subject}" : "No meeting";
+            _view.View.Visibility = canShow ? Visibility.Visible : Visibility.Collapsed;
+            NextAppointmentLeftTime = canShow ? $"{Math.Round(left.Value.TotalMinutes).ToString()}m - {subject}" : "No meeting";
         });
     }
 
@@ -79,4 +76,8 @@ public partial class OutlookCalendarVm : ObservableObject
         return Task.CompletedTask;
     }
 
+    public SillView CreateView()
+    {
+        return new SillView { Content = new OutlookCalendarView(this) };
+    }
 }

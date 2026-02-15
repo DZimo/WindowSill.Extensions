@@ -1,5 +1,4 @@
 using Microsoft.UI.Xaml.Media.Imaging;
-using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using WindowSill.API;
 using WindowSill.OutlookCalendar.Services;
@@ -10,7 +9,7 @@ namespace WindowSill.OutlookCalendar;
 [Export(typeof(ISill))]
 [Name("WindowSill.OutlookCalendar")]
 [Priority(Priority.Lowest)]
-public sealed class OutlookCalendarSill : ISillListView, ISill
+public sealed class OutlookCalendarSill : ISillSingleView, ISill
 {
     private OutlookCalendarVm _outlookCalendarVm;
     private IPluginInfo _pluginInfo;
@@ -23,9 +22,9 @@ public sealed class OutlookCalendarSill : ISillListView, ISill
     {
         _pluginInfo = pluginInfo;
         _settingsProvider = settingsProvider;
-        _outlookCalendarVm = new OutlookCalendarVm(outlookService, this, settingsProvider);
-
-        CreateViewList().ForgetSafely();
+        _outlookCalendarVm = new OutlookCalendarVm(outlookService, settingsProvider, this);
+        View = _outlookCalendarVm.CreateView();
+        View.Visibility = Visibility.Collapsed;
     }
 
     public string DisplayName => "/WindowSill.OutlookCalendar/Misc/DisplayName".GetLocalizedString();
@@ -39,23 +38,9 @@ public sealed class OutlookCalendarSill : ISillListView, ISill
     public SillView? PlaceholderView => null;
     public SillSettingsView[]? SettingsViews => null;
 
-    public ObservableCollection<SillListViewItem> ViewList { get; } = new();
-
     public ValueTask OnActivatedAsync()
     {
         return ValueTask.CompletedTask;
-    }
-
-    public async Task CreateViewList()
-    {
-        await Task.Delay(10000);
-
-        await ThreadHelper.RunOnUIThreadAsync(async () =>
-        {
-            ViewList.Clear();
-
-            ViewList.Add(new SillListViewButtonItem('\xE787', new TextBlock().Margin(5).Text(_outlookCalendarVm.NextAppointmentLeftTime), _outlookCalendarVm.ExpandCommand));
-        });
     }
 
     public ValueTask OnDeactivatedAsync()
