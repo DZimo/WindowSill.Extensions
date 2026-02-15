@@ -27,8 +27,9 @@ namespace WindowSill.SimpleCalculator.SmartCalculator
                 return false;
 
             var result = results![Math.Max(0, results.Count - 2)];
-            bool isError = result.SummarizedResultData!.IsOfType(PredefinedTokenAndDataTypeNames.Error);
-            var output = result.SummarizedResultData.GetDisplayText(Culture.English);
+            bool isError = result.SummarizedResultData?.IsOfType(PredefinedTokenAndDataTypeNames.Error);
+            var output = result.SummarizedResultData?.GetDisplayText(Culture.English);
+
             if (string.IsNullOrWhiteSpace(output))
                 return false;
 
