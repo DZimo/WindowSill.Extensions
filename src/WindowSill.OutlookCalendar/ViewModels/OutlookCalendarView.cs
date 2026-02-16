@@ -1,4 +1,5 @@
 ﻿using WindowSill.API;
+using WindowSill.OutlookCalendar.Models;
 using WindowSill.ScreenRecorder.ViewModels;
 
 namespace WindowSill.OutlookCalendar.ViewModels
@@ -7,6 +8,9 @@ namespace WindowSill.OutlookCalendar.ViewModels
     {
         public OutlookCalendarView(OutlookCalendarVm outlookCalendarVm)
         {
+            var subject = nameof(CalendarAppointmentVm.Subject);
+            var start = nameof(CalendarAppointmentVm.Start);
+
             this.DataContext(
               outlookCalendarVm,
               (view, vm) => view
@@ -20,20 +24,26 @@ namespace WindowSill.OutlookCalendar.ViewModels
                                      new SillPopupContent()
                                         .DataContext(outlookCalendarVm)
                                         .Content(
-                                         new StackPanel()
-                                         .VerticalAlignment(VerticalAlignment.Center)
-                                         .HorizontalAlignment(HorizontalAlignment.Center)
-                                            .Children(
-                                                new TextBlock().Text("/WindowSill.OutlookCalendar/Misc/AppointmentListTitle".GetLocalizedString()).HorizontalTextAlignment(TextAlignment.Center),
-                                                new ListView()
-                                                   .ItemsSource(o => o.Binding(() => vm.AllAppointments))
-                                                   .ItemTemplate(() =>
-                                                   new StackPanel().Children(new TextBlock().Text(x => x.Binding("Subject")))))))
-                                 //new ListView()
-                                 //    .DataContext(vm)
-                                 //    .ItemsSource(o => o.Binding(() => vm.AllAppointments))
-                                 //    .ItemTemplateSelector<CalendarAppointmentVm>((calendar, selector) => selector
-                                 //        .Default(() => new TextBlock().Text(() => calendar.Subject))))))
+                                             new StackPanel()
+                                             .VerticalAlignment(VerticalAlignment.Center)
+                                             .HorizontalAlignment(HorizontalAlignment.Center)
+                                             .Spacing(1)
+                                                .Children(
+                                                    new TextBlock().Text("/WindowSill.OutlookCalendar/Misc/AppointmentListTitle".GetLocalizedString()).HorizontalTextAlignment(TextAlignment.Center).Margin(4),
+                                                    new ListView()
+                                                       .ItemsSource(o => o.Binding(() => vm.AllAppointments))
+                                                       .ItemTemplate(() =>
+                                                       new StackPanel()
+                                                       .Orientation(Orientation.Horizontal)
+                                                       .Spacing(4)
+                                                       .Children(
+                                                           new TextBlock().Text(x => x.Binding(subject)),
+                                                           new TextBlock().Text(x => x.Binding(start))
+                                                        )
+                                                )
+                                            )
+                                         )
+                                        )
                                  )
                        ));
         }
