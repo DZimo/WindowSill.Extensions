@@ -26,12 +26,7 @@ public partial class OutlookCalendarVm : ObservableObject
 
     private Timer recordTimer = new();
 
-    private int elapsedSeconds = 0;
-
     private int appointmentCheckTime = 5000;
-
-    [ObservableProperty]
-    private string kharya = "KHRA";
 
     [ObservableProperty]
     private char recordGlyph = '\xE714';
@@ -75,10 +70,7 @@ public partial class OutlookCalendarVm : ObservableObject
             NextAppointmentLeftTime = canShow ? $"{Math.Round(left.Value.TotalMinutes).ToString()}m - {subject}" : "No meeting";
             AllAppointments = _outlookService.GetAllAppointments();
         });
-        var khra = _outlookService.GetAllAppointments();
-
     }
-
 
     [RelayCommand]
     public Task Expand()
@@ -86,8 +78,8 @@ public partial class OutlookCalendarVm : ObservableObject
         return Task.CompletedTask;
     }
 
-    public SillView CreateView(OutlookCalendarVm calendarVm)
+    public SillView CreateView(OutlookCalendarVm calendarVm, IPluginInfo _pluginInfo)
     {
-        return new SillView { Content = new OutlookCalendarView(calendarVm), DataContext = calendarVm };
+        return new SillView { Content = new OutlookCalendarView(calendarVm, _pluginInfo), DataContext = calendarVm };
     }
 }

@@ -23,7 +23,7 @@ public sealed class OutlookCalendarSill : ISillSingleView, ISill
         _pluginInfo = pluginInfo;
         _settingsProvider = settingsProvider;
         _outlookCalendarVm = new OutlookCalendarVm(outlookService, settingsProvider, this);
-        View = _outlookCalendarVm.CreateView(_outlookCalendarVm);
+        View = _outlookCalendarVm.CreateView(_outlookCalendarVm, _pluginInfo);
         View.Visibility = Visibility.Collapsed;
     }
 
