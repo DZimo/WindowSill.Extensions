@@ -49,6 +49,8 @@ namespace WindowSill.OutlookCalendar.ViewModels
                                                                .ItemTemplate(() =>
                                                                new StackPanel()
                                                                .Orientation(Orientation.Horizontal)
+                                                               .VerticalAlignment(VerticalAlignment.Center)
+                                                               .HorizontalAlignment(HorizontalAlignment.Center)
                                                                .Spacing(4)
                                                                .Children(
                                                                    new TextBlock().Text(x => x.Binding(subject)),

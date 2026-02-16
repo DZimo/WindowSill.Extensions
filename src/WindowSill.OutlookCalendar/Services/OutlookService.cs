@@ -16,20 +16,39 @@ namespace WindowSill.OutlookCalendar.Services
         public void InitAllAppointments()
         {
             Appointments.Clear();
-            var outlookApp = new Application();
-            Outlook.NameSpace ns = outlookApp.GetNamespace("MAPI");
-            ns.Logon();
+            Outlook.Items? items = null;
+            Outlook.NameSpace? ns = null;
 
-            Outlook.MAPIFolder calendar = ns.GetDefaultFolder(Outlook.OlDefaultFolders.olFolderCalendar);
+            try
+            {
+                var outlookApp = new Application();
 
-            Outlook.Items items = calendar.Items;
+                ns = outlookApp.GetNamespace("MAPI");
+                ns.Logon();
 
-            items.IncludeRecurrences = true;
+                Outlook.MAPIFolder calendar = ns.GetDefaultFolder(Outlook.OlDefaultFolders.olFolderCalendar);
 
-            items.Sort("[Start]");
-            var filter = "[Start] >= '" + DateTime.Now.ToString("g") + "'";
+                items = calendar.Items;
 
-            Outlook.Items filtereditems = items.Restrict(filter);
+                items.IncludeRecurrences = true;
+
+                items.Sort("[Start]");
+            }
+            catch (Exception ex)
+            {
+                return;
+            }
+
+            finally
+            {
+                ns?.Logoff();
+            }
+
+            if (items is null || ns is null)
+                return;
+
+            //var filter = "[Start] >= '" + DateTime.Now.ToString("g") + "'";
+            //Outlook.Items filtereditems = items.Restrict(filter);
 
             foreach (var item in items)
             {
@@ -39,6 +58,7 @@ namespace WindowSill.OutlookCalendar.Services
                 if (DateTime.Compare(DateTime.Now, appt.Start) < 0)
                     Appointments.Add(new CalendarAppointmentVm(appt.Subject, appt.Start, appt.End, appt.Location));
             }
+
         }
 
         public CalendarAppointmentVm? FirstAppointment()

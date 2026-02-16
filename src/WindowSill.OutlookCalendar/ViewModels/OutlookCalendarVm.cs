@@ -24,9 +24,9 @@ public partial class OutlookCalendarVm : ObservableObject
     [ObservableProperty]
     private List<CalendarAppointmentVm> allAppointments;
 
-    private Timer recordTimer = new();
+    private Timer recordTimer;
 
-    private int appointmentCheckTime = 5000;
+    private int appointmentCheckTime = 5;
 
     [ObservableProperty]
     private char recordGlyph = '\xE714';
@@ -43,7 +43,7 @@ public partial class OutlookCalendarVm : ObservableObject
         _outlookService = outlookService;
 
         _settingsProvider = settingsProvider;
-        recordTimer.Interval = appointmentCheckTime;
+        recordTimer = new(TimeSpan.FromMinutes(appointmentCheckTime));
         recordTimer.Start();
         recordTimer.Elapsed += RecordTimer_Elapsed;
         _view = sillView;
@@ -54,21 +54,27 @@ public partial class OutlookCalendarVm : ObservableObject
         await ThreadHelper.RunOnUIThreadAsync(() =>
         {
             _outlookService.InitAllAppointments();
+            AllAppointments = _outlookService.GetAllAppointments();
 
             if (_outlookService.FirstAppointment() is null)
+            {
+                _view.View.Visibility = Visibility.Collapsed;
                 return;
+            }
 
             var left = _outlookService.FirstAppointment()?.Start - DateTime.Now;
 
             if (left is null)
+            {
+                _view.View.Visibility = Visibility.Collapsed;
                 return;
+            }
 
             var subject = _outlookService.FirstAppointment().Subject ?? "Meeting";
             var canShow = left.Value.TotalMinutes < 30;
 
             _view.View.Visibility = canShow ? Visibility.Visible : Visibility.Collapsed;
             NextAppointmentLeftTime = canShow ? $"{Math.Round(left.Value.TotalMinutes).ToString()}m - {subject}" : "No meeting";
-            AllAppointments = _outlookService.GetAllAppointments();
         });
     }
 

@@ -10,7 +10,7 @@
 		<PackageId>WindowSill.OutlookCalendar</PackageId>
 		<Title>Outlook Calendar</Title>
 		<Version>0.1.0</Version>
-		<Description>A screen recorder extension to record the selected screen or take screenshots.</Description>
+		<Description>Integration of outlook calendar to get notified about next meetings.</Description>
 		<PackageProjectUrl>https://github.com/DZimo/WindowSill.Extensions</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/DZimo/WindowSill.Extensions</RepositoryUrl>
 		<Authors>Mohamed-Nazim BELABED</Authors>
@@ -29,11 +29,6 @@
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Office.Interop.Outlook" Version="15.0.4797.1004" />
-		<PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.259">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-		<PackageReference Include="ScreenRecorderLib" Version="6.6.0" GeneratePathProperty="true" />
 		<PackageReference Include="WindowSill.API" Version="0.9.12" />
 	</ItemGroup>
 </Project>
