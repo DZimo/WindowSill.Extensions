@@ -120,25 +120,7 @@
   <data name="DisplayName" xml:space="preserve">
     <value>Outlook Calendar</value>
   </data>
-  <data name="StartRecordButton" xml:space="preserve">
-    <value>بدء التسجيل</value>
-  </data>
-  <data name="StopRecordButton" xml:space="preserve">
-    <value>إيقاف التسجيل</value>
-  </data>
-  <data name="ScreenShotPath" xml:space="preserve">
-    <value>مسار لقطة الشاشة</value>
-  </data>
-  <data name="ScreenShotPathDesc" xml:space="preserve">
-    <value>اختر مسارا حيث سيتم حفظ لقطات الشاشة.</value>
-  </data>
-  <data name="VideoPath" xml:space="preserve">
-    <value>مسار الفيديو</value>
-  </data>
-  <data name="VideoPathDesc" xml:space="preserve">
-    <value>اختر مسارا حيث سيتم حفظ الفيديوهات الخاصة بك.</value>
-  </data>
-  <data name="TakeSnapshotButton" xml:space="preserve">
-    <value>التقاط الشاشة</value>
+  <data name="AppointmentListTitle" xml:space="preserve">
+    <value>Next Appointments</value>
   </data>
 </root>
