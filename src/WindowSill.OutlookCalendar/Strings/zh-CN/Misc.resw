@@ -120,25 +120,7 @@
   <data name="DisplayName" xml:space="preserve">
     <value>Outlook Calendar</value>
   </data>
-  <data name="StartRecordButton" xml:space="preserve">
-    <value>开始录制</value>
-  </data>
-  <data name="StopRecordButton" xml:space="preserve">
-    <value>停止录制</value>
-  </data>
-  <data name="ScreenShotPath" xml:space="preserve">
-    <value>截图路径</value>
-  </data>
-  <data name="ScreenShotPathDesc" xml:space="preserve">
-    <value>选择保存屏幕截图的路径。</value>
-  </data>
-  <data name="VideoPath" xml:space="preserve">
-    <value>视频路径</value>
-  </data>
-  <data name="VideoPathDesc" xml:space="preserve">
-    <value>选择保存视频的路径。</value>
-  </data>
-  <data name="TakeSnapshotButton" xml:space="preserve">
-    <value>拍摄屏幕</value>
+  <data name="AppointmentListTitle" xml:space="preserve">
+    <value>Next Appointments</value>
   </data>
 </root>
