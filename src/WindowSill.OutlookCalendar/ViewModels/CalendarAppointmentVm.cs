@@ -1,14 +1,17 @@
 ﻿
+using CommunityToolkit.Mvvm.ComponentModel;
+
 namespace WindowSill.OutlookCalendar.Models
 {
-    public sealed class CalendarAppointment
+    public partial class CalendarAppointmentVm : ObservableObject
     {
-        public string Subject { get; set; }
+        [ObservableProperty]
+        public string subject;
         public DateTime Start { get; set; }
         public DateTime End { get; set; }
         public string Location { get; set; }
 
-        public CalendarAppointment(string subject, DateTime start, DateTime end, string location)
+        public CalendarAppointmentVm(string subject, DateTime start, DateTime end, string location)
         {
             Subject = subject;
             Start = start;

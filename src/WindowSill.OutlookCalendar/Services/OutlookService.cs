@@ -11,7 +11,7 @@ namespace WindowSill.OutlookCalendar.Services
     {
         public bool IsAppointmentInitiated { get => Appointments.Count > 0; }
 
-        public List<CalendarAppointment> Appointments { get; set; } = new List<CalendarAppointment>();
+        public List<CalendarAppointmentVm> Appointments { get; set; } = new List<CalendarAppointmentVm>();
 
         public void InitAllAppointments()
         {
@@ -37,11 +37,11 @@ namespace WindowSill.OutlookCalendar.Services
                     continue;
 
                 if (DateTime.Compare(DateTime.Now, appt.Start) < 0)
-                    Appointments.Add(new CalendarAppointment(appt.Subject, appt.Start, appt.End, appt.Location));
+                    Appointments.Add(new CalendarAppointmentVm(appt.Subject, appt.Start, appt.End, appt.Location));
             }
         }
 
-        public CalendarAppointment? FirstAppointment()
+        public CalendarAppointmentVm? FirstAppointment()
         {
             if (Appointments.Count > 0)
                 return Appointments[0];
@@ -49,7 +49,7 @@ namespace WindowSill.OutlookCalendar.Services
             return null;
         }
 
-        public List<CalendarAppointment> GetAllAppointments()
+        public List<CalendarAppointmentVm> GetAllAppointments()
         {
             return Appointments;
         }

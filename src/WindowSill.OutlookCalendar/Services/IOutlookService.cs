@@ -6,13 +6,13 @@ namespace WindowSill.OutlookCalendar.Services
     {
         public bool IsAppointmentInitiated { get; }
 
-        public List<CalendarAppointment> Appointments { get; set; }
+        public List<CalendarAppointmentVm> Appointments { get; set; }
 
         public void InitAllAppointments();
 
-        public List<CalendarAppointment> GetAllAppointments();
+        public List<CalendarAppointmentVm> GetAllAppointments();
 
-        public CalendarAppointment? FirstAppointment();
+        public CalendarAppointmentVm? FirstAppointment();
 
     }
 }

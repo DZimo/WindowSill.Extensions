@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using WindowSill.API;
+using WindowSill.OutlookCalendar.Models;
 using WindowSill.OutlookCalendar.Services;
 using WindowSill.OutlookCalendar.ViewModels;
 using Timer = System.Timers.Timer;
@@ -20,12 +21,17 @@ public partial class OutlookCalendarVm : ObservableObject
     [ObservableProperty]
     private bool foundAppointment;
 
+    [ObservableProperty]
+    private List<CalendarAppointmentVm> allAppointments;
 
     private Timer recordTimer = new();
 
     private int elapsedSeconds = 0;
 
     private int appointmentCheckTime = 5000;
+
+    [ObservableProperty]
+    private string kharya = "KHRA";
 
     [ObservableProperty]
     private char recordGlyph = '\xE714';
@@ -50,9 +56,10 @@ public partial class OutlookCalendarVm : ObservableObject
 
     private async void RecordTimer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
     {
-        _outlookService.InitAllAppointments();
         await ThreadHelper.RunOnUIThreadAsync(() =>
         {
+            _outlookService.InitAllAppointments();
+
             if (_outlookService.FirstAppointment() is null)
                 return;
 
@@ -66,7 +73,10 @@ public partial class OutlookCalendarVm : ObservableObject
 
             _view.View.Visibility = canShow ? Visibility.Visible : Visibility.Collapsed;
             NextAppointmentLeftTime = canShow ? $"{Math.Round(left.Value.TotalMinutes).ToString()}m - {subject}" : "No meeting";
+            AllAppointments = _outlookService.GetAllAppointments();
         });
+        var khra = _outlookService.GetAllAppointments();
+
     }
 
 
@@ -76,8 +86,8 @@ public partial class OutlookCalendarVm : ObservableObject
         return Task.CompletedTask;
     }
 
-    public SillView CreateView()
+    public SillView CreateView(OutlookCalendarVm calendarVm)
     {
-        return new SillView { Content = new OutlookCalendarView(this) };
+        return new SillView { Content = new OutlookCalendarView(calendarVm), DataContext = calendarVm };
     }
 }
