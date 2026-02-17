@@ -1,3 +1,8 @@
+# 0.4.0
+- Add support for auto focus.
+- Updated layout.
+- Fixed bugs and split smart calculator and simple calculator into two separate sills.
+
 # 0.3.1
 - Fixed bug related to the new windows sill version crash.
 - Improved enter key behavior.
