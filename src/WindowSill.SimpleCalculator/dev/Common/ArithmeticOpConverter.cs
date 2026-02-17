@@ -1,6 +1,6 @@
 ﻿using WindowSill.SimpleCalculator.Enums;
 
-namespace WindowSill.SimpleCalculator.Services
+namespace WindowSill.SimpleCalculator.Common
 {
     public class ArithmeticOpConverter : IValueConverter
     {

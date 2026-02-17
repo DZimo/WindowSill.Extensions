@@ -51,7 +51,6 @@ namespace WindowSill.SimpleCalculator.SmartCalculator
             await ThreadHelper.RunOnUIThreadAsync(() =>
             {
                 SmartCalculatorVm.CalculatedNumber = output;
-                //SmartCalculatorVm.Instance.CalculatedNumber = output;
             });
             return SimpleCalculatorVm.Instance.FoundSmartResults(results);
         }

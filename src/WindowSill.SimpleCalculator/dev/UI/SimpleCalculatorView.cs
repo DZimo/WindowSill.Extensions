@@ -1,9 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
 using Windows.System;
 using WindowSill.API;
+using WindowSill.SimpleCalculator.Common;
 using WindowSill.SimpleCalculator.Enums;
 using WindowSill.SimpleCalculator.Models;
-using WindowSill.SimpleCalculator.Services;
 
 namespace WindowSill.SimpleCalculator.UI;
 
@@ -33,43 +33,8 @@ public sealed class SimpleCalculatorView : UserControl
                               new StackPanel()
                                   .Orientation(Orientation.Horizontal)
                                   .Children(
-                                      new TextBox()
-                                          .Name((o) =>
-                                          {
-                                              o.TextChanged += (s, e) =>
-                                              {
-                                                  SelectedNumberChanged();
-                                              };
-                                              o.GotFocus += (s, e) =>
-                                              {
-                                                  SelectedNumberFocused();
-                                              };
-                                          }
-                                          )
-                                          .PlaceholderForeground(Colors.Gray)
-                                          .FontSize(x => x.Binding(() => vm.ColorFontSize).OneWay())
-                                          .TextAlignment(TextAlignment.Center)
-                                          .AcceptsReturn(false)
-                                          .FontStretch(Windows.UI.Text.FontStretch.Expanded)
-                                          .VerticalContentAlignment(VerticalAlignment.Center)
-                                          .TextWrapping(TextWrapping.Wrap)
-                                          .MinHeight(x => x.Binding(() => vm.ColorboxHeight).OneWay())
-                                          .MaxWidth(75)
-                                          .Width(75)
-                                          .MaxLength(20)
-                                          .Text(x => x.Binding(() => vm.SelectedNumber).TwoWay().UpdateSourceTrigger(UpdateSourceTrigger.PropertyChanged))
-                                          .Padding(0),
-                                      new StackPanel()
-                                          .Margin(5, 0, 5, 0)
-                                          .Padding(5, 0)
-                                          .Children(
-                                              new TextBlock()
-                                                  .Text(x => x.Binding(() => vm.SelectedArithmeticOP)
-                                                  .Converter(Converters.ArithmeticOpConverter))
-                                                  .VerticalAlignment(VerticalAlignment.Center)
-                                                  .HorizontalAlignment(HorizontalAlignment.Center)),
-                                      new SillListViewPopupItem(
-                                            '\xF0ad',
+                                           new SillListViewPopupItem(
+                                            '\xE8EF',
                                             null,
                                             new SillPopupContent()
                                                 .Name((o) =>
@@ -89,7 +54,7 @@ public sealed class SimpleCalculatorView : UserControl
                                                                    .Child(
                                                                        new TextBlock()
                                                                            .HorizontalAlignment(HorizontalAlignment.Center)
-                                                                           .Text("Smart Calculator")
+                                                                           .Text("/WindowSill.SimpleCalculator/Misc/DisplayNameSimple".GetLocalizedString())
                                                                            .Foreground(Colors.Black)
                                                                        ),
                                                                    new TextBlock()
@@ -131,7 +96,45 @@ public sealed class SimpleCalculatorView : UserControl
                                                                        )
 
                                                                ))
-                                            )
+                                            ),
+                                      new TextBox()
+                                          .Name((o) =>
+                                          {
+                                              o.TextChanged += (s, e) =>
+                                              {
+                                                  SelectedNumberChanged(o);
+                                                  o.UpdateTextBox();
+                                              };
+                                              o.GotFocus += (s, e) =>
+                                              {
+                                                  SelectedNumberFocused(o);
+                                                  o.UpdateTextBox();
+                                              };
+                                          }
+                                          )
+                                          .PlaceholderForeground(Colors.Gray)
+                                          .FontSize(x => x.Binding(() => vm.ColorFontSize).OneWay())
+                                          .TextAlignment(TextAlignment.Center)
+                                          .AcceptsReturn(false)
+                                          .FontStretch(Windows.UI.Text.FontStretch.Expanded)
+                                          .VerticalContentAlignment(VerticalAlignment.Center)
+                                          .TextWrapping(TextWrapping.Wrap)
+                                          .MinHeight(x => x.Binding(() => vm.ColorboxHeight).OneWay())
+                                          .MaxWidth(75)
+                                          .Width(75)
+                                          .MaxLength(20)
+                                          .Text(x => x.Binding(() => vm.SelectedNumber).TwoWay().UpdateSourceTrigger(UpdateSourceTrigger.PropertyChanged))
+                                          .Padding(0),
+                                      new StackPanel()
+                                          .Margin(5, 0, 5, 0)
+                                          .Padding(5, 0)
+                                          .Children(
+                                              new TextBlock()
+                                                  .Text(x => x.Binding(() => vm.SelectedArithmeticOP)
+                                                  .Converter(Converters.ArithmeticOpConverter))
+                                                  .VerticalAlignment(VerticalAlignment.Center)
+                                                  .HorizontalAlignment(HorizontalAlignment.Center))
+
                                   ))
                       )
         ));
@@ -140,18 +143,15 @@ public sealed class SimpleCalculatorView : UserControl
     private void OnEnterPressed(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
     {
         WeakReferenceMessenger.Default.Send(new RequestNumberChanged(InterVmMessage.ExecutedRequested));
-        //SimpleCalculatorVm.Instance?.AppendNumberWithOPCommand.Execute('=');
     }
 
-    private void SelectedNumberChanged()
+    private void SelectedNumberChanged(TextBox o)
     {
         WeakReferenceMessenger.Default.Send(new RequestNumberChanged(InterVmMessage.SelectedNumberChanged));
-        //SimpleCalculatorVm.Instance?.NumberTextboxChanging();
     }
 
-    private void SelectedNumberFocused()
+    private void SelectedNumberFocused(TextBox o)
     {
-        WeakReferenceMessenger.Default.Send(new RequestNumberChanged(InterVmMessage.SelectedNumberChanged));
-        //SimpleCalculatorVm.Instance?.NumberTextboxFocused();
+        WeakReferenceMessenger.Default.Send(new RequestNumberChanged(InterVmMessage.SelectedNumberFocused));
     }
 }

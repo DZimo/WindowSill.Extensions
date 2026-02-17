@@ -152,6 +152,7 @@ public partial class SimpleCalculatorVm : ObservableObject, IRecipient<RequestNu
     }
     public async Task NumberTextboxChanging()
     {
+        SelectedNumber = SelectedNumber.Replace(',', '.');
         char[] buffer = new char[SelectedNumber.Length];
         var span = buffer.AsSpan();
         SelectedNumber.AsSpan().CopyTo(span);
@@ -166,24 +167,33 @@ public partial class SimpleCalculatorVm : ObservableObject, IRecipient<RequestNu
 
         X = _calculatorService.GetNumberX(span, _calculatorService.ArithmeticOperatorToString(SelectedArithmeticOP).ToString().AsSpan());
 
-        var results = await parserAndInterpreter.WaitAsync();
-
-        if (FoundSmartResults(results))
+        try
         {
-            var result = results[Math.Max(0, results.Count - 2)];
-            bool isError = result.SummarizedResultData!.IsOfType(PredefinedTokenAndDataTypeNames.Error);
-            var output = result.SummarizedResultData.GetDisplayText(Culture.English);
-            if (!string.IsNullOrWhiteSpace(output))
-            {
-                var cmp = SelectedNumber[..^1];
-                if (isError || cmp == output)
-                    goto SkipUpdate;
+            var results = await parserAndInterpreter.WaitAsync();
 
-                SelectedNumber = output;
+            if (FoundSmartResults(results))
+            {
+                var result = results[Math.Max(0, results.Count - 2)];
+                bool isError = result.SummarizedResultData!.IsOfType(PredefinedTokenAndDataTypeNames.Error);
+                var output = result.SummarizedResultData.GetDisplayText(Culture.English);
+                if (!string.IsNullOrWhiteSpace(output))
+                {
+                    var cmp = SelectedNumber[..^1];
+                    if (isError || cmp == output)
+                        goto SkipUpdate;
+
+                    SelectedNumber = output;
+                }
+                textDocumentAPI.Text = "";
+                return;
             }
-            textDocumentAPI.Text = "";
+        }
+
+        catch (Exception ex)
+        {
             return;
         }
+
     SkipUpdate:
         Total = Total == 0 ? X : SelectedArithmeticOP is ArithmeticOperator.Equal ? _calculatorService.CalculateTotal(X, Total, lastArithmeticOP) : X;
 
