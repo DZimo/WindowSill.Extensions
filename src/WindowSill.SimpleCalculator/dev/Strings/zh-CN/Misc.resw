@@ -120,6 +120,9 @@
   <data name="DisplayName" xml:space="preserve">
     <value>智能计算器</value>
   </data>
+  <data name="DisplayNameSimple" xml:space="preserve">
+    <value>Simple Calculator</value>
+  </data>
   <data name="CommandTitle" xml:space="preserve">
     <value>New Tab</value>
   </data>
