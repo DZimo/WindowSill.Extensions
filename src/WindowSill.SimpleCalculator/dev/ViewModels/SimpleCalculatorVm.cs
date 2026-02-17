@@ -6,7 +6,6 @@ using Microsoft.Recognizers.Text;
 using NotepadBasedCalculator.Api;
 using NotepadBasedCalculator.Core;
 using NotepadBasedCalculator.Core.Mef;
-using Spectre.Console;
 using System.Text;
 using Windows.ApplicationModel.DataTransfer;
 using WindowSill.API;
@@ -107,49 +106,6 @@ public partial class SimpleCalculatorVm : ObservableObject, IRecipient<RequestNu
         test.StartBringIntoView();
     }
 
-    private async Task testLine()
-    {
-        var lastString = SelectedNumber;
-        while (true)
-        {
-            await Task.Delay(1);
-
-            if (lastString == SelectedNumber)
-                continue;
-
-            IReadOnlyList<ParserAndInterpreterResultLine>? results =
-                     await AnsiConsole
-                     .Status()
-                     .AutoRefresh(true)
-                     .Spinner(Spinner.Known.Dots2)
-                     .StartAsync(
-                         "Thinking...",
-                         async ctx =>
-                         {
-                             textDocumentAPI.Text = SelectedNumber + Environment.NewLine;
-                             return await parserAndInterpreter.WaitAsync();
-                         });
-
-
-            if (results is not null && results.Count > 0 && results[0].SummarizedResultData is not null)
-            {
-                var result = results[Math.Max(0, results.Count - 2)];
-                bool isError = result.SummarizedResultData!.IsOfType(PredefinedTokenAndDataTypeNames.Error);
-                var output = result.SummarizedResultData.GetDisplayText(Culture.English);
-                if (!string.IsNullOrWhiteSpace(output))
-                {
-                    if (isError)
-                        continue;
-
-                    SelectedNumber = output;
-                }
-            }
-            lastString = SelectedNumber;
-
-            AnsiConsole.WriteLine();
-        }
-
-    }
     public async Task NumberTextboxChanging()
     {
         SelectedNumber = SelectedNumber.Replace(',', '.');
@@ -206,12 +162,24 @@ public partial class SimpleCalculatorVm : ObservableObject, IRecipient<RequestNu
         if (!AutoCopyPaste || !SelectedNumber.Equals(string.Empty))
             return;
 
-        var copy = await Clipboard.GetContent().GetTextAsync();
+        var content = Clipboard.GetContent();
 
-        if (copy is null || !double.TryParse(copy, out double parsed))
+        if (!(content.Contains(StandardDataFormats.Text)))
             return;
 
-        SelectedNumber = copy;
+        try
+        {
+            var copy = await content.GetTextAsync();
+
+            if (copy is null || !double.TryParse(copy, out double parsed))
+                return;
+
+            SelectedNumber = copy;
+        }
+        catch (Exception ex)
+        {
+            return;
+        }
     }
 
     public bool FoundSmartResults(IReadOnlyList<ParserAndInterpreterResultLine>? results) => (results is not null && results.Count > 0 && results[0].SummarizedResultData is not null);

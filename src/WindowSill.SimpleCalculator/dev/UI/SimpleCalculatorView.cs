@@ -127,15 +127,33 @@ public sealed class SimpleCalculatorView : UserControl
                                           .Padding(0),
                                       new StackPanel()
                                           .Margin(5, 0, 5, 0)
+                                          .HorizontalAlignment(HorizontalAlignment.Center)
+                                          .VerticalAlignment(VerticalAlignment.Center)
                                           .Padding(5, 0)
                                           .Children(
-                                              new TextBlock()
-                                                  .Text(x => x.Binding(() => vm.SelectedArithmeticOP)
-                                                  .Converter(Converters.ArithmeticOpConverter))
-                                                  .VerticalAlignment(VerticalAlignment.Center)
-                                                  .HorizontalAlignment(HorizontalAlignment.Center))
+                                               new Border()
+                                                        .Width(20)
+                                                        .Height(20)
+                                                        .CornerRadius(10)
+                                                        .Background(Colors.Transparent)
+                                                        .BorderThickness(2)
+                                                        .BorderBrush(Colors.LightGray)
+                                                        .HorizontalAlignment(HorizontalAlignment.Center)
+                                                        .VerticalAlignment(VerticalAlignment.Top)
+                                                        .Child(
+                                                             new Grid()
+                                                                    .VerticalAlignment(VerticalAlignment.Center)
+                                                                    .Children(
+                                                                        new TextBlock()
+                                                                            .Foreground(Colors.Black)
+                                                                            .Text(x => x.Binding(() => vm.SelectedArithmeticOP)
+                                                                            .Converter(Converters.ArithmeticOpConverter))
+                                                                            .HorizontalAlignment(HorizontalAlignment.Center)
+                                                                            .VerticalAlignment(VerticalAlignment.Bottom)
+                                                                            .TextAlignment(TextAlignment.Center)
+                                                                            .Foreground(Colors.White)
 
-                                  ))
+                                  )))))
                       )
         ));
     }
