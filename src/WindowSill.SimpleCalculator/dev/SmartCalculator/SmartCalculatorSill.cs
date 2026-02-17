@@ -6,7 +6,7 @@ using WindowSill.API;
 namespace WindowSill.SimpleCalculator.SmartCalculator;
 
 [Export(typeof(ISill))]
-[Name("WindowSill.SmmartCalculatorSill")]
+[Name("WindowSill.SmartCalculator")]
 [Priority(Priority.Lowest)]
 public sealed class SmmartCalculatorSill : ISillActivatedByTextSelection, ISillListView
 {
@@ -14,8 +14,7 @@ public sealed class SmmartCalculatorSill : ISillActivatedByTextSelection, ISillL
     private IPluginInfo _pluginInfo = null!;
 
     //private readonly SmartCalculatorVm _viewModel = new();
-
-    public string DisplayName => "/WindowSill.SimpleCalculator/SmartCalculator/DisplayName".GetLocalizedString();
+    public string DisplayName => "/WindowSill.SimpleCalculator/Misc/DisplayName".GetLocalizedString();
 
     public IconElement CreateIcon()
         => new ImageIcon

@@ -53,28 +53,7 @@ public partial class OutlookCalendarVm : ObservableObject
     {
         await ThreadHelper.RunOnUIThreadAsync(() =>
         {
-            _outlookService.InitAllAppointments();
-            AllAppointments = _outlookService.GetAllAppointments();
-
-            if (_outlookService.FirstAppointment() is null)
-            {
-                _view.View.Visibility = Visibility.Collapsed;
-                return;
-            }
-
-            var left = _outlookService.FirstAppointment()?.Start - DateTime.Now;
-
-            if (left is null)
-            {
-                _view.View.Visibility = Visibility.Collapsed;
-                return;
-            }
-
-            var subject = _outlookService.FirstAppointment().Subject ?? "Meeting";
-            var canShow = left.Value.TotalMinutes < 30;
-
-            _view.View.Visibility = canShow ? Visibility.Visible : Visibility.Collapsed;
-            NextAppointmentLeftTime = canShow ? $"{Math.Round(left.Value.TotalMinutes).ToString()}m - {subject}" : "No meeting";
+            FetchAppointments();
         });
     }
 
@@ -82,6 +61,32 @@ public partial class OutlookCalendarVm : ObservableObject
     public Task Expand()
     {
         return Task.CompletedTask;
+    }
+
+    private void FetchAppointments()
+    {
+        _outlookService.InitAllAppointments();
+        AllAppointments = _outlookService.GetAllAppointments();
+
+        if (_outlookService.FirstAppointment() is null)
+        {
+            _view.View.Visibility = Visibility.Collapsed;
+            return;
+        }
+
+        var left = _outlookService.FirstAppointment()?.Start - DateTime.Now;
+
+        if (left is null)
+        {
+            _view.View.Visibility = Visibility.Collapsed;
+            return;
+        }
+
+        var subject = _outlookService.FirstAppointment().Subject ?? "Meeting";
+        var canShow = left.Value.TotalMinutes < 30;
+
+        _view.View.Visibility = canShow ? Visibility.Visible : Visibility.Collapsed;
+        NextAppointmentLeftTime = canShow ? $"{Math.Round(left.Value.TotalMinutes).ToString()}m - {subject}" : "No meeting";
     }
 
     public SillView CreateView(OutlookCalendarVm calendarVm, IPluginInfo _pluginInfo)

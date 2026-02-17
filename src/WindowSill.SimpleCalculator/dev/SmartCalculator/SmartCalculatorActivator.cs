@@ -1,5 +1,6 @@
 ﻿using Microsoft.Recognizers.Text;
 using NotepadBasedCalculator.Api;
+using NotepadBasedCalculator.Core;
 using System.ComponentModel.Composition;
 using WindowSill.API;
 using WindowSill.SimpleCalculator.UI;
@@ -21,14 +22,28 @@ namespace WindowSill.SimpleCalculator.SmartCalculator
                 return false;
 
             SimpleCalculatorVm.Instance.textDocumentAPI.Text = selectedText;
-            var results = await SimpleCalculatorVm.Instance.parserAndInterpreter.WaitAsync();
+            var output = string.Empty;
+            IReadOnlyList<ParserAndInterpreterResultLine> results;
 
-            if (!SimpleCalculatorVm.Instance.FoundSmartResults(results))
+            try
+            {
+                results = await SimpleCalculatorVm.Instance.parserAndInterpreter.WaitAsync();
+
+                if (!SimpleCalculatorVm.Instance.FoundSmartResults(results))
+                    return false;
+
+                var result = results![Math.Max(0, results.Count - 2)];
+
+                if (result.SummarizedResultData is null)
+                    return false;
+
+                bool isError = result.SummarizedResultData.IsOfType(PredefinedTokenAndDataTypeNames.Error);
+                output = result.SummarizedResultData.GetDisplayText(Culture.English);
+            }
+            catch (Exception ex)
+            {
                 return false;
-
-            var result = results![Math.Max(0, results.Count - 2)];
-            bool isError = result.SummarizedResultData?.IsOfType(PredefinedTokenAndDataTypeNames.Error);
-            var output = result.SummarizedResultData?.GetDisplayText(Culture.English);
+            }
 
             if (string.IsNullOrWhiteSpace(output))
                 return false;

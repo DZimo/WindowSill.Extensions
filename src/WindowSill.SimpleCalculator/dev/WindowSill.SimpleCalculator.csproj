@@ -20,12 +20,13 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<None Include="Assets/calculator_logo.png" Pack="true" PackagePath="\Assets\" />
-		<None Include="Assets/calculator_logo.svg" Pack="true" PackagePath="\Assets\" />
+		<None Include="Assets/simple_logo.png" Pack="true" PackagePath="\Assets\" />
 		<None Include="..\lib\NotepadBasedCalculator.Api\bin\$(Configuration)\net9.0-windows10.0.22621\NotepadBasedCalculator.Api.dll" Pack="true" PackagePath="lib\net9.0-windows10.0.22621\" />
 		<None Include="..\lib\NotepadBasedCalculator.Core\bin\$(Configuration)\net9.0-windows10.0.22621\NotepadBasedCalculator.Core.dll" Pack="true" PackagePath="lib\net9.0-windows10.0.22621\" />
 		<None Include="..\lib\NotepadBasedCalculator.BuiltInPlugins\bin\$(Configuration)\net9.0-windows10.0.22621\NotepadBasedCalculator.BuiltInPlugins.dll" Pack="true" PackagePath="lib\net9.0-windows10.0.22621\" />
 		<None Include="LICENSE.md" Pack="true" PackagePath="\" />
 		<None Include="CHANGELOGS.md" Pack="true" PackagePath="\" />
+		<None Include="README.md" Pack="true" PackagePath="\" />
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="6.0.0" />
