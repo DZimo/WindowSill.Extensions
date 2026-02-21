@@ -6,6 +6,8 @@ namespace WindowSill.OutlookCalendar.Services
     {
         public bool IsAppointmentInitiated { get; }
 
+        public OfficeVersion IsNewerOfficeVersion { get; set; }
+
         public List<CalendarAppointmentVm> Appointments { get; set; }
 
         public void InitAllAppointments();

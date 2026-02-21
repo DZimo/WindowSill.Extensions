@@ -1,8 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Graph;
 using WindowSill.API;
 using WindowSill.OutlookCalendar.Models;
 using WindowSill.OutlookCalendar.Services;
+using WindowSill.OutlookCalendar.Settings;
 using WindowSill.OutlookCalendar.ViewModels;
 using Timer = System.Timers.Timer;
 
@@ -41,12 +43,16 @@ public partial class OutlookCalendarVm : ObservableObject
     {
         Instance = this;
         _outlookService = outlookService;
-
         _settingsProvider = settingsProvider;
+
+        var newer = _settingsProvider.GetSetting(Settings.SelectedOfficeVersion);
+        outlookService.IsNewerOfficeVersion = newer;
+
         recordTimer = new(TimeSpan.FromMinutes(appointmentCheckTime));
         recordTimer.Start();
         recordTimer.Elapsed += RecordTimer_Elapsed;
         _view = sillView;
+
     }
 
     private async void RecordTimer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
@@ -92,5 +98,27 @@ public partial class OutlookCalendarVm : ObservableObject
     public SillView CreateView(OutlookCalendarVm calendarVm, IPluginInfo _pluginInfo)
     {
         return new SillView { Content = new OutlookCalendarView(calendarVm, _pluginInfo), DataContext = calendarVm };
+    }
+
+    private GraphServiceClient _graphClient;
+    private GraphServiceClient GraphClient
+    {
+        get
+        {
+            if (_graphClient == null)
+            {
+                var credential = new Azure.Identity.InteractiveBrowserCredential(
+                    new Azure.Identity.InteractiveBrowserCredentialOptions
+                    {
+                        ClientId = "3c62448e-650a-497a-b43c-35f9db069e4f",
+                        TenantId = "common"
+                    });
+
+                _graphClient = new Microsoft.Graph.GraphServiceClient(
+                    credential,
+                    new[] { "Calendars.Read" });
+            }
+            return _graphClient;
+        }
     }
 }

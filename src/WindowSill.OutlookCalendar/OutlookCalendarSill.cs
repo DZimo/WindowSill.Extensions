@@ -2,6 +2,8 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using System.ComponentModel.Composition;
 using WindowSill.API;
 using WindowSill.OutlookCalendar.Services;
+using WindowSill.OutlookCalendar.Settings;
+using WindowSill.OutlookCalendar.Views;
 using WindowSill.ScreenRecorder.ViewModels;
 
 namespace WindowSill.OutlookCalendar;
@@ -9,13 +11,15 @@ namespace WindowSill.OutlookCalendar;
 [Export(typeof(ISill))]
 [Name("WindowSill.OutlookCalendar")]
 [Priority(Priority.Lowest)]
-public sealed class OutlookCalendarSill : ISillSingleView, ISill
+public sealed class OutlookCalendarSill : ISillActivatedByDefault, ISill, ISillFirstTimeSetup, ISillSingleView
 {
     private OutlookCalendarVm _outlookCalendarVm;
     private IPluginInfo _pluginInfo;
     private ISettingsProvider _settingsProvider;
 
     public SillView? View { get; private set; }
+
+    private string authRecordCachePath = "./auth-record.bin";
 
     [ImportingConstructor]
     public OutlookCalendarSill(IPluginInfo pluginInfo, ISettingsProvider settingsProvider, IOutlookService outlookService)
@@ -46,5 +50,10 @@ public sealed class OutlookCalendarSill : ISillSingleView, ISill
     public ValueTask OnDeactivatedAsync()
     {
         return ValueTask.CompletedTask;
+    }
+
+    public IFirstTimeSetupContributor[] GetFirstTimeSetupContributors()
+    {
+        return [new OutlookCalendarFirstTimeContributor(new SettingsViewModel(_settingsProvider))];
     }
 }
