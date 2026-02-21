@@ -19,13 +19,10 @@ public sealed class OutlookCalendarFirstTimeView : UserControl
                      .Text("/WindowSill.OutlookCalendar/Misc/FirstTimeHeadline".GetLocalizedString()),
 
                  new SettingsCard()
+                     .Header("/WindowSill.OutlookCalendar/Misc/OfficeVersionHeader".GetLocalizedString())
                      .HeaderIcon(
                          new FontIcon()
                              .Glyph("\uE713")
-                     )
-                     .ActionIcon(
-                         new FontIcon()
-                             .Glyph("\uE8A7")
                      )
                      .IsClickEnabled(true)
                      .Content(

@@ -4,7 +4,7 @@ using WindowSill.OutlookCalendar.Models;
 
 namespace WindowSill.OutlookCalendar.Settings
 {
-    internal class SettingsViewModel : ObservableObject
+    public class SettingsViewModel : ObservableObject
     {
         private readonly ISettingsProvider _settingsProvider;
 

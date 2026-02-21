@@ -123,4 +123,10 @@
   <data name="AppointmentListTitle" xml:space="preserve">
     <value>Next Appointments</value>
   </data>
+  <data name="FirstTimeHeadline" xml:space="preserve">
+    <value>Welcome to Outlook Calendar, please select your version of outlook which can be updated anytime in settings )</value>
+  </data>
+  <data name="OfficeVersionHeader" xml:space="preserve">
+    <value>Enable this if you have an newer version of Office 2019</value>
+  </data>
 </root>
