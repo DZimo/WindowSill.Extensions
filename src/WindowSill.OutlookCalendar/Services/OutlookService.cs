@@ -2,10 +2,10 @@
 using Azure.Identity;
 using Microsoft.Graph;
 using System.ComponentModel.Composition;
+using WindowSill.OutlookCalendar.Extensions;
 using WindowSill.OutlookCalendar.Models;
 using Application = Microsoft.Office.Interop.Outlook.Application;
 using Outlook = Microsoft.Office.Interop.Outlook;
-
 
 namespace WindowSill.OutlookCalendar.Services
 {
@@ -17,29 +17,13 @@ namespace WindowSill.OutlookCalendar.Services
 
         public List<CalendarAppointmentVm> Appointments { get; set; } = new List<CalendarAppointmentVm>();
 
-        public OfficeVersion IsNewerOfficeVersion { get; set; }
+        public OfficeVersion IsNewerOfficeVersion { get; set; } = OfficeVersion.OfficeGraphql;
 
-        private GraphServiceClient _graphClient;
-        private GraphServiceClient GraphClient
-        {
-            get
-            {
-                if (_graphClient == null)
-                {
-                    var credential = new Azure.Identity.InteractiveBrowserCredential(
-                        new Azure.Identity.InteractiveBrowserCredentialOptions
-                        {
-                            ClientId = "3c62448e-650a-497a-b43c-35f9db069e4f",
-                            TenantId = "common"
-                        });
+        public Outlook.NameSpace? OutlookNameSpace { get; set; }
 
-                    _graphClient = new Microsoft.Graph.GraphServiceClient(
-                        credential,
-                        new[] { "Calendars.Read" });
-                }
-                return _graphClient;
-            }
-        }
+        private GraphServiceClient? GraphClient { get; set; }
+
+        public bool IsOutlookLogged => throw new NotImplementedException();
 
         public async void InitAllAppointments()
         {
@@ -47,40 +31,48 @@ namespace WindowSill.OutlookCalendar.Services
 
             if (IsNewerOfficeVersion == OfficeVersion.OfficeGraphql)
             {
-                var events = await GraphClient.Me.Events.GetAsync(config =>
+                if (GraphClient is null)
+                    return;
+
+                //var events = await GraphClient.Me.Events.GetAsync(config =>
+                //{
+                //    config.QueryParameters.Orderby = new[] { "start/dateTime" };
+                //    config.QueryParameters.Top = 5;
+                //});
+
+                var startDateTime = DateTime.UtcNow.ToString("o");
+                var endDateTime = DateTime.UtcNow.AddMonths(1).ToString("o");
+
+                var events = await GraphClient.Me.CalendarView.GetAsync(config =>
                 {
+                    config.QueryParameters.StartDateTime = startDateTime;
+                    config.QueryParameters.EndDateTime = endDateTime;
                     config.QueryParameters.Orderby = new[] { "start/dateTime" };
                     config.QueryParameters.Top = 5;
                 });
 
                 if (events?.Value != null && events.Value.Any())
                 {
-                    Console.WriteLine("Next 5 appointments:");
-                    foreach (var ev in events.Value)
+                    foreach (var item in events.Value)
                     {
-                        Console.WriteLine($"Subject: {ev.Subject}");
-                        Console.WriteLine($"Start : {ev.Start?.DateTime}");
-                        Console.WriteLine($"End   : {ev.End?.DateTime}");
-                        Console.WriteLine($"Location: {ev.Location?.DisplayName}");
-                        Console.WriteLine("-----------------------------");
+                        if (item.Start is null || item.End is null || item.Subject is null || item.Location is null)
+                            continue;
+
+                        if (DateTime.Compare(DateTime.Now, item.Start.ToDateTime()) < 0)
+                            Appointments.Add(new CalendarAppointmentVm(item.Subject, item.Start, item.End, item.Location.ToString()));
                     }
                 }
             }
             else
             {
-                Application? outlookApp;
                 Outlook.Items? items = null;
-                Outlook.NameSpace? ns = null;
 
                 try
                 {
-                    outlookApp = new Application();
+                    if (OutlookNameSpace is null)
+                        return;
 
-                    ns = outlookApp.GetNamespace("MAPI");
-
-                    ns.Logon();
-
-                    Outlook.MAPIFolder calendar = ns.GetDefaultFolder(Outlook.OlDefaultFolders.olFolderCalendar);
+                    Outlook.MAPIFolder calendar = OutlookNameSpace.GetDefaultFolder(Outlook.OlDefaultFolders.olFolderCalendar);
 
                     items = calendar.Items;
 
@@ -88,10 +80,8 @@ namespace WindowSill.OutlookCalendar.Services
 
                     items.Sort("[Start]");
                 }
-                catch (Exception ex)
+                catch
                 {
-                    ns?.Logoff();
-                    outlookApp = null;
                     return;
                 }
 
@@ -100,7 +90,7 @@ namespace WindowSill.OutlookCalendar.Services
 
                 }
 
-                if (items is null || ns is null)
+                if (items is null || OutlookNameSpace is null)
                     return;
 
                 //var filter = "[Start] >= '" + DateTime.Now.ToString("g") + "'";
@@ -143,6 +133,28 @@ namespace WindowSill.OutlookCalendar.Services
                     using var cacheStream = new FileStream(settings.AuthRecordCachePath, FileMode.Create, FileAccess.Write);
                     await authRecord.SerializeAsync(cacheStream);
                 }
+            }
+        }
+
+        public void InitLogin()
+        {
+            IsNewerOfficeVersion = OfficeVersion.OfficeGraphql;
+            if (IsNewerOfficeVersion == OfficeVersion.OfficeGraphql)
+            {
+                var credential = new InteractiveBrowserCredential(
+                    new InteractiveBrowserCredentialOptions
+                    {
+                        ClientId = "3c62448e-650a-497a-b43c-35f9db069e4f",
+                        TenantId = "common"
+                    });
+
+                GraphClient = new GraphServiceClient(credential, new[] { "Calendars.Read" });
+            }
+            else
+            {
+                var outlookApp = new Application();
+                OutlookNameSpace = outlookApp.GetNamespace("MAPI");
+                OutlookNameSpace.Logon();
             }
         }
     }

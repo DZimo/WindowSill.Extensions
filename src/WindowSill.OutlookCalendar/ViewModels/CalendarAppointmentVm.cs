@@ -1,5 +1,5 @@
-﻿
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.Graph.Models;
 
 namespace WindowSill.OutlookCalendar.Models
 {
@@ -17,6 +17,23 @@ namespace WindowSill.OutlookCalendar.Models
             Start = start;
             End = end;
             Location = location;
+        }
+        public CalendarAppointmentVm(string? subject, DateTimeTimeZone? start, DateTimeTimeZone? end, string? location)
+        {
+            Subject = subject ?? "";
+            Location = location ?? "";
+
+            if (start.ToString() is not null && end.ToString() is not null)
+            {
+                DateTime parsedDate;
+
+                Start = DateTime.TryParse(start?.ToString(), out parsedDate) ? parsedDate : DateTime.Now;
+                End = DateTime.TryParse(end?.ToString(), out parsedDate) ? parsedDate : DateTime.Now;
+                return;
+            }
+
+            Start = DateTime.Now;
+            End = DateTime.Now;
         }
     }
 }

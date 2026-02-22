@@ -44,18 +44,32 @@ public partial class OutlookCalendarVm : ObservableObject
         Instance = this;
         _outlookService = outlookService;
         _settingsProvider = settingsProvider;
+        _view = sillView;
 
-        var newer = _settingsProvider.GetSetting(Settings.SelectedOfficeVersion);
-        outlookService.IsNewerOfficeVersion = newer;
+        _ = HandleCalendarService();
+    }
+
+    private async Task HandleCalendarService()
+    {
+
+        _outlookService.IsNewerOfficeVersion = _settingsProvider.GetSetting(Settings.SelectedOfficeVersion);
+        _outlookService.InitLogin();
+
+        await Task.Delay(TimeSpan.FromSeconds(5));
+
+        await FetchAppointmentsOnUI();
 
         recordTimer = new(TimeSpan.FromMinutes(appointmentCheckTime));
         recordTimer.Start();
         recordTimer.Elapsed += RecordTimer_Elapsed;
-        _view = sillView;
-
     }
 
     private async void RecordTimer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
+    {
+        await FetchAppointmentsOnUI();
+    }
+
+    private async Task FetchAppointmentsOnUI()
     {
         await ThreadHelper.RunOnUIThreadAsync(() =>
         {
