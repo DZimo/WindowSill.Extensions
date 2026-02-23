@@ -138,7 +138,7 @@ namespace WindowSill.OutlookCalendar.Services
 
         public void InitLogin()
         {
-            IsNewerOfficeVersion = OfficeVersion.OfficeGraphql;
+            //IsNewerOfficeVersion = OfficeVersion.OfficeGraphql;
             if (IsNewerOfficeVersion == OfficeVersion.OfficeGraphql)
             {
                 var credential = new InteractiveBrowserCredential(

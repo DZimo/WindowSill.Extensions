@@ -16,7 +16,7 @@ public sealed class OutlookCalendarSill : ISillActivatedByDefault, ISill, ISillF
     private OutlookCalendarVm _outlookCalendarVm;
     private IPluginInfo _pluginInfo;
     private ISettingsProvider _settingsProvider;
-
+    private SettingsViewModel _settingsViewModel;
     public SillView? View { get; private set; }
 
     private string authRecordCachePath = "./auth-record.bin";
@@ -29,6 +29,7 @@ public sealed class OutlookCalendarSill : ISillActivatedByDefault, ISill, ISillF
         _outlookCalendarVm = new OutlookCalendarVm(outlookService, settingsProvider, this);
         View = _outlookCalendarVm.CreateView(_outlookCalendarVm, _pluginInfo);
         View.Visibility = Visibility.Collapsed;
+        _settingsViewModel = new SettingsViewModel(_settingsProvider);
     }
 
     public string DisplayName => "/WindowSill.OutlookCalendar/Misc/DisplayName".GetLocalizedString();
@@ -40,7 +41,8 @@ public sealed class OutlookCalendarSill : ISillActivatedByDefault, ISill, ISillF
          };
 
     public SillView? PlaceholderView => null;
-    public SillSettingsView[]? SettingsViews => null;
+    public SillSettingsView[]? SettingsViews =>
+        [new SillSettingsView(DisplayName, new(() => new SettingsView(_settingsProvider, _settingsViewModel)))];
 
     public ValueTask OnActivatedAsync()
     {
@@ -54,6 +56,6 @@ public sealed class OutlookCalendarSill : ISillActivatedByDefault, ISill, ISillF
 
     public IFirstTimeSetupContributor[] GetFirstTimeSetupContributors()
     {
-        return [new OutlookCalendarFirstTimeContributor(new SettingsViewModel(_settingsProvider))];
+        return [new OutlookCalendarFirstTimeContributor(_settingsViewModel)];
     }
 }
