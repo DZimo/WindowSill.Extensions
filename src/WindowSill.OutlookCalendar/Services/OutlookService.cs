@@ -23,7 +23,7 @@ namespace WindowSill.OutlookCalendar.Services
 
         private GraphServiceClient? GraphClient { get; set; }
 
-        public bool IsOutlookLogged => throw new NotImplementedException();
+        public bool IsOutlookLogged { get; set; }
 
         public async void InitAllAppointments()
         {
@@ -72,13 +72,15 @@ namespace WindowSill.OutlookCalendar.Services
                     if (OutlookNameSpace is null)
                         return;
 
-                    Outlook.MAPIFolder calendar = OutlookNameSpace.GetDefaultFolder(Outlook.OlDefaultFolders.olFolderCalendar);
+                    Outlook.MAPIFolder? calendar = OutlookNameSpace.GetDefaultFolder(Outlook.OlDefaultFolders.olFolderCalendar);
 
                     items = calendar.Items;
 
                     items.IncludeRecurrences = true;
 
                     items.Sort("[Start]");
+
+                    calendar = null;
                 }
                 catch
                 {
@@ -104,6 +106,7 @@ namespace WindowSill.OutlookCalendar.Services
                     if (DateTime.Compare(DateTime.Now, appt.Start) < 0)
                         Appointments.Add(new CalendarAppointmentVm(appt.Subject, appt.Start, appt.End, appt.Location));
                 }
+                items = null;
             }
         }
 
@@ -138,7 +141,6 @@ namespace WindowSill.OutlookCalendar.Services
 
         public void InitLogin()
         {
-            //IsNewerOfficeVersion = OfficeVersion.OfficeGraphql;
             if (IsNewerOfficeVersion == OfficeVersion.OfficeGraphql)
             {
                 var credential = new InteractiveBrowserCredential(

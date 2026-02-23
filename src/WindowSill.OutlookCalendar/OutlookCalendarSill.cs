@@ -51,6 +51,7 @@ public sealed class OutlookCalendarSill : ISillActivatedByDefault, ISill, ISillF
 
     public ValueTask OnDeactivatedAsync()
     {
+        _outlookCalendarVm.CleanUp();
         return ValueTask.CompletedTask;
     }
 

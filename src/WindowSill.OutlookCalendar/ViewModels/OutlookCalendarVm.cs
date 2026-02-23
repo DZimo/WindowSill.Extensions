@@ -114,6 +114,11 @@ public partial class OutlookCalendarVm : ObservableObject
         return new SillView { Content = new OutlookCalendarView(calendarVm, _pluginInfo), DataContext = calendarVm };
     }
 
+    public void CleanUp()
+    {
+        _outlookService.OutlookNameSpace?.Logoff();
+    }
+
     private GraphServiceClient _graphClient;
     private GraphServiceClient GraphClient
     {
