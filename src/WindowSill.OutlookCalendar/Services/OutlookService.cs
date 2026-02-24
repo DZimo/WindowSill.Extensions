@@ -25,7 +25,7 @@ namespace WindowSill.OutlookCalendar.Services
 
         public bool IsOutlookLogged { get; set; }
 
-        public async void InitAllAppointments()
+        public async Task InitAllAppointments()
         {
             Appointments.Clear();
 
@@ -34,14 +34,8 @@ namespace WindowSill.OutlookCalendar.Services
                 if (GraphClient is null)
                     return;
 
-                //var events = await GraphClient.Me.Events.GetAsync(config =>
-                //{
-                //    config.QueryParameters.Orderby = new[] { "start/dateTime" };
-                //    config.QueryParameters.Top = 5;
-                //});
-
-                var startDateTime = DateTime.UtcNow.ToString("o");
-                var endDateTime = DateTime.UtcNow.AddMonths(1).ToString("o");
+                var startDateTime = DateTime.Now.ToString("o");
+                var endDateTime = DateTime.Now.AddMonths(1).ToString("o");
 
                 var events = await GraphClient.Me.CalendarView.GetAsync(config =>
                 {
@@ -49,17 +43,21 @@ namespace WindowSill.OutlookCalendar.Services
                     config.QueryParameters.EndDateTime = endDateTime;
                     config.QueryParameters.Orderby = new[] { "start/dateTime" };
                     config.QueryParameters.Top = 5;
+                    config.Headers.Add("Prefer", $"outlook.timezone=\"{TimeZoneInfo.Local.Id}\"");
                 });
 
                 if (events?.Value != null && events.Value.Any())
                 {
                     foreach (var item in events.Value)
                     {
-                        if (item.Start is null || item.End is null || item.Subject is null || item.Location is null)
+                        if (item.Start is null || item.End is null)
                             continue;
 
+                        var start = item.Start.ToDateTime();
+                        var end = item.End.ToDateTime();
+
                         if (DateTime.Compare(DateTime.Now, item.Start.ToDateTime()) < 0)
-                            Appointments.Add(new CalendarAppointmentVm(item.Subject, item.Start, item.End, item.Location.ToString()));
+                            Appointments.Add(new CalendarAppointmentVm(item.Subject ?? string.Empty, start, end, item.Location.ToString() ?? string.Empty));
                     }
                 }
             }
@@ -141,8 +139,12 @@ namespace WindowSill.OutlookCalendar.Services
 
         public void InitLogin()
         {
+            IsNewerOfficeVersion = OfficeVersion.OfficeGraphql;
             if (IsNewerOfficeVersion == OfficeVersion.OfficeGraphql)
             {
+                if (GraphClient is not null)
+                    return;
+
                 var credential = new InteractiveBrowserCredential(
                     new InteractiveBrowserCredentialOptions
                     {

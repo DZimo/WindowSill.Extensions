@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Graph;
+using System.Collections.ObjectModel;
 using WindowSill.API;
 using WindowSill.OutlookCalendar.Models;
 using WindowSill.OutlookCalendar.Services;
@@ -24,11 +24,11 @@ public partial class OutlookCalendarVm : ObservableObject
     private bool foundAppointment;
 
     [ObservableProperty]
-    private List<CalendarAppointmentVm> allAppointments;
+    private ObservableCollection<CalendarAppointmentVm> allAppointments;
 
     private Timer recordTimer;
 
-    private int appointmentCheckTime = 5;
+    private int appointmentCheckTime = 2;
 
     [ObservableProperty]
     private char recordGlyph = '\xE714';
@@ -51,7 +51,6 @@ public partial class OutlookCalendarVm : ObservableObject
 
     private async Task HandleCalendarService()
     {
-
         _outlookService.IsNewerOfficeVersion = _settingsProvider.GetSetting(Settings.SelectedOfficeVersion);
         _outlookService.InitLogin();
 
@@ -83,10 +82,10 @@ public partial class OutlookCalendarVm : ObservableObject
         return Task.CompletedTask;
     }
 
-    private void FetchAppointments()
+    private async Task FetchAppointments()
     {
-        _outlookService.InitAllAppointments();
-        AllAppointments = _outlookService.GetAllAppointments();
+        await _outlookService.InitAllAppointments();
+        AllAppointments = new(_outlookService.GetAllAppointments());
 
         if (_outlookService.FirstAppointment() is null)
         {
@@ -117,27 +116,5 @@ public partial class OutlookCalendarVm : ObservableObject
     public void CleanUp()
     {
         _outlookService.OutlookNameSpace?.Logoff();
-    }
-
-    private GraphServiceClient _graphClient;
-    private GraphServiceClient GraphClient
-    {
-        get
-        {
-            if (_graphClient == null)
-            {
-                var credential = new Azure.Identity.InteractiveBrowserCredential(
-                    new Azure.Identity.InteractiveBrowserCredentialOptions
-                    {
-                        ClientId = "3c62448e-650a-497a-b43c-35f9db069e4f",
-                        TenantId = "common"
-                    });
-
-                _graphClient = new Microsoft.Graph.GraphServiceClient(
-                    credential,
-                    new[] { "Calendars.Read" });
-            }
-            return _graphClient;
-        }
     }
 }

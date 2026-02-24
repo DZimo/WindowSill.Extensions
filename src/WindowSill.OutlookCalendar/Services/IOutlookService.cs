@@ -15,7 +15,7 @@ namespace WindowSill.OutlookCalendar.Services
 
         public Outlook.NameSpace? OutlookNameSpace { get; set; }
 
-        public void InitAllAppointments();
+        public Task InitAllAppointments();
 
         public List<CalendarAppointmentVm> GetAllAppointments();
 
