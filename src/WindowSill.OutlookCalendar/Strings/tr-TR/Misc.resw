@@ -132,4 +132,10 @@
   <data name="OfficeSettingsHeader" xml:space="preserve">
     <value>Office Version</value>
   </data>
+  <data name="UpcomingMeetingDesc" xml:space="preserve">
+    <value>Your meeting {subject} starts in {minutes} minutes.</value>
+  </data>
+  <data name="UpcomingMeetingHeader" xml:space="preserve">
+    <value>Upcoming Meeting</value>
+  </data>
 </root>
