@@ -1,5 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Windows.AppNotifications;
+using Microsoft.Windows.AppNotifications.Builder;
 using System.Collections.ObjectModel;
 using WindowSill.API;
 using WindowSill.OutlookCalendar.Models;
@@ -70,9 +72,9 @@ public partial class OutlookCalendarVm : ObservableObject
 
     private async Task FetchAppointmentsOnUI()
     {
-        await ThreadHelper.RunOnUIThreadAsync(() =>
+        await ThreadHelper.RunOnUIThreadAsync(async () =>
         {
-            FetchAppointments();
+            await FetchAppointments();
         });
     }
 
@@ -101,11 +103,19 @@ public partial class OutlookCalendarVm : ObservableObject
             return;
         }
 
-        var subject = _outlookService.FirstAppointment().Subject ?? "Meeting";
+        var subject = _outlookService.FirstAppointment()?.Subject ?? "Meeting";
         var canShow = left.Value.TotalMinutes < 30;
 
         _view.View.Visibility = canShow ? Visibility.Visible : Visibility.Collapsed;
-        NextAppointmentLeftTime = canShow ? $"{Math.Round(left.Value.TotalMinutes).ToString()}m - {subject}" : "No meeting";
+
+        var res = subject.Length > 10 ? $"{subject.Substring(0, 10)}.." : subject;
+        NextAppointmentLeftTime = canShow ? $"{Math.Round(left.Value.TotalMinutes).ToString()}m - {res}" : "No meeting";
+
+        if (left.Value.TotalMinutes < appointmentCheckTime)
+        {
+            var txt = "/WindowSill.OutlookCalendar/Misc/UpcomingMeetingDesc".GetLocalizedString().Replace("{subject}", subject).Replace("{minutes}", Math.Round(left.Value.TotalMinutes).ToString());
+            ShowNotification("/WindowSill.OutlookCalendar/Misc/UpcomingMeetingHeader".GetLocalizedString(), txt);
+        }
     }
 
     public SillView CreateView(OutlookCalendarVm calendarVm, IPluginInfo _pluginInfo)
@@ -115,6 +125,16 @@ public partial class OutlookCalendarVm : ObservableObject
 
     public void CleanUp()
     {
+        recordTimer.Elapsed -= RecordTimer_Elapsed;
         _outlookService.OutlookNameSpace?.Logoff();
+    }
+
+    public void ShowNotification(string title, string message)
+    {
+        var notification = new AppNotificationBuilder()
+            .AddText(title)
+            .AddText(message);
+
+        AppNotificationManager.Default.Show(notification.BuildNotification());
     }
 }

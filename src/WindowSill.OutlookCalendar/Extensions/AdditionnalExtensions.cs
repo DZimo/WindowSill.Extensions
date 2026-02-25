@@ -4,13 +4,13 @@ namespace WindowSill.OutlookCalendar.Extensions
 {
     public static class AdditionnalExtensions
     {
-        public static DateTime ToDateTime(this DateTimeTimeZone dateTimeZone)
+        public static DateTime ToDateTimeExt(this DateTimeTimeZone dateTimeZone)
         {
             var res = DateTime.Parse(dateTimeZone.DateTime ?? DateTime.Now.ToString());
             return res;
         }
 
-        public static DateTimeTimeZone ToDateTimeZone(this DateTime dateTime)
+        public static DateTimeTimeZone ToDateTimeZoneExt(this DateTime dateTime)
         {
             return new DateTimeTimeZone
             {

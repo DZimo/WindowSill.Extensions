@@ -1,6 +1,7 @@
 ﻿using Azure.Core;
 using Azure.Identity;
 using Microsoft.Graph;
+using Microsoft.Graph.Models;
 using System.ComponentModel.Composition;
 using WindowSill.OutlookCalendar.Extensions;
 using WindowSill.OutlookCalendar.Models;
@@ -36,27 +37,37 @@ namespace WindowSill.OutlookCalendar.Services
 
                 var startDateTime = DateTime.Now.ToString("o");
                 var endDateTime = DateTime.Now.AddMonths(1).ToString("o");
-
-                var events = await GraphClient.Me.CalendarView.GetAsync(config =>
+                EventCollectionResponse? events = null;
+                try
                 {
-                    config.QueryParameters.StartDateTime = startDateTime;
-                    config.QueryParameters.EndDateTime = endDateTime;
-                    config.QueryParameters.Orderby = new[] { "start/dateTime" };
-                    config.QueryParameters.Top = 5;
-                    config.Headers.Add("Prefer", $"outlook.timezone=\"{TimeZoneInfo.Local.Id}\"");
-                });
+                    events = await GraphClient.Me.CalendarView.GetAsync(config =>
+                    {
+                        config.QueryParameters.StartDateTime = startDateTime;
+                        config.QueryParameters.EndDateTime = endDateTime;
+                        config.QueryParameters.Orderby = new[] { "start/dateTime" };
+                        config.QueryParameters.Top = 5;
+                        config.Headers.Add("Prefer", $"outlook.timezone=\"{TimeZoneInfo.Local.Id}\"");
+                    });
+                }
+                catch (Exception e)
+                {
 
-                if (events?.Value != null && events.Value.Any())
+                }
+
+                if (events is null)
+                    return;
+
+                if (events.Value != null && events.Value.Any())
                 {
                     foreach (var item in events.Value)
                     {
                         if (item.Start is null || item.End is null)
                             continue;
 
-                        var start = item.Start.ToDateTime();
-                        var end = item.End.ToDateTime();
+                        var start = item.Start.ToDateTimeExt();
+                        var end = item.End.ToDateTimeExt();
 
-                        if (DateTime.Compare(DateTime.Now, item.Start.ToDateTime()) < 0)
+                        if (DateTime.Compare(DateTime.Now, item.Start.ToDateTimeExt()) < 0)
                             Appointments.Add(new CalendarAppointmentVm(item.Subject ?? string.Empty, start, end, item.Location.ToString() ?? string.Empty));
                     }
                 }
@@ -149,8 +160,14 @@ namespace WindowSill.OutlookCalendar.Services
                     new InteractiveBrowserCredentialOptions
                     {
                         ClientId = "3c62448e-650a-497a-b43c-35f9db069e4f",
-                        TenantId = "common"
+                        TenantId = "common",
+                        TokenCachePersistenceOptions = new TokenCachePersistenceOptions
+                        {
+                            Name = "Windowsill.OutlookCalendar"
+                        }
                     });
+
+                var tokenRequestContext = new Azure.Core.TokenRequestContext(new[] { "Calendars.Read" });
 
                 GraphClient = new GraphServiceClient(credential, new[] { "Calendars.Read" });
             }
