@@ -3,6 +3,7 @@ using Azure.Identity;
 using Microsoft.Graph;
 using Microsoft.Graph.Models;
 using System.ComponentModel.Composition;
+using WindowSill.OutlookCalendar.Enums;
 using WindowSill.OutlookCalendar.Extensions;
 using WindowSill.OutlookCalendar.Models;
 using Application = Microsoft.Office.Interop.Outlook.Application;
@@ -148,28 +149,43 @@ namespace WindowSill.OutlookCalendar.Services
             }
         }
 
-        public void InitLogin()
+        public async Task InitLogin(string tenantID)
         {
-            IsNewerOfficeVersion = OfficeVersion.OfficeGraphql;
+            //IsNewerOfficeVersion = OfficeVersion.OfficeGraphql;
             if (IsNewerOfficeVersion == OfficeVersion.OfficeGraphql)
             {
                 if (GraphClient is not null)
                     return;
 
-                var credential = new InteractiveBrowserCredential(
+
+                _ = Task.Run(async () =>
+                {
+                    var credential = new InteractiveBrowserCredential(
                     new InteractiveBrowserCredentialOptions
                     {
                         ClientId = "3c62448e-650a-497a-b43c-35f9db069e4f",
-                        TenantId = "common",
+                        TenantId = tenantID,
                         TokenCachePersistenceOptions = new TokenCachePersistenceOptions
                         {
                             Name = "Windowsill.OutlookCalendar"
                         }
                     });
 
-                var tokenRequestContext = new Azure.Core.TokenRequestContext(new[] { "Calendars.Read" });
+                    var tokenRequestContext = new Azure.Core.TokenRequestContext(new[] { "Calendars.Read" });
 
-                GraphClient = new GraphServiceClient(credential, new[] { "Calendars.Read" });
+                    try
+                    {
+                        //var token = await credential.GetTokenAsync(tokenRequestContext);
+                        GraphClient = new GraphServiceClient(credential, new[] { "Calendars.Read" });
+                        //await GraphClient.Me.GetAsync();
+
+                        IsOutlookLogged = true;
+                    }
+                    catch (Exception ex)
+                    {
+                        IsOutlookLogged = false;
+                    }
+                });
             }
             else
             {

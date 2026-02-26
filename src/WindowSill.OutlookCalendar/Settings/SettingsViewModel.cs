@@ -1,10 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using WindowSill.API;
-using WindowSill.OutlookCalendar.Models;
+using WindowSill.OutlookCalendar.Enums;
 
 namespace WindowSill.OutlookCalendar.Settings
 {
-    public class SettingsViewModel : ObservableObject
+    public partial class SettingsViewModel : ObservableObject
     {
         private readonly ISettingsProvider _settingsProvider;
 
@@ -17,6 +17,12 @@ namespace WindowSill.OutlookCalendar.Settings
         {
             get => _settingsProvider.GetSetting(Settings.SelectedOfficeVersion);
             set => _settingsProvider.SetSetting(Settings.SelectedOfficeVersion, value);
+        }
+
+        public AccountType SelectedAccountType
+        {
+            get => _settingsProvider.GetSetting(Settings.SelectedAccountType);
+            set => _settingsProvider.SetSetting(Settings.SelectedAccountType, value);
         }
     }
 }

@@ -11,7 +11,7 @@ namespace WindowSill.OutlookCalendar;
 [Export(typeof(ISill))]
 [Name("WindowSill.OutlookCalendar")]
 [Priority(Priority.Lowest)]
-public sealed class OutlookCalendarSill : ISillActivatedByDefault, ISill, ISillFirstTimeSetup, ISillSingleView
+public sealed class OutlookCalendarSill : ISillActivatedByDefault, ISillFirstTimeSetup, ISillSingleView
 {
     private OutlookCalendarVm _outlookCalendarVm;
     private IPluginInfo _pluginInfo;

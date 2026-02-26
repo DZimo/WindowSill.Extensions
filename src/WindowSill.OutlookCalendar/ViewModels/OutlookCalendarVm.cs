@@ -40,6 +40,10 @@ public partial class OutlookCalendarVm : ObservableObject
     private IOutlookService _outlookService;
     private ISillSingleView _view;
     private ISettingsProvider _settingsProvider;
+    private OutlookCalendar.Enums.AccountType selectedAccountType;
+
+    public event EventHandler InitCalendarService;
+    private string tenantID = "common";
 
     public OutlookCalendarVm(IOutlookService outlookService, ISettingsProvider settingsProvider, ISillSingleView sillView)
     {
@@ -48,13 +52,19 @@ public partial class OutlookCalendarVm : ObservableObject
         _settingsProvider = settingsProvider;
         _view = sillView;
 
+        selectedAccountType = _settingsProvider.GetSetting(Settings.SelectedAccountType);
+
+        if (selectedAccountType is OutlookCalendar.Enums.AccountType.Company)
+            tenantID = "3921feae-121a-4169-9cad-63b40b5be11e";
+
         _ = HandleCalendarService();
     }
 
     private async Task HandleCalendarService()
     {
         _outlookService.IsNewerOfficeVersion = _settingsProvider.GetSetting(Settings.SelectedOfficeVersion);
-        _outlookService.InitLogin();
+
+        await _outlookService.InitLogin(tenantID);
 
         await Task.Delay(TimeSpan.FromSeconds(5));
 
@@ -72,6 +82,11 @@ public partial class OutlookCalendarVm : ObservableObject
 
     private async Task FetchAppointmentsOnUI()
     {
+        await Task.Run(async () =>
+        {
+            await _outlookService.InitAllAppointments().ConfigureAwait(false);
+        }).ConfigureAwait(false);
+
         await ThreadHelper.RunOnUIThreadAsync(async () =>
         {
             await FetchAppointments();
@@ -86,7 +101,6 @@ public partial class OutlookCalendarVm : ObservableObject
 
     private async Task FetchAppointments()
     {
-        await _outlookService.InitAllAppointments();
         AllAppointments = new(_outlookService.GetAllAppointments());
 
         if (_outlookService.FirstAppointment() is null)

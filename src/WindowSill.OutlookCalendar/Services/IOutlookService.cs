@@ -1,4 +1,5 @@
-﻿using WindowSill.OutlookCalendar.Models;
+﻿using WindowSill.OutlookCalendar.Enums;
+using WindowSill.OutlookCalendar.Models;
 using Outlook = Microsoft.Office.Interop.Outlook;
 
 namespace WindowSill.OutlookCalendar.Services
@@ -21,7 +22,6 @@ namespace WindowSill.OutlookCalendar.Services
 
         public CalendarAppointmentVm? FirstAppointment();
 
-        public void InitLogin();
-
+        public Task InitLogin(string tenantID);
     }
 }

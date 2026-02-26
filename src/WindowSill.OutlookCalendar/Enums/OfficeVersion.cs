@@ -1,4 +1,4 @@
-﻿namespace WindowSill.OutlookCalendar.Models
+﻿namespace WindowSill.OutlookCalendar.Enums
 {
     public enum OfficeVersion
     {
