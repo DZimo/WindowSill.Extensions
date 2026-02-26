@@ -138,4 +138,10 @@
   <data name="UpcomingMeetingHeader" xml:space="preserve">
     <value>Upcoming Meeting</value>
   </data>
+  <data name="AccountTypeHeader" xml:space="preserve">
+    <value>Account Type</value>
+  </data>
+  <data name="AccountTypeDesc" xml:space="preserve">
+    <value>Enable this for work account and keep it disabled for personal one.</value>
+  </data>
 </root>
