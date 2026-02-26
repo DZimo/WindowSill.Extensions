@@ -9,7 +9,7 @@
 
 		<PackageId>WindowSill.OutlookCalendar</PackageId>
 		<Title>Outlook Calendar</Title>
-		<Version>0.3.0</Version>
+		<Version>0.3.5</Version>
 		<Description>Integration of outlook calendar to get notified about next meetings.</Description>
 		<PackageProjectUrl>https://github.com/DZimo/WindowSill.Extensions</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/DZimo/WindowSill.Extensions</RepositoryUrl>
