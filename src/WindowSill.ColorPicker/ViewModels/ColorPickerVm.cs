@@ -40,25 +40,25 @@ public partial class ColorPickerVm : ObservableObject
         get => selectedColorWinUI;
         set
         {
-            if (selectedColorWinUI.Equals(value))
+            if (selectedColorWinUI == value)
                 return;
 
             selectedColorWinUI = value;
             OnPropertyChanged(nameof(SelectedColorWinUI));
 
             SelectedColorHex = _mouseService.ColorToHEX(selectedColorWinUI);
-            SelectedColorHSV = selectedColorWinUI.ToHsv();
-            SelectedColorHSL = selectedColorWinUI.ToHsl();
+            var selectedHSV = selectedColorWinUI.ToHsv();
+            var selectedHSL = selectedColorWinUI.ToHsl();
 
-            CombinedColor.H = Math.Round(SelectedColorHSV.H);
-            CombinedColor.S = Math.Round(SelectedColorHSV.S, 1) * 100;
-            CombinedColor.V = Math.Round(SelectedColorHSV.V, 1) * 100;
-            CombinedColor.A = Math.Round(SelectedColorHSV.A, 1);
+            CombinedColor.H = Math.Round(selectedHSV.H);
+            CombinedColor.S = Math.Round(selectedHSV.S, 1) * 100;
+            CombinedColor.V = Math.Round(selectedHSV.V, 1) * 100;
+            CombinedColor.A = Math.Round(selectedHSV.A, 1);
 
-            CombinedColor.HL = Math.Round(SelectedColorHSL.H);
-            CombinedColor.SL = Math.Round(SelectedColorHSL.S, 1) * 100;
-            CombinedColor.L = Math.Round(SelectedColorHSL.L, 1) * 100;
-            CombinedColor.AL = Math.Round(SelectedColorHSL.A, 2);
+            CombinedColor.HL = Math.Round(selectedHSL.H);
+            CombinedColor.SL = Math.Round(selectedHSL.S, 1) * 100;
+            CombinedColor.L = Math.Round(selectedHSL.L, 1) * 100;
+            CombinedColor.AL = Math.Round(selectedHSL.A, 2);
 
             OnPropertyChanged(nameof(CombinedColor));
         }
