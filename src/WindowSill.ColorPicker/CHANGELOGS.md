@@ -1,3 +1,6 @@
+# 0.4.6
+- Added ARM64 support.
+
 # 0.4.5
 - Fixed HSV/HSL color format bugs.
 
