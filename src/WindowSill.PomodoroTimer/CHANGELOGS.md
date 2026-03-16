@@ -1,3 +1,6 @@
+# 0.6.6
+- Added ARM64 support.
+
 # 0.6.1
 - Support of break time user selection.
 - Updated language localizations.

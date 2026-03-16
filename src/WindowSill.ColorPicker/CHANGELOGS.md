@@ -1,5 +1,5 @@
 # 0.4.6
-- Fixed color picker not working on some layouts.
+- Added ARM64 support.
 
 # 0.4.5
 - Fixed HSV/HSL color format bugs.

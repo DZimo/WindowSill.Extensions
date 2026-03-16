@@ -1,15 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFramework>net9.0-windows10.0.22621</TargetFramework>
+		<TargetFramework>net10.0-windows10.0.22621</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<Platforms>x64</Platforms>
+		<Platforms>AnyCPU</Platforms>
 		<LangVersion>preview</LangVersion>
 		<RuntimeIdentifiers>win-x64;win-x86;win-arm64</RuntimeIdentifiers>
 
 		<PackageId>WindowSill.PomodoroTimer</PackageId>
 		<Title>Pomodoro Timer</Title>
-		<Version>0.6.5</Version>
+		<Version>0.6.6</Version>
 		<Description>The famous Pomodoro Timer with 25/5 min mode that can boost your productivity and keeps you always in time and efficient</Description>
 		<PackageProjectUrl>https://github.com/DZimo/WindowSill.Extensions</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/DZimo/WindowSill.Extensions</RepositoryUrl>
@@ -26,6 +26,6 @@
 		<None Include="README.md" Pack="true" PackagePath="\" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="WindowSill.API" Version="0.8.3" />
+		<PackageReference Include="WindowSill.API" Version="0.9.20" />
 	</ItemGroup>
 </Project>
