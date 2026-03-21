@@ -19,8 +19,6 @@ public sealed class OutlookCalendarSill : ISillFirstTimeSetup, ISillSingleView
     private SettingsViewModel _settingsViewModel;
     public SillView? View { get; private set; }
 
-    private string authRecordCachePath = "./auth-record.bin";
-
     [ImportingConstructor]
     public OutlookCalendarSill(IPluginInfo pluginInfo, ISettingsProvider settingsProvider, IOutlookService outlookService)
     {

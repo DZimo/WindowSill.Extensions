@@ -2,12 +2,8 @@
 using Azure.Identity;
 using Microsoft.Graph;
 using Microsoft.Graph.Models;
-using Microsoft.Identity.Client;
-using Microsoft.Identity.Client.Desktop;
-using Microsoft.Identity.Client.Extensions.Msal;
 using System.ComponentModel.Composition;
-using System.Diagnostics;
-using Windows.Win32;
+using WindowSill.OutlookCalendar.Common;
 using WindowSill.OutlookCalendar.Enums;
 using WindowSill.OutlookCalendar.Extensions;
 using WindowSill.OutlookCalendar.Models;
@@ -34,26 +30,13 @@ namespace WindowSill.OutlookCalendar.Services
 
         public bool _isLoadingAppointments { get; set; }
 
-        private const string ClientId = "3c62448e-650a-497a-b43c-35f9db069e4f";
-        private const string Tenant = "common";
-        private const string Authority = "https://login.microsoftonline.com/" + Tenant;
-
-        private static string MSGraphURL = "https://graph.microsoft.com/v1.0/";
-        private static AuthenticationResult authResult;
-        private static IAccount _currentUserAccount;
-        private string[] scopes = new string[] { "Calendars.Read" };
-
-        private static IPublicClientApplication _clientApp;
-        public static IPublicClientApplication PublicClientApp { get { return _clientApp; } }
-        private string graphAPIEndpoint = "https://graph.microsoft.com/v1.0/me";
-        private static string Instance = "https://login.microsoftonline.com/";
 
         public async Task InitAllAppointments()
         {
-            if (_isLoadingAppointments)
-                return;
+            //if (_isLoadingAppointments)
+            //    return;
 
-            _isLoadingAppointments = true;
+            //_isLoadingAppointments = true;
 
             Appointments.Clear();
 
@@ -177,31 +160,18 @@ namespace WindowSill.OutlookCalendar.Services
 
         public async Task InitLogin(string tenantID)
         {
-            if (_isLoadingAppointments)
-                return;
+            //if (_isLoadingAppointments)
+            //    return;
 
-            _isLoadingAppointments = true;
+            //_isLoadingAppointments = true;
 
             //IsNewerOfficeVersion = OfficeVersion.OfficeGraphql;
             if (IsNewerOfficeVersion == OfficeVersion.OfficeGraphql)
             {
+                if (GraphClient is not null)
+                    return;
 
-                var brokerOptions = new BrokerOptions(BrokerOptions.OperatingSystems.Windows);
-
-                _clientApp = PublicClientApplicationBuilder.Create(ClientId)
-                    .WithAuthority($"{Instance}{Tenant}")
-                    .WithDefaultRedirectUri()
-                    .WithWindowsDesktopFeatures(brokerOptions)
-                    .Build();
-
-                MsalCacheHelper cacheHelper = CreateCacheHelperAsync().GetAwaiter().GetResult();
-
-                cacheHelper.RegisterCache(_clientApp.UserTokenCache);
-
-                LoginNative();
-
-                //if (GraphClient is not null)
-                //return;
+                GraphClient = new GraphServiceClient(new TokenCredentialMSAL());
 
                 //_ = Task.Run(async () =>
                 //{
@@ -239,93 +209,6 @@ namespace WindowSill.OutlookCalendar.Services
                 var outlookApp = new Application();
                 OutlookNameSpace = outlookApp.GetNamespace("MAPI");
                 OutlookNameSpace.Logon();
-            }
-        }
-
-        private static async Task<MsalCacheHelper> CreateCacheHelperAsync()
-        {
-            var storageProperties = new StorageCreationPropertiesBuilder(
-                              System.Reflection.Assembly.GetExecutingAssembly().GetName().Name + ".msalcache.bin",
-                              MsalCacheHelper.UserRootDirectory)
-                                .Build();
-
-            var cacheHelper = await MsalCacheHelper.CreateAsync(
-                        storageProperties,
-                        new TraceSource("MSAL.CacheTrace"))
-                     .ConfigureAwait(false);
-
-            return cacheHelper;
-        }
-
-        private async void LoginNative()
-        {
-            AuthenticationResult authResult = null;
-            var app = PublicClientApp;
-            IAccount firstAccount = null;
-
-            try
-            {
-                firstAccount = (await app.GetAccountsAsync()).FirstOrDefault();
-
-                if (firstAccount == null)
-                {
-                    firstAccount = Microsoft.Identity.Client.PublicClientApplication.OperatingSystemAccount;
-                }
-            }
-            catch (Exception e)
-            {
-
-            }
-
-            try
-            {
-                authResult = await app.AcquireTokenSilent(scopes, firstAccount)
-                    .ExecuteAsync();
-            }
-            catch (MsalUiRequiredException ex)
-            {
-                try
-                {
-                    var hWnd = PInvoke.GetActiveWindow();
-
-                    authResult = await app.AcquireTokenInteractive(scopes)
-                        .WithAccount(firstAccount)
-                        .WithPrompt(Microsoft.Identity.Client.Prompt.SelectAccount)
-                        .WithParentActivityOrWindow(hWnd)
-                        .ExecuteAsync();
-                }
-                catch (MsalException msalex)
-                {
-
-                }
-            }
-            catch (Exception ex)
-            {
-                return;
-            }
-
-            if (authResult != null)
-            {
-                var res = await GetHttpContentWithToken(graphAPIEndpoint, authResult.AccessToken);
-            }
-        }
-
-        public async Task<string> GetHttpContentWithToken(string url, string token)
-        {
-            var httpClient = new System.Net.Http.HttpClient();
-            System.Net.Http.HttpResponseMessage response;
-            try
-            {
-                var request = new System.Net.Http.HttpRequestMessage(System.Net.Http.HttpMethod.Get, url);
-                //Add the token in Authorization header
-                request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
-                response = await httpClient.SendAsync(request);
-                var content = await response.Content.ReadAsStringAsync();
-                return content;
-            }
-            catch (Exception ex)
-            {
-                return ex.ToString();
             }
         }
     }

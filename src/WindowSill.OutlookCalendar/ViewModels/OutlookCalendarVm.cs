@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Identity.Client;
 using Microsoft.Windows.AppNotifications;
 using Microsoft.Windows.AppNotifications.Builder;
 using System.Collections.ObjectModel;
@@ -44,6 +45,7 @@ public partial class OutlookCalendarVm : ObservableObject
 
     public event EventHandler InitCalendarService;
     private string tenantID = "common";
+    private static IPublicClientApplication _clientApp;
 
     public OutlookCalendarVm(IOutlookService outlookService, ISettingsProvider settingsProvider, ISillSingleView sillView)
     {
@@ -66,10 +68,10 @@ public partial class OutlookCalendarVm : ObservableObject
 
         await _outlookService.InitLogin(tenantID);
 
-        while (!_outlookService.IsOutlookLogged)
-        {
-            await Task.Delay(TimeSpan.FromSeconds(5));
-        }
+        //while (!_outlookService.IsOutlookLogged)
+        //{
+        //    await Task.Delay(TimeSpan.FromSeconds(5));
+        //}
 
         await FetchAppointmentsOnUI();
 
