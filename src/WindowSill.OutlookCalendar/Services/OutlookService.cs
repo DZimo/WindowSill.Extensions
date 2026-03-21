@@ -1,6 +1,4 @@
-﻿using Azure.Core;
-using Azure.Identity;
-using Microsoft.Graph;
+﻿using Microsoft.Graph;
 using Microsoft.Graph.Models;
 using System.ComponentModel.Composition;
 using WindowSill.OutlookCalendar.Common;
@@ -30,13 +28,12 @@ namespace WindowSill.OutlookCalendar.Services
 
         public bool _isLoadingAppointments { get; set; }
 
-
         public async Task InitAllAppointments()
         {
-            //if (_isLoadingAppointments)
-            //    return;
+            if (_isLoadingAppointments)
+                return;
 
-            //_isLoadingAppointments = true;
+            _isLoadingAppointments = true;
 
             Appointments.Clear();
 
@@ -63,6 +60,10 @@ namespace WindowSill.OutlookCalendar.Services
                 {
 
                 }
+                finally
+                {
+                    _isLoadingAppointments = false;
+                }
 
                 if (events is null)
                     return;
@@ -81,6 +82,8 @@ namespace WindowSill.OutlookCalendar.Services
                             Appointments.Add(new CalendarAppointmentVm(item.Subject ?? string.Empty, start, end, item.Location.ToString() ?? string.Empty));
                     }
                 }
+
+                _isLoadingAppointments = false;
             }
             else
             {
@@ -137,72 +140,17 @@ namespace WindowSill.OutlookCalendar.Services
             return null;
         }
 
-        public List<CalendarAppointmentVm> GetAllAppointments()
-        {
-            return Appointments;
-        }
-
-        static async Task PreAuthenticateAsync(DeviceCodeCredential credential, SettingsAzure settings)
-        {
-            if (!string.IsNullOrEmpty(""))
-            {
-                var tokenContext = new TokenRequestContext(settings.GraphUserScopes ??
-                    new[] { "https://graph.microsoft.com/.default" });
-                var authRecord = await credential.AuthenticateAsync(tokenContext);
-
-                if (authRecord != null)
-                {
-                    using var cacheStream = new FileStream(settings.AuthRecordCachePath, FileMode.Create, FileAccess.Write);
-                    await authRecord.SerializeAsync(cacheStream);
-                }
-            }
-        }
+        public List<CalendarAppointmentVm> GetAllAppointments() =>
+             Appointments;
 
         public async Task InitLogin(string tenantID)
         {
-            //if (_isLoadingAppointments)
-            //    return;
-
-            //_isLoadingAppointments = true;
-
-            //IsNewerOfficeVersion = OfficeVersion.OfficeGraphql;
             if (IsNewerOfficeVersion == OfficeVersion.OfficeGraphql)
             {
                 if (GraphClient is not null)
                     return;
 
                 GraphClient = new GraphServiceClient(new TokenCredentialMSAL());
-
-                //_ = Task.Run(async () =>
-                //{
-                //    var credential = new InteractiveBrowserCredential(
-                //    new InteractiveBrowserCredentialOptions
-                //    {
-                //        ClientId = ClientId,
-                //        TenantId = tenantID,
-                //        TokenCachePersistenceOptions = new TokenCachePersistenceOptions
-                //        {
-                //            Name = "Windowsill.OutlookCalendar"
-                //        }
-                //    });
-
-
-                //    var tokenRequestContext = new Azure.Core.TokenRequestContext(new[] { "Calendars.Read" });
-
-                //    try
-                //    {
-                //        //var token = await credential.GetTokenAsync(tokenRequestContext);
-                //        GraphClient = new GraphServiceClient(credential, new[] { "Calendars.Read" });
-
-                //        await GraphClient.Me.GetAsync();
-
-                //        IsOutlookLogged = true;
-                //    }
-                //    catch (Exception ex)
-                //    {
-                //        IsOutlookLogged = false;
-                //    }
-                //});
             }
             else
             {

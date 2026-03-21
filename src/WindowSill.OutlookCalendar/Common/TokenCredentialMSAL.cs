@@ -17,8 +17,6 @@ namespace WindowSill.OutlookCalendar.Common
         private const string Tenant = "common";
         private const string Authority = "https://login.microsoftonline.com/" + Tenant;
         private static string MSGraphURL = "https://graph.microsoft.com/v1.0/";
-        private static AuthenticationResult authResult;
-        private static IAccount _currentUserAccount;
         private static string Instance = "https://login.microsoftonline.com/";
         private const string ClientId = "3c62448e-650a-497a-b43c-35f9db069e4f";
 
@@ -100,10 +98,10 @@ namespace WindowSill.OutlookCalendar.Common
 
             if (authResult != null)
             {
-                var res = await GetHttpContentWithToken(graphAPIEndpoint, authResult.AccessToken);
+                await GetHttpContentWithToken(graphAPIEndpoint, authResult.AccessToken);
             }
 
-            return firstAccount.;
+            return "";
         }
         public async Task<string> GetHttpContentWithToken(string url, string token)
         {
@@ -111,7 +109,7 @@ namespace WindowSill.OutlookCalendar.Common
             HttpResponseMessage response;
             try
             {
-                var request = new HttpRequestMessage(System.Net.Http.HttpMethod.Get, url);
+                var request = new HttpRequestMessage(HttpMethod.Get, url);
                 request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
                 response = await httpClient.SendAsync(request);
                 var content = await response.Content.ReadAsStringAsync();

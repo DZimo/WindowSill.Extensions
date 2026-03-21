@@ -9,19 +9,24 @@ using WindowSill.ScreenRecorder.ViewModels;
 namespace WindowSill.OutlookCalendar;
 
 [Export(typeof(ISill))]
-[Name("WindowSill.OutlookCalendar")]
-[Priority(Priority.Lowest)]
+[Name("OutlookCalendar")]
 public sealed class OutlookCalendarSill : ISillFirstTimeSetup, ISillSingleView
 {
     private OutlookCalendarVm _outlookCalendarVm;
     private IPluginInfo _pluginInfo;
     private ISettingsProvider _settingsProvider;
     private SettingsViewModel _settingsViewModel;
+    private bool _isSillLoaded;
     public SillView? View { get; private set; }
 
     [ImportingConstructor]
     public OutlookCalendarSill(IPluginInfo pluginInfo, ISettingsProvider settingsProvider, IOutlookService outlookService)
     {
+        if (_isSillLoaded)
+            return;
+
+        _isSillLoaded = true;
+
         _pluginInfo = pluginInfo;
         _settingsProvider = settingsProvider;
         _outlookCalendarVm = new OutlookCalendarVm(outlookService, settingsProvider, this);

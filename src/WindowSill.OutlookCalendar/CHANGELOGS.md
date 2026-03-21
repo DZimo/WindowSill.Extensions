@@ -1,3 +1,8 @@
+# 0.4.0
+- Updated implementation for newer versions.
+- Use of native app popup login instead of browser.
+- Cached login for outlook account.
+
 # 0.3.5
 - Add of work account login with settings.
 - Fixed ui issue on login.

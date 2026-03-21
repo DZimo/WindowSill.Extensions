@@ -29,18 +29,18 @@ namespace WindowSill.OutlookCalendar.Settings
                                           new StackPanel()
                                       .Children(
                                                 new ToggleSwitch()
-                                                .IsOn(x => x.Binding(() => viewModel.SelectedOfficeVersion).Converter(new OfficeBoolConverter()).TwoWay()))),
-                                new SettingsCard()
-                                    .Header("/WindowSill.OutlookCalendar/Misc/AccountTypeHeader".GetLocalizedString())
-                                    .Description("/WindowSill.OutlookCalendar/Misc/AccountTypeDesc".GetLocalizedString())
-                                    .HeaderIcon(
-                                        new FontIcon()
-                                            .Glyph("\uE716"))
-                                    .Content(
-                                          new StackPanel()
-                                      .Children(
-                                                new ToggleSwitch()
-                                                .IsOn(x => x.Binding(() => viewModel.SelectedAccountType).Converter(new AccountBoolConverter()).TwoWay())))
+                                                .IsOn(x => x.Binding(() => viewModel.SelectedOfficeVersion).Converter(new OfficeBoolConverter()).TwoWay())))
+                            //new SettingsCard()
+                            //    .Header("/WindowSill.OutlookCalendar/Misc/AccountTypeHeader".GetLocalizedString())
+                            //    .Description("/WindowSill.OutlookCalendar/Misc/AccountTypeDesc".GetLocalizedString())
+                            //    .HeaderIcon(
+                            //        new FontIcon()
+                            //            .Glyph("\uE716"))
+                            //    .Content(
+                            //          new StackPanel()
+                            //      .Children(
+                            //                new ToggleSwitch()
+                            //                .IsOn(x => x.Binding(() => viewModel.SelectedAccountType).Converter(new AccountBoolConverter()).TwoWay())))
                             )
                 )
             );
