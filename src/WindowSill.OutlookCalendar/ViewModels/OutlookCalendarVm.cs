@@ -54,8 +54,8 @@ public partial class OutlookCalendarVm : ObservableObject
 
         selectedAccountType = _settingsProvider.GetSetting(Settings.SelectedAccountType);
 
-        if (selectedAccountType is OutlookCalendar.Enums.AccountType.Company)
-            tenantID = "3921feae-121a-4169-9cad-63b40b5be11e";
+        //if (selectedAccountType is OutlookCalendar.Enums.AccountType.Company)
+        //    tenantID = "3921feae-121a-4169-9cad-63b40b5be11e";
 
         _ = HandleCalendarService();
     }
@@ -66,7 +66,10 @@ public partial class OutlookCalendarVm : ObservableObject
 
         await _outlookService.InitLogin(tenantID);
 
-        await Task.Delay(TimeSpan.FromSeconds(5));
+        while (!_outlookService.IsOutlookLogged)
+        {
+            await Task.Delay(TimeSpan.FromSeconds(5));
+        }
 
         await FetchAppointmentsOnUI();
 

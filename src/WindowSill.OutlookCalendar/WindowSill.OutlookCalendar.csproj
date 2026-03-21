@@ -28,11 +28,18 @@
 		<None Include="bin\$(Platforms)\$(Configuration)\net10.0-windows10.0.22621\office.dll" Pack="true" PackagePath="lib\net10.0-windows10.0.22621\" />
 	</ItemGroup>
 	<ItemGroup>
+		<PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.259">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
 		<PackageReference Include="Azure.Identity" Version="1.17.1" />
 		<PackageReference Include="Azure.Core" Version="1.50.0.0" />
 		<PackageReference Include="Microsoft.Graph" Version="5.102.0" />
 		<PackageReference Include="Microsoft.Graph.Core" Version="3.2.5.0" />
 		<PackageReference Include="Microsoft.Identity.Client" Version="4.78.0.0" />
+		<PackageReference Include="Microsoft.Identity.Client.Desktop.WinUI3" Version="4.78.0" />
+		<PackageReference Include="Microsoft.Identity.Client.Broker" Version="4.78.0" />
+		<PackageReference Include="Microsoft.Identity.Client.NativeInterop" Version="0.19.4.0" />
 		<PackageReference Include="Microsoft.Kiota.Abstractions" Version="1.21.1.0" />
 		<PackageReference Include="Microsoft.Kiota.Authentication.Azure" Version="1.21.1.0" />
 		<PackageReference Include="Microsoft.Kiota.Http.HttpClientLibrary" Version="1.21.1.0" />
