@@ -72,23 +72,22 @@ public sealed class ColorPickerSill : ISill, ISillListView
 
             new SillListViewPopupItem('\xe', null, new SillPopupContent()
                 .DataContext(_colorPickerVm)
-                .Content( new SillOrientedStackPanel()
+                .Content(new SillOrientedStackPanel()
                            .Children(
                                 new StackPanel()
-                                    .Spacing(4)
+                                    .Spacing(8)
                                     .VerticalAlignment(VerticalAlignment.Center)
                                     .HorizontalAlignment(HorizontalAlignment.Center)
                                     .MinWidth(400)
                                     .Width(400)
                                     .MaxWidth(400)
-                                    .Margin(1)
+                                    .Margin(16)
                                     .Children(
 
                                     new Picker.ColorPicker()
                                         .HorizontalContentAlignment(HorizontalAlignment.Center)
                                         .VerticalAlignment(VerticalAlignment.Center)
                                         .HorizontalAlignment(HorizontalAlignment.Center)
-                                        .Margin(5)
                                         .IsColorPreviewVisible(true)
                                         .IsColorChannelTextInputVisible(false)
                                         .IsHexInputVisible(false)
@@ -98,7 +97,7 @@ public sealed class ColorPickerSill : ISill, ISillListView
                                         .Orientation(Orientation.Horizontal)
                                         .HorizontalAlignment(HorizontalAlignment.Center)
                                         .VerticalAlignment(VerticalAlignment.Center)
-                                        .Spacing(1)
+                                        .Spacing(8)
                                         .Children(
                                                  new Button()
                                                     .Command(_colorPickerVm.CopyColorAnyCommand)
