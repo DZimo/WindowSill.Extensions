@@ -118,30 +118,30 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="DisplayName" xml:space="preserve">
-    <value>Outlook Calendar</value>
+    <value>Calendrier Outlook</value>
   </data>
   <data name="AppointmentListTitle" xml:space="preserve">
-    <value>Next Appointments</value>
+    <value>Rendez-vous suivants</value>
   </data>
   <data name="FirstTimeHeadline" xml:space="preserve">
-    <value>Welcome to Outlook Calendar, please select your version of outlook which can be updated anytime in settings )</value>
+    <value>Bienvenue dans le calendrier Outlook, veuillez sélectionner votre version de Outlook qui peut être mise à jour à tout moment dans les paramètres)</value>
   </data>
   <data name="OfficeVersionHeader" xml:space="preserve">
-    <value>Enable this if you have an newer version of Office 2019</value>
+    <value>Activer cette option si vous avez une version plus récente d'Office 2019</value>
   </data>
   <data name="OfficeSettingsHeader" xml:space="preserve">
-    <value>Office Version</value>
+    <value>Version Office</value>
   </data>
   <data name="UpcomingMeetingDesc" xml:space="preserve">
-    <value>Your meeting {subject} starts in {minutes} minutes.</value>
+    <value>Votre réunion {subject} commence dans {minutes} minutes.</value>
   </data>
   <data name="UpcomingMeetingHeader" xml:space="preserve">
-    <value>Upcoming Meeting</value>
+    <value>Réunion à venir</value>
   </data>
   <data name="AccountTypeHeader" xml:space="preserve">
-    <value>Account Type</value>
+    <value>Type de compte client</value>
   </data>
   <data name="AccountTypeDesc" xml:space="preserve">
-    <value>Enable this for work account and keep it disabled for personal one.</value>
+    <value>Activer cette option pour le compte professionnel et la garder désactivée pour le compte personnel.</value>
   </data>
 </root>
