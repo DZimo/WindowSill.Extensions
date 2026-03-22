@@ -118,30 +118,30 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="DisplayName" xml:space="preserve">
-    <value>Outlook Calendar</value>
+    <value>展望日历</value>
   </data>
   <data name="AppointmentListTitle" xml:space="preserve">
-    <value>Next Appointments</value>
+    <value>下次任命</value>
   </data>
   <data name="FirstTimeHeadline" xml:space="preserve">
-    <value>Welcome to Outlook Calendar, please select your version of outlook which can be updated anytime in settings )</value>
+    <value>欢迎使用 Outlook 日历，请选择您可以随时在设置中更新的展望版本)</value>
   </data>
   <data name="OfficeVersionHeader" xml:space="preserve">
-    <value>Enable this if you have an newer version of Office 2019</value>
+    <value>如果您有更新版的 Office 2019 ，请启用此功能</value>
   </data>
   <data name="OfficeSettingsHeader" xml:space="preserve">
-    <value>Office Version</value>
+    <value>办公室版本</value>
   </data>
   <data name="UpcomingMeetingDesc" xml:space="preserve">
     <value>Your meeting {subject} starts in {minutes} minutes.</value>
   </data>
   <data name="UpcomingMeetingHeader" xml:space="preserve">
-    <value>Upcoming Meeting</value>
+    <value>即将举行的会议</value>
   </data>
   <data name="AccountTypeHeader" xml:space="preserve">
-    <value>Account Type</value>
+    <value>帐户类型</value>
   </data>
   <data name="AccountTypeDesc" xml:space="preserve">
-    <value>Enable this for work account and keep it disabled for personal one.</value>
+    <value>为工作帐户启用此功能，并将其保留为个人帐户。</value>
   </data>
 </root>
