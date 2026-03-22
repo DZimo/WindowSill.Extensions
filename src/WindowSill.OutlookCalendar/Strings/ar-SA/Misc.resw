@@ -118,30 +118,30 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="DisplayName" xml:space="preserve">
-    <value>Outlook Calendar</value>
+    <value>تقويم التوقعات</value>
   </data>
   <data name="AppointmentListTitle" xml:space="preserve">
-    <value>Next Appointments</value>
+    <value>التعيينات التالية</value>
   </data>
   <data name="FirstTimeHeadline" xml:space="preserve">
-    <value>Welcome to Outlook Calendar, please select your version of outlook which can be updated anytime in settings )</value>
+    <value>مرحبا بكم في تقويم التوقعات، يرجى تحديد الإصدار الخاص بك من التوقعات التي يمكن تحديثها في أي وقت في الإعدادات)</value>
   </data>
   <data name="OfficeVersionHeader" xml:space="preserve">
-    <value>Enable this if you have an newer version of Office 2019</value>
+    <value>تمكين هذا إذا كان لديك إصدار أحدث من Office 2019</value>
   </data>
   <data name="OfficeSettingsHeader" xml:space="preserve">
-    <value>Office Version</value>
+    <value>إصدار المكتب</value>
   </data>
   <data name="UpcomingMeetingDesc" xml:space="preserve">
     <value>Your meeting {subject} starts in {minutes} minutes.</value>
   </data>
   <data name="UpcomingMeetingHeader" xml:space="preserve">
-    <value>Upcoming Meeting</value>
+    <value>الاجتماع القادم</value>
   </data>
   <data name="AccountTypeHeader" xml:space="preserve">
-    <value>Account Type</value>
+    <value>نوع الحساب</value>
   </data>
   <data name="AccountTypeDesc" xml:space="preserve">
-    <value>Enable this for work account and keep it disabled for personal one.</value>
+    <value>تمكين هذا لحساب العمل وإبقائه معطلا لواحد شخصي.</value>
   </data>
 </root>
