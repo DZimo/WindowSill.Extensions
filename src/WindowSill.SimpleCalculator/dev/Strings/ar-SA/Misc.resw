@@ -121,7 +121,7 @@
     <value>آلة حاسبة ذكية</value>
   </data>
   <data name="DisplayNameSimple" xml:space="preserve">
-    <value>Simple Calculator</value>
+    <value>حاسبة بسيطة</value>
   </data>
   <data name="CommandTitle" xml:space="preserve">
     <value>New Tab</value>
