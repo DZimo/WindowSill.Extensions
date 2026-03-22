@@ -39,6 +39,12 @@ A collection of lightweight productivity tools designed to enhance your desktop 
 
 ---
 
+
+### 🎥 Screen Recorder
+<img width="260" alt="Screen Recorder" src="img/screen-recorder-preview.png" />
+
+---
+
 ### 📅 Outlook Calendar
 <img width="260" alt="Outlook Calendar" src="img/outlook-calendar-preview.png" />
     
