@@ -56,6 +56,8 @@
 		<PackageReference Include="UnitsNet" Version="4.144.0" />
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\lib\NotepadBasedCalculator.Core\NotepadBasedCalculator.Core.csproj" Pack="true" IncludeAssets="all" />
+		<ProjectReference Include="..\lib\NotepadBasedCalculator.Core\NotepadBasedCalculator.Core.csproj">
+			<Private>false</Private>
+		</ProjectReference>
 	</ItemGroup>
 </Project>
