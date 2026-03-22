@@ -37,10 +37,10 @@ A collection of lightweight productivity tools designed to enhance your desktop 
 ### 🧮 Smart Calculator
 <img width="260" alt="Smart Calculator" src="https://github.com/user-attachments/assets/4ec43daa-76bc-4f22-8cfd-da1b5317ebbf" />
 
-</div>
+---
 
 ### 📅 Outlook Calendar
-<img width="260" alt="Smart Calculator" src="img/outlook-calendar-preview.png" />
+<img width="260" alt="Outlook Calendar" src="img/outlook-calendar-preview.png" />
     
 </div>
 
