@@ -8,7 +8,7 @@ namespace WindowSill.SimpleCalculator.SmartCalculator;
 [Export(typeof(ISill))]
 [Name("WindowSill.SmartCalculator")]
 [Priority(Priority.Lowest)]
-public sealed class SmmartCalculatorSill : ISillActivatedByTextSelection, ISillListView
+public sealed class SmmartCalculatorSill : ISillActivatedByTextSelection, ISillListView, ISill
 {
     [Import]
     private IPluginInfo _pluginInfo = null!;
