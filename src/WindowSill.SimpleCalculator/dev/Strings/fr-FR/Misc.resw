@@ -121,7 +121,7 @@
     <value>Calculatrice intelligente</value>
   </data>
   <data name="DisplayNameSimple" xml:space="preserve">
-    <value>Simple Calculator</value>
+    <value>Calculatrice simple</value>
   </data>
   <data name="CommandTitle" xml:space="preserve">
     <value>New Tab</value>
