@@ -1,3 +1,3 @@
-# Smart Calculator
+# Outlook Calendar
 
-Community extension of a Smart Calculator.
+Community extension of an Outlook calendar integration to Windowsill

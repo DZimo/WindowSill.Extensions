@@ -1,8 +1,6 @@
-using Microsoft.UI.Text;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
-using Windows.UI;
 using WindowSill.API;
 using WindowSill.ColorPicker.Enum;
 using WindowSill.ColorPicker.Services;
@@ -73,29 +71,23 @@ public sealed class ColorPickerSill : ISill, ISillListView
                 _colorPickerVm.CopyColorHex),
 
             new SillListViewPopupItem('\xe', null, new SillPopupContent()
-                .Background(Color.FromArgb(140, 0, 0, 0))
                 .DataContext(_colorPickerVm)
-                .Content( new SillOrientedStackPanel()
+                .Content(new SillOrientedStackPanel()
                            .Children(
                                 new StackPanel()
-                                    .Spacing(4)
+                                    .Spacing(8)
                                     .VerticalAlignment(VerticalAlignment.Center)
                                     .HorizontalAlignment(HorizontalAlignment.Center)
                                     .MinWidth(400)
                                     .Width(400)
                                     .MaxWidth(400)
-                                    .Margin(1)
+                                    .Margin(16)
                                     .Children(
-                                    new TextBlock()
-                                        .VerticalAlignment(VerticalAlignment.Center)
-                                        .HorizontalAlignment(HorizontalAlignment.Center)
-                                        .FontWeight(FontWeights.Bold)
-                                        .Text("Color Picker"),
+
                                     new Picker.ColorPicker()
                                         .HorizontalContentAlignment(HorizontalAlignment.Center)
                                         .VerticalAlignment(VerticalAlignment.Center)
                                         .HorizontalAlignment(HorizontalAlignment.Center)
-                                        .Margin(5)
                                         .IsColorPreviewVisible(true)
                                         .IsColorChannelTextInputVisible(false)
                                         .IsHexInputVisible(false)
@@ -105,7 +97,7 @@ public sealed class ColorPickerSill : ISill, ISillListView
                                         .Orientation(Orientation.Horizontal)
                                         .HorizontalAlignment(HorizontalAlignment.Center)
                                         .VerticalAlignment(VerticalAlignment.Center)
-                                        .Spacing(1)
+                                        .Spacing(8)
                                         .Children(
                                                  new Button()
                                                     .Command(_colorPickerVm.CopyColorAnyCommand)

@@ -8,7 +8,7 @@ using WindowSill.SimpleCalculator.UI;
 namespace WindowSill.SimpleCalculator;
 
 [Export(typeof(ISill))]
-[Name("WindowSill.SimpleCalculator")]
+[Name("WindowSill.SimpleClaculator")]
 [Priority(Priority.Lowest)]
 public sealed class SimpleCalculatorSill : ISill, ISillSingleView
 {
@@ -42,12 +42,12 @@ public sealed class SimpleCalculatorSill : ISill, ISillSingleView
         _simpleCalculatorVm?.ColorboxHeight = View?.SillOrientationAndSize == SillOrientationAndSize.HorizontalSmall ? 16 : View?.SillOrientationAndSize == SillOrientationAndSize.HorizontalMedium ? 18 : 18;
     }
 
-    public string DisplayName => "/WindowSill.SimpleCalculator/Misc/DisplayName".GetLocalizedString();
+    public string DisplayName => "/WindowSill.SimpleCalculator/Misc/DisplayNameSimple".GetLocalizedString();
 
     public IconElement CreateIcon()
          => new ImageIcon
          {
-             Source = new SvgImageSource(new Uri(System.IO.Path.Combine(_pluginInfo.GetPluginContentDirectory(), "Assets", "calculator_logo.svg")))
+             Source = new SvgImageSource(new Uri(System.IO.Path.Combine(_pluginInfo.GetPluginContentDirectory(), "Assets", "simple_logo.svg")))
          };
 
     public SillView? PlaceholderView => null;

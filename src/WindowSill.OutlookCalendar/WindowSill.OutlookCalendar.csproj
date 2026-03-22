@@ -9,8 +9,8 @@
 
 		<PackageId>WindowSill.OutlookCalendar</PackageId>
 		<Title>Outlook Calendar</Title>
-		<Version>0.1.0</Version>
-		<Description>A screen recorder extension to record the selected screen or take screenshots.</Description>
+		<Version>0.4.1</Version>
+		<Description>Integration of outlook calendar to get notified about next meetings.</Description>
 		<PackageProjectUrl>https://github.com/DZimo/WindowSill.Extensions</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/DZimo/WindowSill.Extensions</RepositoryUrl>
 		<Authors>Mohamed-Nazim BELABED</Authors>
@@ -28,12 +28,36 @@
 		<None Include="bin\$(Platforms)\$(Configuration)\net10.0-windows10.0.22621\office.dll" Pack="true" PackagePath="lib\net10.0-windows10.0.22621\" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Office.Interop.Outlook" Version="15.0.4797.1004" />
 		<PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.259">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="ScreenRecorderLib" Version="6.6.0" GeneratePathProperty="true" />
+		<PackageReference Include="Azure.Identity" Version="1.17.1" />
+		<PackageReference Include="Azure.Core" Version="1.50.0.0" />
+		<PackageReference Include="Microsoft.Graph" Version="5.102.0" />
+		<PackageReference Include="Microsoft.Graph.Core" Version="3.2.5.0" />
+		<PackageReference Include="Microsoft.Identity.Client" Version="4.78.0.0" />
+		<PackageReference Include="Microsoft.Identity.Client.Desktop.WinUI3" Version="4.78.0" />
+		<PackageReference Include="Microsoft.Identity.Client.Broker" Version="4.78.0" />
+		<PackageReference Include="Microsoft.Identity.Client.NativeInterop" Version="0.19.4.0" />
+		<PackageReference Include="Microsoft.Kiota.Abstractions" Version="1.21.1.0" />
+		<PackageReference Include="Microsoft.Kiota.Authentication.Azure" Version="1.21.1.0" />
+		<PackageReference Include="Microsoft.Kiota.Http.HttpClientLibrary" Version="1.21.1.0" />
+		<PackageReference Include="Microsoft.Kiota.Serialization.Json" Version="1.21.1.0" />
+		<PackageReference Include="Microsoft.Kiota.Serialization.Text" Version="1.21.1.0" />
+		<PackageReference Include="Microsoft.Kiota.Serialization.Form" Version="1.21.1.0" />
+		<PackageReference Include="Microsoft.Kiota.Serialization.Multipart" Version="1.21.1.0" />
+		<PackageReference Include="Std.UriTemplate" Version="2.0.8.0" />
+		<PackageReference Include="Microsoft.IdentityModel.Abstractions" Version="8.15.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="7.0.4" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
+		<PackageReference Include="Microsoft.Identity.Client.Extensions.Msal" Version="4.78.0.0" />
+		<PackageReference Include="Microsoft.Office.Interop.Outlook" Version="15.0.4797.1004" />
 		<PackageReference Include="WindowSill.API" Version="0.9.12" />
+	</ItemGroup>
+	<ItemGroup>
+	  <None Update="office.dll">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	</ItemGroup>
 </Project>

@@ -1,7 +1,14 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Identity.Client;
+using Microsoft.Windows.AppNotifications;
+using Microsoft.Windows.AppNotifications.Builder;
+using System.Collections.ObjectModel;
 using WindowSill.API;
+using WindowSill.OutlookCalendar.Models;
 using WindowSill.OutlookCalendar.Services;
+using WindowSill.OutlookCalendar.Settings;
+using WindowSill.OutlookCalendar.ViewModels;
 using Timer = System.Timers.Timer;
 
 namespace WindowSill.ScreenRecorder.ViewModels;
@@ -11,25 +18,20 @@ public partial class OutlookCalendarVm : ObservableObject
     public static OutlookCalendarVm Instance { get; private set; }
 
     [ObservableProperty]
-    private int colorFontSize = 12;
+    private Visibility appointmentVisibility = Visibility.Collapsed;
 
     [ObservableProperty]
-    private int colorboxHeight = 18;
+    private string nextAppointmentLeftTime = string.Empty;
 
     [ObservableProperty]
-    private Visibility recordButtonVisible = Visibility.Visible;
-
-
-    [ObservableProperty]
-    private Visibility recordButtonInvisible = Visibility.Collapsed;
+    private bool foundAppointment;
 
     [ObservableProperty]
-    private string videoTimeElapsed = string.Empty;
+    private ObservableCollection<CalendarAppointmentVm> allAppointments;
 
-    private Timer recordTimer = new();
+    private Timer recordTimer;
 
-    private int elapsedSeconds = 0;
-
+    private int appointmentCheckTime = 2;
 
     [ObservableProperty]
     private char recordGlyph = '\xE714';
@@ -37,30 +39,66 @@ public partial class OutlookCalendarVm : ObservableObject
     private string selectedScreenshotName = string.Empty;
 
     private IOutlookService _outlookService;
-    private ISillListView _view;
+    private ISillSingleView _view;
     private ISettingsProvider _settingsProvider;
+    private OutlookCalendar.Enums.AccountType selectedAccountType;
 
-    public OutlookCalendarVm(IOutlookService outlookService, ISillListView view, ISettingsProvider settingsProvider)
+    public event EventHandler InitCalendarService;
+    private string tenantID = "common";
+    private static IPublicClientApplication _clientApp;
+
+    public OutlookCalendarVm(IOutlookService outlookService, ISettingsProvider settingsProvider, ISillSingleView sillView)
     {
         Instance = this;
         _outlookService = outlookService;
-        _view = view;
-
         _settingsProvider = settingsProvider;
-        recordTimer.Interval = 1000;
+        _view = sillView;
+
+        selectedAccountType = _settingsProvider.GetSetting(Settings.SelectedAccountType);
+
+        //if (selectedAccountType is OutlookCalendar.Enums.AccountType.Company)
+        //    tenantID = "3921feae-121a-4169-9cad-63b40b5be11e";
+
+        _ = HandleCalendarService();
+    }
+
+    private async Task HandleCalendarService()
+    {
+        _outlookService.IsNewerOfficeVersion = _settingsProvider.GetSetting(Settings.SelectedOfficeVersion);
+
+        await _outlookService.InitLogin(tenantID);
+        await Task.Delay(TimeSpan.FromSeconds(5));
+
+        //while (!_outlookService.IsOutlookLogged)
+        //{
+        //    await Task.Delay(TimeSpan.FromSeconds(5));
+        //}
+
+        await FetchAppointmentsOnUI();
+
+        recordTimer = new(TimeSpan.FromMinutes(appointmentCheckTime));
         recordTimer.Start();
         recordTimer.Elapsed += RecordTimer_Elapsed;
     }
 
     private async void RecordTimer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
     {
-        await ThreadHelper.RunOnUIThreadAsync(() =>
-        {
-            VideoTimeElapsed = $"{(elapsedSeconds / 60):D2}:{(elapsedSeconds % 60):D2}";
-        });
-        elapsedSeconds++;
+        //Debug.WriteLine("CALLLLLLLLED 1111111111");
+        await FetchAppointmentsOnUI();
     }
 
+    private async Task FetchAppointmentsOnUI()
+    {
+        await Task.Run(async () =>
+        {
+            await _outlookService.InitAllAppointments().ConfigureAwait(false);
+        }).ConfigureAwait(false);
+
+        await ThreadHelper.RunOnUIThreadAsync(async () =>
+        {
+            await FetchAppointments();
+        });
+    }
 
     [RelayCommand]
     public Task Expand()
@@ -68,4 +106,56 @@ public partial class OutlookCalendarVm : ObservableObject
         return Task.CompletedTask;
     }
 
+    private async Task FetchAppointments()
+    {
+        AllAppointments = new(_outlookService.GetAllAppointments());
+
+        if (_outlookService.FirstAppointment() is null)
+        {
+            _view.View.Visibility = Visibility.Collapsed;
+            return;
+        }
+
+        var left = _outlookService.FirstAppointment()?.Start - DateTime.Now;
+
+        if (left is null)
+        {
+            _view.View.Visibility = Visibility.Collapsed;
+            return;
+        }
+
+        var subject = _outlookService.FirstAppointment()?.Subject ?? "Meeting";
+        var canShow = left.Value.TotalMinutes < 30;
+
+        _view.View.Visibility = canShow ? Visibility.Visible : Visibility.Collapsed;
+
+        var res = subject.Length > 10 ? $"{subject.Substring(0, 10)}.." : subject;
+        NextAppointmentLeftTime = canShow ? $"{Math.Round(left.Value.TotalMinutes).ToString()}m - {res}" : "No meeting";
+
+        if (left.Value.TotalMinutes < appointmentCheckTime)
+        {
+            var txt = "/WindowSill.OutlookCalendar/Misc/UpcomingMeetingDesc".GetLocalizedString().Replace("{subject}", subject).Replace("{minutes}", Math.Round(left.Value.TotalMinutes).ToString());
+            ShowNotification("/WindowSill.OutlookCalendar/Misc/UpcomingMeetingHeader".GetLocalizedString(), txt);
+        }
+    }
+
+    public SillView CreateView(OutlookCalendarVm calendarVm, IPluginInfo _pluginInfo)
+    {
+        return new SillView { Content = new OutlookCalendarView(calendarVm, _pluginInfo), DataContext = calendarVm };
+    }
+
+    public void CleanUp()
+    {
+        recordTimer.Elapsed -= RecordTimer_Elapsed;
+        _outlookService.OutlookNameSpace?.Logoff();
+    }
+
+    public void ShowNotification(string title, string message)
+    {
+        var notification = new AppNotificationBuilder()
+            .AddText(title)
+            .AddText(message);
+
+        AppNotificationManager.Default.Show(notification.BuildNotification());
+    }
 }

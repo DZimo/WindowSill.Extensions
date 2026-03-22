@@ -1,4 +1,4 @@
-﻿namespace WindowSill.SimpleCalculator.Services
+﻿namespace WindowSill.SimpleCalculator.Common
 {
     public static class Converters
     {

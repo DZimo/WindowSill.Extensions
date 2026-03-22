@@ -8,3 +8,4 @@ SetCursor
 LoadCursor
 LoadCursorFromFileW
 LoadCursorFromFile
+IDC_CROSS

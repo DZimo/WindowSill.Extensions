@@ -1,32 +1,38 @@
 using Microsoft.UI.Xaml.Media.Imaging;
-using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using WindowSill.API;
+using WindowSill.OutlookCalendar.Services;
+using WindowSill.OutlookCalendar.Settings;
+using WindowSill.OutlookCalendar.Views;
 using WindowSill.ScreenRecorder.ViewModels;
-
 
 namespace WindowSill.OutlookCalendar;
 
 [Export(typeof(ISill))]
-[Name("WindowSill.OutlookCalendar")]
-[Priority(Priority.Lowest)]
-[HideIconInSillListView]
-public sealed class OutlookCalendarSill : ISillListView, ISill
+[Name("OutlookCalendar")]
+public sealed class OutlookCalendarSill : ISillFirstTimeSetup, ISillSingleView
 {
-    private OutlookCalendarVm _screenRecorderVm;
+    private OutlookCalendarVm _outlookCalendarVm;
     private IPluginInfo _pluginInfo;
     private ISettingsProvider _settingsProvider;
-
+    private SettingsViewModel _settingsViewModel;
+    private bool _isSillLoaded;
     public SillView? View { get; private set; }
 
     [ImportingConstructor]
-    public OutlookCalendarSill(IPluginInfo pluginInfo, ISettingsProvider settingsProvider)
+    public OutlookCalendarSill(IPluginInfo pluginInfo, ISettingsProvider settingsProvider, IOutlookService outlookService)
     {
+        if (_isSillLoaded)
+            return;
+
+        _isSillLoaded = true;
+
         _pluginInfo = pluginInfo;
         _settingsProvider = settingsProvider;
-        //_screenRecorderVm = new ScreenRecorderVm(recorderService, this, settingsProvider);
-
-        CreateViewList().ForgetSafely();
+        _outlookCalendarVm = new OutlookCalendarVm(outlookService, settingsProvider, this);
+        View = _outlookCalendarVm.CreateView(_outlookCalendarVm, _pluginInfo);
+        View.Visibility = Visibility.Collapsed;
+        _settingsViewModel = new SettingsViewModel(_settingsProvider);
     }
 
     public string DisplayName => "/WindowSill.OutlookCalendar/Misc/DisplayName".GetLocalizedString();
@@ -38,25 +44,22 @@ public sealed class OutlookCalendarSill : ISillListView, ISill
          };
 
     public SillView? PlaceholderView => null;
-    public SillSettingsView[]? SettingsViews => null;
-
-    public ObservableCollection<SillListViewItem> ViewList { get; } = new();
+    public SillSettingsView[]? SettingsViews =>
+        [new SillSettingsView(DisplayName, new(() => new SettingsView(_settingsProvider, _settingsViewModel)))];
 
     public ValueTask OnActivatedAsync()
     {
         return ValueTask.CompletedTask;
     }
 
-    public async Task CreateViewList()
-    {
-        await ThreadHelper.RunOnUIThreadAsync(() =>
-        {
-            ViewList.Clear();
-        });
-    }
-
     public ValueTask OnDeactivatedAsync()
     {
+        _outlookCalendarVm.CleanUp();
         return ValueTask.CompletedTask;
+    }
+
+    public IFirstTimeSetupContributor[] GetFirstTimeSetupContributors()
+    {
+        return [new OutlookCalendarFirstTimeContributor(_settingsViewModel)];
     }
 }

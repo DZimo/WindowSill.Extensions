@@ -1,4 +1,6 @@
-﻿using WindowSill.OutlookCalendar.Models;
+﻿using WindowSill.OutlookCalendar.Enums;
+using WindowSill.OutlookCalendar.Models;
+using Outlook = Microsoft.Office.Interop.Outlook;
 
 namespace WindowSill.OutlookCalendar.Services
 {
@@ -6,13 +8,20 @@ namespace WindowSill.OutlookCalendar.Services
     {
         public bool IsAppointmentInitiated { get; }
 
-        public List<CalendarAppointment> Appointments { get; set; }
+        public bool IsOutlookLogged { get; }
 
-        public void InitAllAppointments();
+        public OfficeVersion IsNewerOfficeVersion { get; set; }
 
-        public List<CalendarAppointment> GetAllAppointments();
+        public List<CalendarAppointmentVm> Appointments { get; set; }
 
-        public CalendarAppointment FirstAppointment();
+        public Outlook.NameSpace? OutlookNameSpace { get; set; }
 
+        public Task InitAllAppointments();
+
+        public List<CalendarAppointmentVm> GetAllAppointments();
+
+        public CalendarAppointmentVm? FirstAppointment();
+
+        public Task InitLogin(string tenantID);
     }
 }

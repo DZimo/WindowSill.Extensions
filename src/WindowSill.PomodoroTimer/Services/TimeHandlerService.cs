@@ -149,7 +149,8 @@ namespace WindowSill.PomodoroTimer.Services
         {
             var notification = new AppNotificationBuilder()
                 .AddText(title)
-                .AddText(message);
+                .AddText(message)
+                .SetAudioUri(new Uri("ms-winsoundevent:Notification.Default")); ;
 
             AppNotificationManager.Default.Show(notification.BuildNotification());
         }
