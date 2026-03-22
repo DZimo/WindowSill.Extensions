@@ -1,3 +1,6 @@
+# 0.4.1
+- Small fix for events not appearing properly in some cases.
+
 # 0.4.0
 - Updated implementation for newer versions.
 - Use of native app popup login instead of browser.

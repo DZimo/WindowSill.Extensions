@@ -28,12 +28,16 @@ namespace WindowSill.OutlookCalendar.Services
 
         public bool _isLoadingAppointments { get; set; }
 
+        private SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
+
         public async Task InitAllAppointments()
         {
             if (_isLoadingAppointments)
                 return;
 
             _isLoadingAppointments = true;
+
+            await semaphoreSlim.WaitAsync(1);
 
             Appointments.Clear();
 
@@ -77,9 +81,10 @@ namespace WindowSill.OutlookCalendar.Services
 
                         var start = item.Start.ToDateTimeExt();
                         var end = item.End.ToDateTimeExt();
+                        var location = item.Location?.ToString() ?? string.Empty;
 
                         if (DateTime.Compare(DateTime.Now, item.Start.ToDateTimeExt()) < 0)
-                            Appointments.Add(new CalendarAppointmentVm(item.Subject ?? string.Empty, start, end, item.Location.ToString() ?? string.Empty));
+                            Appointments.Add(new CalendarAppointmentVm(item.Subject ?? string.Empty, start, end, location));
                     }
                 }
 
@@ -130,6 +135,7 @@ namespace WindowSill.OutlookCalendar.Services
                 }
                 items = null;
             }
+            semaphoreSlim.Release();
         }
 
         public CalendarAppointmentVm? FirstAppointment()

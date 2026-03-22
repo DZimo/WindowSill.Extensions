@@ -4,7 +4,6 @@ using Microsoft.Identity.Client;
 using Microsoft.Windows.AppNotifications;
 using Microsoft.Windows.AppNotifications.Builder;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using WindowSill.API;
 using WindowSill.OutlookCalendar.Models;
 using WindowSill.OutlookCalendar.Services;
@@ -68,6 +67,7 @@ public partial class OutlookCalendarVm : ObservableObject
         _outlookService.IsNewerOfficeVersion = _settingsProvider.GetSetting(Settings.SelectedOfficeVersion);
 
         await _outlookService.InitLogin(tenantID);
+        await Task.Delay(TimeSpan.FromSeconds(5));
 
         //while (!_outlookService.IsOutlookLogged)
         //{
@@ -83,8 +83,7 @@ public partial class OutlookCalendarVm : ObservableObject
 
     private async void RecordTimer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
     {
-        Console.WriteLine("CALLLED 1111111111");
-        Debug.WriteLine("CALLLLLLLLED 1111111111");
+        //Debug.WriteLine("CALLLLLLLLED 1111111111");
         await FetchAppointmentsOnUI();
     }
 
@@ -92,8 +91,8 @@ public partial class OutlookCalendarVm : ObservableObject
     {
         await Task.Run(async () =>
         {
-            await _outlookService.InitAllAppointments();
-        });
+            await _outlookService.InitAllAppointments().ConfigureAwait(false);
+        }).ConfigureAwait(false);
 
         await ThreadHelper.RunOnUIThreadAsync(async () =>
         {
