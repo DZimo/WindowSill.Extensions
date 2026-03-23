@@ -156,13 +156,26 @@ namespace WindowSill.OutlookCalendar.Services
                 if (GraphClient is not null)
                     return;
 
-                GraphClient = new GraphServiceClient(new TokenCredentialMSAL());
+                await Task.Run(() => GraphClient = new GraphServiceClient(new TokenCredentialMSAL()));
             }
             else
             {
-                var outlookApp = new Application();
-                OutlookNameSpace = outlookApp.GetNamespace("MAPI");
-                OutlookNameSpace.Logon();
+                await Task.Run(() =>
+                {
+                    var outlookApp = new Application();
+
+                    OutlookNameSpace ??= outlookApp.GetNamespace("MAPI");
+
+                    try
+                    {
+                        if (OutlookNameSpace.CurrentUser.Name is null)
+                            OutlookNameSpace.Logon();
+                    }
+                    catch (Exception e)
+                    {
+
+                    }
+                });
             }
         }
     }

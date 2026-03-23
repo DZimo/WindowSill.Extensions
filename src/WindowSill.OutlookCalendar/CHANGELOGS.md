@@ -1,3 +1,7 @@
+# 0.4.2
+- More fixes to outlook classic.
+- Add more libraries to fix bugs.
+
 # 0.4.1
 - Small fix for events not appearing properly in some cases.
 

@@ -108,7 +108,7 @@ public partial class OutlookCalendarVm : ObservableObject
 
     private async Task FetchAppointments()
     {
-        AllAppointments = new(_outlookService.GetAllAppointments());
+        AllAppointments = new(_outlookService.GetAllAppointments().Distinct());
 
         if (_outlookService.FirstAppointment() is null)
         {
@@ -125,9 +125,10 @@ public partial class OutlookCalendarVm : ObservableObject
         }
 
         var subject = _outlookService.FirstAppointment()?.Subject ?? "Meeting";
-        var canShow = left.Value.TotalMinutes < 30;
+        var canShow = left.Value.TotalMinutes < 30 && left.Value.TotalMinutes > 0;
 
         _view.View.Visibility = canShow ? Visibility.Visible : Visibility.Collapsed;
+        _view.View.UpdateLayout();
 
         var res = subject.Length > 10 ? $"{subject.Substring(0, 10)}.." : subject;
         NextAppointmentLeftTime = canShow ? $"{Math.Round(left.Value.TotalMinutes).ToString()}m - {res}" : "No meeting";
