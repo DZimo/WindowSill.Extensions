@@ -9,8 +9,15 @@
 
 		<PackageId>WindowSill.OutlookCalendar</PackageId>
 		<Title>Outlook Calendar</Title>
-		<Version>0.4.2</Version>
-		<Description>Integration of outlook calendar to get notified about next meetings.</Description>
+		<Version>0.4.3</Version>
+		<Description>Integration of outlook calendar to get notified about next meetings.
+		
+			Stay on top of your schedule with seamless Outlook Calendar integration that keeps you informed about your upcoming meetings in real time.
+
+			Instant access to upcoming meetings
+			Smart reminders before meetings start
+			Never miss an important meeting
+		</Description>
 		<PackageProjectUrl>https://github.com/DZimo/WindowSill.Extensions</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/DZimo/WindowSill.Extensions</RepositoryUrl>
 		<Authors>Mohamed-Nazim BELABED</Authors>

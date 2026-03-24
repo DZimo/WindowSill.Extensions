@@ -1,3 +1,6 @@
+# 0.4.3
+- Fixed outlook native app login
+
 # 0.4.2
 - More fixes to outlook classic.
 - Add more libraries to fix bugs.
