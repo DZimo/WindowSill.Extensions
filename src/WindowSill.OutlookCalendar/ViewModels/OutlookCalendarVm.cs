@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.Logging;
 using Microsoft.Identity.Client;
 using Microsoft.Windows.AppNotifications;
 using Microsoft.Windows.AppNotifications.Builder;
@@ -24,6 +25,9 @@ public partial class OutlookCalendarVm : ObservableObject
     private string nextAppointmentLeftTime = string.Empty;
 
     [ObservableProperty]
+    private string userName = "-";
+
+    [ObservableProperty]
     private bool foundAppointment;
 
     [ObservableProperty]
@@ -38,9 +42,11 @@ public partial class OutlookCalendarVm : ObservableObject
 
     private string selectedScreenshotName = string.Empty;
 
-    private IOutlookService _outlookService;
+    private readonly IOutlookService _outlookService;
+    private readonly ISettingsProvider _settingsProvider;
+    private readonly ILogger _logger;
     private ISillSingleView _view;
-    private ISettingsProvider _settingsProvider;
+
     private OutlookCalendar.Enums.AccountType selectedAccountType;
 
     public event EventHandler InitCalendarService;
@@ -54,6 +60,8 @@ public partial class OutlookCalendarVm : ObservableObject
         _settingsProvider = settingsProvider;
         _view = sillView;
 
+        _logger = this.Log();
+
         selectedAccountType = _settingsProvider.GetSetting(Settings.SelectedAccountType);
 
         //if (selectedAccountType is OutlookCalendar.Enums.AccountType.Company)
@@ -66,28 +74,38 @@ public partial class OutlookCalendarVm : ObservableObject
     {
         _outlookService.IsNewerOfficeVersion = _settingsProvider.GetSetting(Settings.SelectedOfficeVersion);
 
-        await _outlookService.InitLogin(tenantID);
+        var usertemp = await _outlookService.InitLogin(tenantID);
         await Task.Delay(TimeSpan.FromSeconds(5));
-
-        //while (!_outlookService.IsOutlookLogged)
-        //{
-        //    await Task.Delay(TimeSpan.FromSeconds(5));
-        //}
-
-        await FetchAppointmentsOnUI();
 
         recordTimer = new(TimeSpan.FromMinutes(appointmentCheckTime));
         recordTimer.Start();
         recordTimer.Elapsed += RecordTimer_Elapsed;
+
+        if (_outlookService.IsOutlookLogged)
+            _logger.LogInformation("Logged into Outlook successfully.");
+        else
+        {
+            _logger.LogWarning("Failed to log into Outlook.");
+            return;
+        }
+
+        await FetchAppointmentsOnUI(usertemp);
     }
 
     private async void RecordTimer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
     {
         //Debug.WriteLine("CALLLLLLLLED 1111111111");
-        await FetchAppointmentsOnUI();
+        var usertemp = "-";
+        if (!_outlookService.IsOutlookLogged)
+            usertemp = await _outlookService.InitLogin(tenantID);
+
+        if (!_outlookService.IsOutlookLogged)
+            return;
+
+        await FetchAppointmentsOnUI(usertemp);
     }
 
-    private async Task FetchAppointmentsOnUI()
+    private async Task FetchAppointmentsOnUI(string foundUsername)
     {
         await Task.Run(async () =>
         {
@@ -96,6 +114,7 @@ public partial class OutlookCalendarVm : ObservableObject
 
         await ThreadHelper.RunOnUIThreadAsync(async () =>
         {
+            UserName = foundUsername;
             await FetchAppointments();
         });
     }
@@ -108,7 +127,7 @@ public partial class OutlookCalendarVm : ObservableObject
 
     private async Task FetchAppointments()
     {
-        AllAppointments = new(_outlookService.GetAllAppointments().Distinct());
+        AllAppointments = new(_outlookService.GetAllAppointments().Distinct().Take(5));
 
         if (_outlookService.FirstAppointment() is null)
         {

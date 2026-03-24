@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.ComponentModel.Composition;
 using WindowSill.API;
@@ -13,8 +14,9 @@ namespace WindowSill.OutlookCalendar;
 public sealed class OutlookCalendarSill : ISillFirstTimeSetup, ISillSingleView
 {
     private OutlookCalendarVm _outlookCalendarVm;
-    private IPluginInfo _pluginInfo;
-    private ISettingsProvider _settingsProvider;
+    private readonly IPluginInfo _pluginInfo;
+    private readonly ISettingsProvider _settingsProvider;
+    private readonly ILogger _logger;
     private SettingsViewModel _settingsViewModel;
     private bool _isSillLoaded;
     public SillView? View { get; private set; }
@@ -29,6 +31,8 @@ public sealed class OutlookCalendarSill : ISillFirstTimeSetup, ISillSingleView
 
         _pluginInfo = pluginInfo;
         _settingsProvider = settingsProvider;
+        _logger = this.Log();
+
         _outlookCalendarVm = new OutlookCalendarVm(outlookService, settingsProvider, this);
         View = _outlookCalendarVm.CreateView(_outlookCalendarVm, _pluginInfo);
         View.Visibility = Visibility.Collapsed;

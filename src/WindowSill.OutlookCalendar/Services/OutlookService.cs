@@ -1,6 +1,8 @@
-﻿using Microsoft.Graph;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.Graph;
 using Microsoft.Graph.Models;
 using System.ComponentModel.Composition;
+using WindowSill.API;
 using WindowSill.OutlookCalendar.Common;
 using WindowSill.OutlookCalendar.Enums;
 using WindowSill.OutlookCalendar.Extensions;
@@ -30,8 +32,15 @@ namespace WindowSill.OutlookCalendar.Services
 
         private SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
 
+        private ILogger _logger;
+        public OutlookService()
+        {
+            _logger = this.Log();
+        }
+
         public async Task InitAllAppointments()
         {
+
             if (_isLoadingAppointments)
                 return;
 
@@ -62,7 +71,7 @@ namespace WindowSill.OutlookCalendar.Services
                 }
                 catch (Exception e)
                 {
-
+                    _logger.LogError(e, "Error fetching calendar events from Microsoft Graph API.");
                 }
                 finally
                 {
@@ -109,9 +118,9 @@ namespace WindowSill.OutlookCalendar.Services
 
                     calendar = null;
                 }
-                catch
+                catch (Exception e)
                 {
-                    return;
+                    _logger.LogError(e, "Error fetching calendar events from Microsoft OLD Graph API.");
                 }
 
                 finally
@@ -149,19 +158,41 @@ namespace WindowSill.OutlookCalendar.Services
         public List<CalendarAppointmentVm> GetAllAppointments() =>
              Appointments;
 
-        public async Task InitLogin(string tenantID)
+        public async Task<string> InitLogin(string tenantID)
         {
+            _logger.LogInformation("Trying to login into Outlook from Outlook Calendar Extension.");
+            var username = "-";
+
             if (IsNewerOfficeVersion == OfficeVersion.OfficeGraphql)
             {
                 if (GraphClient is not null)
-                    return;
+                    return username;
 
-                await Task.Run(() => GraphClient = new GraphServiceClient(new TokenCredentialMSAL()));
+                await Task.Run(async () =>
+                {
+                    try
+                    {
+                        GraphClient = new GraphServiceClient(new TokenCredentialMSAL(_logger));
+
+                        var res = await GraphClient.Me.GetAsync();
+
+                        if (res?.DisplayName is not null)
+                        {
+                            IsOutlookLogged = true;
+                            username = res?.DisplayName;
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        _logger.LogError(e, "Error on logon for Microsoft Graph API.");
+                    }
+                });
             }
             else
             {
                 await Task.Run(() =>
                 {
+
                     var outlookApp = new Application();
 
                     OutlookNameSpace ??= outlookApp.GetNamespace("MAPI");
@@ -170,13 +201,20 @@ namespace WindowSill.OutlookCalendar.Services
                     {
                         if (OutlookNameSpace.CurrentUser.Name is null)
                             OutlookNameSpace.Logon();
+                        else
+                        {
+                            username = OutlookNameSpace.CurrentProfileName;
+                            IsOutlookLogged = true;
+                        }
                     }
                     catch (Exception e)
                     {
-
+                        _logger.LogError(e, "Error on logon for Microsoft OLD Graph API.");
                     }
                 });
             }
+
+            return username;
         }
     }
 }

@@ -1,9 +1,11 @@
 ﻿using Azure.Core;
+using Microsoft.Extensions.Logging;
 using Microsoft.Identity.Client;
 using Microsoft.Identity.Client.Desktop;
 using Microsoft.Identity.Client.Extensions.Msal;
 using System.Diagnostics;
 using Windows.Win32;
+using WindowSill.API;
 
 namespace WindowSill.OutlookCalendar.Common
 {
@@ -19,10 +21,11 @@ namespace WindowSill.OutlookCalendar.Common
         private static string MSGraphURL = "https://graph.microsoft.com/v1.0/";
         private static string Instance = "https://login.microsoftonline.com/";
         private const string ClientId = "3c62448e-650a-497a-b43c-35f9db069e4f";
+        private ILogger _logger;
 
-        public TokenCredentialMSAL()
+        public TokenCredentialMSAL(ILogger logger)
         {
-
+            _logger = logger;
             var brokerOptions = new BrokerOptions(BrokerOptions.OperatingSystems.Windows);
 
             _clientApp = PublicClientApplicationBuilder.Create(ClientId)
@@ -31,8 +34,7 @@ namespace WindowSill.OutlookCalendar.Common
                 .WithWindowsDesktopFeatures(brokerOptions)
                 .Build();
 
-            MsalCacheHelper cacheHelper = CreateCacheHelperAsync().GetAwaiter().GetResult();
-
+            var cacheHelper = CreateCacheHelperAsync().GetAwaiter().GetResult();
             cacheHelper.RegisterCache(_clientApp.UserTokenCache);
         }
 
@@ -63,7 +65,7 @@ namespace WindowSill.OutlookCalendar.Common
             }
             catch (Exception e)
             {
-
+                _logger.LogWarning("Failed to get the outlook account.");
             }
 
             try
@@ -76,23 +78,29 @@ namespace WindowSill.OutlookCalendar.Common
             }
             catch (MsalUiRequiredException ex)
             {
+                _logger.LogInformation("Opening native UI on windows to login.");
+
                 try
                 {
-                    var hWnd = PInvoke.GetActiveWindow();
+                    await ThreadHelper.RunOnUIThreadAsync(async () =>
+                    {
+                        var hWnd = PInvoke.GetActiveWindow();
 
-                    authResult = await app.AcquireTokenInteractive(scopes)
-                        .WithAccount(firstAccount)
-                        .WithPrompt(Prompt.SelectAccount)
-                        .WithParentActivityOrWindow(hWnd)
-                        .ExecuteAsync();
+                        authResult = await app.AcquireTokenInteractive(scopes)
+                            .WithAccount(firstAccount)
+                            .WithPrompt(Prompt.SelectAccount)
+                            .WithParentActivityOrWindow(hWnd)
+                            .ExecuteAsync();
+                    });
                 }
                 catch (MsalException msalex)
                 {
-
+                    _logger.LogError(msalex, "Failed opening the native UI windows to login.");
                 }
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "All tries failed to acquire token on LoginNative.");
                 return "";
             }
 

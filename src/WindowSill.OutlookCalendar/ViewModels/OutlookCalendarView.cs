@@ -44,6 +44,7 @@ namespace WindowSill.OutlookCalendar.ViewModels
                                                      .Spacing(1)
                                                         .Children(
                                                             new TextBlock().Text("/WindowSill.OutlookCalendar/Misc/AppointmentListTitle".GetLocalizedString()).HorizontalTextAlignment(TextAlignment.Center).Margin(4),
+                                                            new TextBlock().Text(o => o.Binding(() => vm.UserName)).HorizontalTextAlignment(TextAlignment.Center).Margin(4),
                                                             new ListView()
                                                                .ItemsSource(o => o.Binding(() => vm.AllAppointments))
                                                                .ItemTemplate(() =>

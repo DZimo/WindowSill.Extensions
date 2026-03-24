@@ -22,6 +22,6 @@ namespace WindowSill.OutlookCalendar.Services
 
         public CalendarAppointmentVm? FirstAppointment();
 
-        public Task InitLogin(string tenantID);
+        public Task<string> InitLogin(string tenantID);
     }
 }
