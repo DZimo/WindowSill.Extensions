@@ -9,7 +9,7 @@
 
 		<PackageId>WindowSill.OutlookCalendar</PackageId>
 		<Title>Outlook Calendar</Title>
-		<Version>0.5.0</Version>
+		<Version>0.5.1</Version>
 		<Description>Integration of outlook calendar to get notified about next meetings.
 		
 			Stay on top of your schedule with seamless Outlook Calendar integration that keeps you informed about your upcoming meetings in real time.
