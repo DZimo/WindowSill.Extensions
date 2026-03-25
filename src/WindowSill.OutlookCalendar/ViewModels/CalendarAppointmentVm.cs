@@ -3,7 +3,7 @@ using Microsoft.Graph.Models;
 
 namespace WindowSill.OutlookCalendar.Models
 {
-    public partial class CalendarAppointmentVm : ObservableObject
+    public partial class CalendarAppointmentVm : ObservableObject, IEquatable<CalendarAppointmentVm>
     {
         [ObservableProperty]
         public string subject;
@@ -34,6 +34,33 @@ namespace WindowSill.OutlookCalendar.Models
 
             Start = DateTime.Now;
             End = DateTime.Now;
+        }
+
+        public override int GetHashCode()
+        {
+            var hash = 17;
+            hash = hash * 23 + Start.GetHashCode();
+            hash = hash * 23 + End.GetHashCode();
+            return hash;
+        }
+
+        public override string ToString()
+        {
+            return $"{Subject} at {Start:t}";
+        }
+
+        public bool Equals(CalendarAppointmentVm? other)
+        {
+            if (other is null)
+                return false;
+
+            if (Object.ReferenceEquals(this, other))
+                return true;
+
+            if (Object.ReferenceEquals(this, null) || Object.ReferenceEquals(other, null))
+                return false;
+
+            return this.Start == other.Start && this.Subject == other.Subject;
         }
     }
 }

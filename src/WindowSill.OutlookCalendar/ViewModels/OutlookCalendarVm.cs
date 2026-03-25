@@ -88,13 +88,12 @@ public partial class OutlookCalendarVm : ObservableObject
 
     private async void RecordTimer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
     {
-        //Debug.WriteLine("CALLLLLLLLED 1111111111");
         var usertemp = "-";
         if (!_outlookService.IsOutlookLogged)
+        {
             usertemp = await _outlookService.InitLogin(tenantID);
-
-        if (!_outlookService.IsOutlookLogged)
             return;
+        }
 
         await FetchAppointmentsOnUI(usertemp);
     }
@@ -146,7 +145,7 @@ public partial class OutlookCalendarVm : ObservableObject
         var res = subject.Length > 10 ? $"{subject.Substring(0, 10)}.." : subject;
         NextAppointmentLeftTime = canShow ? $"{Math.Round(left.Value.TotalMinutes).ToString()}m - {res}" : "No meeting";
 
-        if (left.Value.TotalMinutes < appointmentCheckTime)
+        if (left.Value.TotalMinutes < appointmentCheckTime && canShow)
         {
             var txt = "/WindowSill.OutlookCalendar/Misc/UpcomingMeetingDesc".GetLocalizedString().Replace("{subject}", subject).Replace("{minutes}", Math.Round(left.Value.TotalMinutes).ToString());
             ShowNotification("/WindowSill.OutlookCalendar/Misc/UpcomingMeetingHeader".GetLocalizedString(), txt);

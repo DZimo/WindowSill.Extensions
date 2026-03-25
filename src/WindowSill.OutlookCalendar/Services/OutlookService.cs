@@ -193,15 +193,16 @@ namespace WindowSill.OutlookCalendar.Services
             {
                 await Task.Run(() =>
                 {
-
                     var outlookApp = new Application();
-
                     OutlookNameSpace ??= outlookApp.GetNamespace("MAPI");
 
                     try
                     {
                         if (OutlookNameSpace.CurrentUser.Name is null)
+                        {
+                            IsOutlookLogged = false;
                             OutlookNameSpace.Logon();
+                        }
                         else
                         {
                             username = OutlookNameSpace.CurrentUser.Name;

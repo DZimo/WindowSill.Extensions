@@ -1,3 +1,7 @@
+# 0.5.0
+- Updated UI for better user experience.
+- More bug fixing.
+
 # 0.4.3
 - Fixed outlook native app login
 
