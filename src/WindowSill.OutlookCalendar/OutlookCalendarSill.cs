@@ -4,8 +4,8 @@ using System.ComponentModel.Composition;
 using WindowSill.API;
 using WindowSill.OutlookCalendar.Services;
 using WindowSill.OutlookCalendar.Settings;
+using WindowSill.OutlookCalendar.ViewModels;
 using WindowSill.OutlookCalendar.Views;
-using WindowSill.ScreenRecorder.ViewModels;
 
 namespace WindowSill.OutlookCalendar;
 

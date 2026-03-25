@@ -40,7 +40,6 @@ namespace WindowSill.OutlookCalendar.Services
 
         public async Task InitAllAppointments()
         {
-
             if (_isLoadingAppointments)
                 return;
 
@@ -144,7 +143,9 @@ namespace WindowSill.OutlookCalendar.Services
                 }
                 items = null;
             }
-            semaphoreSlim.Release();
+
+            if (semaphoreSlim.CurrentCount == 0)
+                semaphoreSlim.Release();
         }
 
         public CalendarAppointmentVm? FirstAppointment()
@@ -203,7 +204,7 @@ namespace WindowSill.OutlookCalendar.Services
                             OutlookNameSpace.Logon();
                         else
                         {
-                            username = OutlookNameSpace.CurrentProfileName;
+                            username = OutlookNameSpace.CurrentUser.Name;
                             IsOutlookLogged = true;
                         }
                     }

@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.WinUI.Controls;
 using WindowSill.API;
 using WindowSill.OutlookCalendar.Settings;
-using WindowSill.ScreenRecorder.ViewModels;
+using WindowSill.OutlookCalendar.ViewModels;
 
 namespace WindowSill.OutlookCalendar.Views;
 

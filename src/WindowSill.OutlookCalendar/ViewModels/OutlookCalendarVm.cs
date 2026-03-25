@@ -8,11 +8,10 @@ using System.Collections.ObjectModel;
 using WindowSill.API;
 using WindowSill.OutlookCalendar.Models;
 using WindowSill.OutlookCalendar.Services;
-using WindowSill.OutlookCalendar.Settings;
-using WindowSill.OutlookCalendar.ViewModels;
+using WindowSill.OutlookCalendar.Views;
 using Timer = System.Timers.Timer;
 
-namespace WindowSill.ScreenRecorder.ViewModels;
+namespace WindowSill.OutlookCalendar.ViewModels;
 
 public partial class OutlookCalendarVm : ObservableObject
 {
@@ -40,8 +39,6 @@ public partial class OutlookCalendarVm : ObservableObject
     [ObservableProperty]
     private char recordGlyph = '\xE714';
 
-    private string selectedScreenshotName = string.Empty;
-
     private readonly IOutlookService _outlookService;
     private readonly ISettingsProvider _settingsProvider;
     private readonly ILogger _logger;
@@ -62,17 +59,14 @@ public partial class OutlookCalendarVm : ObservableObject
 
         _logger = this.Log();
 
-        selectedAccountType = _settingsProvider.GetSetting(Settings.SelectedAccountType);
-
-        //if (selectedAccountType is OutlookCalendar.Enums.AccountType.Company)
-        //    tenantID = "3921feae-121a-4169-9cad-63b40b5be11e";
+        selectedAccountType = _settingsProvider.GetSetting(WindowSill.OutlookCalendar.Settings.Settings.SelectedAccountType);
 
         _ = HandleCalendarService();
     }
 
     private async Task HandleCalendarService()
     {
-        _outlookService.IsNewerOfficeVersion = _settingsProvider.GetSetting(Settings.SelectedOfficeVersion);
+        _outlookService.IsNewerOfficeVersion = _settingsProvider.GetSetting(WindowSill.OutlookCalendar.Settings.Settings.SelectedOfficeVersion);
 
         var usertemp = await _outlookService.InitLogin(tenantID);
         await Task.Delay(TimeSpan.FromSeconds(5));
