@@ -42,13 +42,11 @@ namespace WindowSill.OutlookCalendar.Services
         {
             try
             {
-                if (_isLoadingAppointments)
-                    return;
-
-                _isLoadingAppointments = true;
 
                 if (await semaphoreSlim.WaitAsync(1000))
                     return;
+
+                _isLoadingAppointments = true;
 
                 Appointments.Clear();
 
@@ -146,8 +144,11 @@ namespace WindowSill.OutlookCalendar.Services
             }
             finally
             {
-                if (semaphoreSlim.CurrentCount == 0)
+                if (semaphoreSlim.CurrentCount == 0 && _isLoadingAppointments)
+                {
                     semaphoreSlim.Release();
+                    _isLoadingAppointments = false;
+                }
             }
         }
 

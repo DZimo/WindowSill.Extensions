@@ -51,14 +51,11 @@ namespace WindowSill.OutlookCalendar.Models
 
         public bool Equals(CalendarAppointmentVm? other)
         {
-            if (other is null)
+            if (other is null || this is null)
                 return false;
 
             if (Object.ReferenceEquals(this, other))
                 return true;
-
-            if (Object.ReferenceEquals(this, null) || Object.ReferenceEquals(other, null))
-                return false;
 
             return this.Start == other.Start && this.Subject == other.Subject;
         }

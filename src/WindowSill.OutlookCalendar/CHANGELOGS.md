@@ -1,4 +1,8 @@
 # 0.5.0
+- Added more translations.
+- Improved UI.
+
+# 0.5.0
 - Updated UI for better user experience.
 - More bug fixing.
 

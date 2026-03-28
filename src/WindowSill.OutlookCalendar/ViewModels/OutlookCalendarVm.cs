@@ -120,10 +120,8 @@ public partial class OutlookCalendarVm : ObservableObject
 
     private async Task FetchAppointmentsOnUI()
     {
-        await ThreadHelper.RunOnUIThreadAsync(async () =>
-        {
-            IsLoggedIn = _outlookService.IsOutlookLogged;
-        });
+        IsLoggedIn = _outlookService.IsOutlookLogged;
+
         AllAppointments = new(_outlookService.GetAllAppointments().Distinct().Take(5));
 
         if (_outlookService.FirstAppointment() is null)
@@ -149,7 +147,7 @@ public partial class OutlookCalendarVm : ObservableObject
         var res = subject.Length > 10 ? $"{subject.Substring(0, 10)}.." : subject;
         NextAppointmentLeftTime = canShow ? $"{Math.Round(left.Value.TotalMinutes).ToString()}m - {res}" : "No meeting";
 
-        if (left.Value.TotalMinutes < appointmentCheckTime && canShow)
+        if (left.Value.TotalMinutes <= appointmentCheckTime && canShow)
         {
             var txt = "/WindowSill.OutlookCalendar/Misc/UpcomingMeetingDesc".GetLocalizedString().Replace("{subject}", subject).Replace("{minutes}", Math.Round(left.Value.TotalMinutes).ToString());
             ShowNotification("/WindowSill.OutlookCalendar/Misc/UpcomingMeetingHeader".GetLocalizedString(), txt);
