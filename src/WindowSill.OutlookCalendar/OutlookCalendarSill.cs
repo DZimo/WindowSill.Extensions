@@ -24,6 +24,10 @@ public sealed class OutlookCalendarSill : ISillFirstTimeSetup, ISillSingleView
     [ImportingConstructor]
     public OutlookCalendarSill(IPluginInfo pluginInfo, ISettingsProvider settingsProvider, IOutlookService outlookService)
     {
+        _logger = this.Log();
+
+        _logger.LogInformation("Test Only - Windowsill OutlookCalendar SILL Called");
+
         if (_isSillLoaded)
             return;
 
@@ -31,12 +35,11 @@ public sealed class OutlookCalendarSill : ISillFirstTimeSetup, ISillSingleView
 
         _pluginInfo = pluginInfo;
         _settingsProvider = settingsProvider;
-        _logger = this.Log();
 
         _outlookCalendarVm = new OutlookCalendarVm(outlookService, settingsProvider, this);
         View = _outlookCalendarVm.CreateView(_outlookCalendarVm, _pluginInfo);
         View.Visibility = Visibility.Collapsed;
-        _settingsViewModel = new SettingsViewModel(_settingsProvider);
+        _settingsViewModel = new SettingsViewModel(_settingsProvider, _outlookCalendarVm);
     }
 
     public string DisplayName => "/WindowSill.OutlookCalendar/Misc/DisplayName".GetLocalizedString();
@@ -49,7 +52,7 @@ public sealed class OutlookCalendarSill : ISillFirstTimeSetup, ISillSingleView
 
     public SillView? PlaceholderView => null;
     public SillSettingsView[]? SettingsViews =>
-        [new SillSettingsView(DisplayName, new(() => new SettingsView(_settingsProvider, _settingsViewModel)))];
+        [new SillSettingsView(DisplayName, new(() => new SettingsView(_settingsProvider, _settingsViewModel, _outlookCalendarVm)))];
 
     public ValueTask OnActivatedAsync()
     {
@@ -58,6 +61,8 @@ public sealed class OutlookCalendarSill : ISillFirstTimeSetup, ISillSingleView
 
     public ValueTask OnDeactivatedAsync()
     {
+        View = null;
+        _outlookCalendarVm = null;
         _outlookCalendarVm.CleanUp();
         return ValueTask.CompletedTask;
     }

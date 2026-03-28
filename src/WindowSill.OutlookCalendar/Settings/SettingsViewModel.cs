@@ -1,16 +1,19 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using WindowSill.API;
 using WindowSill.OutlookCalendar.Enums;
+using WindowSill.OutlookCalendar.ViewModels;
 
 namespace WindowSill.OutlookCalendar.Settings
 {
     public partial class SettingsViewModel : ObservableObject
     {
         private readonly ISettingsProvider _settingsProvider;
+        public OutlookCalendarVm _outlookCalendarVm;
 
-        public SettingsViewModel(ISettingsProvider settingsProvider)
+        public SettingsViewModel(ISettingsProvider settingsProvider, OutlookCalendarVm outlookCalendarVm)
         {
             _settingsProvider = settingsProvider;
+            _outlookCalendarVm = outlookCalendarVm;
         }
 
         public OfficeVersion SelectedOfficeVersion

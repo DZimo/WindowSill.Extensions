@@ -40,112 +40,115 @@ namespace WindowSill.OutlookCalendar.Services
 
         public async Task InitAllAppointments()
         {
-            if (_isLoadingAppointments)
-                return;
-
-            _isLoadingAppointments = true;
-
-            await semaphoreSlim.WaitAsync(1);
-
-            Appointments.Clear();
-
-            if (IsNewerOfficeVersion == OfficeVersion.OfficeGraphql)
+            try
             {
-                if (GraphClient is null)
+                if (_isLoadingAppointments)
                     return;
 
-                var startDateTime = DateTime.Now.ToString("o");
-                var endDateTime = DateTime.Now.AddMonths(1).ToString("o");
-                EventCollectionResponse? events = null;
-                try
-                {
-                    events = await GraphClient.Me.CalendarView.GetAsync(config =>
-                    {
-                        config.QueryParameters.StartDateTime = startDateTime;
-                        config.QueryParameters.EndDateTime = endDateTime;
-                        config.QueryParameters.Orderby = new[] { "start/dateTime" };
-                        config.QueryParameters.Top = 5;
-                        config.Headers.Add("Prefer", $"outlook.timezone=\"{TimeZoneInfo.Local.Id}\"");
-                    });
-                }
-                catch (Exception e)
-                {
-                    _logger.LogError(e, "Error fetching calendar events from Microsoft Graph API.");
-                }
-                finally
-                {
-                    _isLoadingAppointments = false;
-                }
+                _isLoadingAppointments = true;
 
-                if (events is null)
+                if (await semaphoreSlim.WaitAsync(1000))
                     return;
 
-                if (events.Value != null && events.Value.Any())
+                Appointments.Clear();
+
+                if (IsNewerOfficeVersion == OfficeVersion.OfficeGraphql)
                 {
-                    foreach (var item in events.Value)
-                    {
-                        if (item.Start is null || item.End is null)
-                            continue;
-
-                        var start = item.Start.ToDateTimeExt();
-                        var end = item.End.ToDateTimeExt();
-                        var location = item.Location?.ToString() ?? string.Empty;
-
-                        if (DateTime.Compare(DateTime.Now, item.Start.ToDateTimeExt()) < 0)
-                            Appointments.Add(new CalendarAppointmentVm(item.Subject ?? string.Empty, start, end, location));
-                    }
-                }
-
-                _isLoadingAppointments = false;
-            }
-            else
-            {
-                Outlook.Items? items = null;
-
-                try
-                {
-                    if (OutlookNameSpace is null)
+                    if (GraphClient is null)
                         return;
 
-                    Outlook.MAPIFolder? calendar = OutlookNameSpace.GetDefaultFolder(Outlook.OlDefaultFolders.olFolderCalendar);
+                    var startDateTime = DateTime.Now.ToString("o");
+                    var endDateTime = DateTime.Now.AddMonths(1).ToString("o");
 
-                    items = calendar.Items;
+                    EventCollectionResponse? events = null;
+                    try
+                    {
+                        events = await GraphClient.Me.CalendarView.GetAsync(config =>
+                        {
+                            config.QueryParameters.StartDateTime = startDateTime;
+                            config.QueryParameters.EndDateTime = endDateTime;
+                            config.QueryParameters.Orderby = new[] { "start/dateTime" };
+                            config.QueryParameters.Top = 5;
+                            config.Headers.Add("Prefer", $"outlook.timezone=\"{TimeZoneInfo.Local.Id}\"");
+                        });
+                    }
+                    catch (Exception e)
+                    {
+                        _logger.LogError(e, "Error fetching calendar events from Microsoft Graph API.");
+                    }
+                    finally
+                    {
+                        _isLoadingAppointments = false;
+                    }
 
-                    items.IncludeRecurrences = true;
+                    if (events is null)
+                        return;
 
-                    items.Sort("[Start]");
+                    if (events.Value != null && events.Value.Any())
+                    {
+                        foreach (var item in events.Value)
+                        {
+                            if (item.Start is null || item.End is null)
+                                continue;
 
-                    calendar = null;
+                            var start = item.Start.ToDateTimeExt();
+                            var end = item.End.ToDateTimeExt();
+                            var location = item.Location?.ToString() ?? string.Empty;
+
+                            if (DateTime.Compare(DateTime.Now, item.Start.ToDateTimeExt()) < 0)
+                                Appointments.Add(new CalendarAppointmentVm(item.Subject ?? string.Empty, start, end, location));
+                        }
+                    }
+
+                    _isLoadingAppointments = false;
                 }
-                catch (Exception e)
+                else
                 {
-                    _logger.LogError(e, "Error fetching calendar events from Microsoft OLD Graph API.");
+                    Outlook.Items? items = null;
+
+                    try
+                    {
+                        if (OutlookNameSpace is null)
+                            return;
+
+                        Outlook.MAPIFolder? calendar = OutlookNameSpace.GetDefaultFolder(Outlook.OlDefaultFolders.olFolderCalendar);
+
+                        items = calendar.Items;
+
+                        items.IncludeRecurrences = true;
+
+                        items.Sort("[Start]");
+
+                        calendar = null;
+                    }
+                    catch (Exception e)
+                    {
+                        _logger.LogError(e, "Error fetching calendar events from Microsoft 2016 Graph API.");
+                    }
+
+                    if (items is null || OutlookNameSpace is null)
+                        return;
+
+                    //var filter = "[Start] >= '" + DateTime.Now.ToString("g") + "'";
+                    //Outlook.Items filtereditems = items.Restrict(filter);
+
+                    foreach (var item in items)
+                    {
+                        if (item is not Outlook.AppointmentItem appt)
+                            continue;
+
+                        if (DateTime.Compare(DateTime.Now, appt.Start) < 0)
+                            Appointments.Add(new CalendarAppointmentVm(appt.Subject, appt.Start, appt.End, appt.Location));
+                    }
+                    items = null;
                 }
 
-                finally
-                {
-
-                }
-
-                if (items is null || OutlookNameSpace is null)
-                    return;
-
-                //var filter = "[Start] >= '" + DateTime.Now.ToString("g") + "'";
-                //Outlook.Items filtereditems = items.Restrict(filter);
-
-                foreach (var item in items)
-                {
-                    if (item is not Outlook.AppointmentItem appt)
-                        continue;
-
-                    if (DateTime.Compare(DateTime.Now, appt.Start) < 0)
-                        Appointments.Add(new CalendarAppointmentVm(appt.Subject, appt.Start, appt.End, appt.Location));
-                }
-                items = null;
             }
-
-            if (semaphoreSlim.CurrentCount == 0)
-                semaphoreSlim.Release();
+            finally
+            {
+                if (semaphoreSlim.CurrentCount == 0)
+                    semaphoreSlim.Release();
+            }
         }
 
         public CalendarAppointmentVm? FirstAppointment()
@@ -161,7 +164,11 @@ namespace WindowSill.OutlookCalendar.Services
 
         public async Task<string> InitLogin(string tenantID)
         {
-            _logger.LogInformation("Trying to login into Outlook from Outlook Calendar Extension.");
+            _logger.LogInformation("Trying to login into Outlook from Outlook Calendar Extension...");
+
+            if (IsOutlookLogged)
+                return "-";
+
             var username = "-";
 
             if (IsNewerOfficeVersion == OfficeVersion.OfficeGraphql)
@@ -182,10 +189,13 @@ namespace WindowSill.OutlookCalendar.Services
                             IsOutlookLogged = true;
                             username = res?.DisplayName;
                         }
+                        else
+                            IsOutlookLogged = false;
                     }
                     catch (Exception e)
                     {
-                        _logger.LogError(e, "Error on logon for Microsoft Graph API.");
+                        _logger.LogError(e, "Error while logging to Microsoft Graph API.");
+                        IsOutlookLogged = false;
                     }
                 });
             }
@@ -198,10 +208,11 @@ namespace WindowSill.OutlookCalendar.Services
 
                     try
                     {
+                        OutlookNameSpace.Logon();
+
                         if (OutlookNameSpace.CurrentUser.Name is null)
                         {
                             IsOutlookLogged = false;
-                            OutlookNameSpace.Logon();
                         }
                         else
                         {
@@ -211,7 +222,8 @@ namespace WindowSill.OutlookCalendar.Services
                     }
                     catch (Exception e)
                     {
-                        _logger.LogError(e, "Error on logon for Microsoft OLD Graph API.");
+                        _logger.LogError(e, "Error while logging to Microsoft 2016 Graph API.");
+                        IsOutlookLogged = false;
                     }
                 });
             }

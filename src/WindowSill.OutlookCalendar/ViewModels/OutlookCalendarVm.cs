@@ -30,6 +30,9 @@ public partial class OutlookCalendarVm : ObservableObject
     private bool foundAppointment;
 
     [ObservableProperty]
+    private bool isLoggedIn;
+
+    [ObservableProperty]
     private ObservableCollection<CalendarAppointmentVm> allAppointments;
 
     private Timer recordTimer;
@@ -69,21 +72,18 @@ public partial class OutlookCalendarVm : ObservableObject
         _outlookService.IsNewerOfficeVersion = _settingsProvider.GetSetting(WindowSill.OutlookCalendar.Settings.Settings.SelectedOfficeVersion);
 
         var usertemp = await _outlookService.InitLogin(tenantID);
-        await Task.Delay(TimeSpan.FromSeconds(5));
+        await Task.Delay(TimeSpan.FromSeconds(2));
 
         recordTimer = new(TimeSpan.FromMinutes(appointmentCheckTime));
         recordTimer.Start();
         recordTimer.Elapsed += RecordTimer_Elapsed;
 
         if (_outlookService.IsOutlookLogged)
-            _logger.LogInformation("Logged into Outlook successfully.");
+            _logger.LogInformation("Successfully logged in to Outlook.");
         else
-        {
-            _logger.LogWarning("Failed to log into Outlook.");
             return;
-        }
 
-        await FetchAppointmentsOnUI(usertemp);
+        await FetchAppointments(usertemp);
     }
 
     private async void RecordTimer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
@@ -95,10 +95,10 @@ public partial class OutlookCalendarVm : ObservableObject
             return;
         }
 
-        await FetchAppointmentsOnUI(usertemp);
+        await FetchAppointments(usertemp);
     }
 
-    private async Task FetchAppointmentsOnUI(string foundUsername)
+    private async Task FetchAppointments(string foundUsername)
     {
         await Task.Run(async () =>
         {
@@ -107,8 +107,8 @@ public partial class OutlookCalendarVm : ObservableObject
 
         await ThreadHelper.RunOnUIThreadAsync(async () =>
         {
-            UserName = foundUsername;
-            await FetchAppointments();
+            UserName = foundUsername == "-" ? UserName : foundUsername;
+            await FetchAppointmentsOnUI();
         });
     }
 
@@ -118,8 +118,12 @@ public partial class OutlookCalendarVm : ObservableObject
         return Task.CompletedTask;
     }
 
-    private async Task FetchAppointments()
+    private async Task FetchAppointmentsOnUI()
     {
+        await ThreadHelper.RunOnUIThreadAsync(async () =>
+        {
+            IsLoggedIn = _outlookService.IsOutlookLogged;
+        });
         AllAppointments = new(_outlookService.GetAllAppointments().Distinct().Take(5));
 
         if (_outlookService.FirstAppointment() is null)
