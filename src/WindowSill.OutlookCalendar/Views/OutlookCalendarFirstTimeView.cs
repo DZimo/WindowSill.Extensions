@@ -10,28 +10,30 @@ public sealed class OutlookCalendarFirstTimeView : UserControl
     private OutlookCalendarVm _outlookCalendarVm;
     public OutlookCalendarFirstTimeView(SettingsViewModel settingsViewModel)
     {
-        this.Content(
-         new StackPanel()
-             .Spacing(16)
-             .Children(
-                 new TextBlock()
-                     .TextWrapping(TextWrapping.WrapWholeWords)
-                     .Text("/WindowSill.OutlookCalendar/Misc/FirstTimeHeadline".GetLocalizedString()),
+        this.DataContext(
+              settingsViewModel,
+              (view, viewModel) => view.Content(
+             new StackPanel()
+                 .Spacing(16)
+                 .Children(
+                     new TextBlock()
+                         .TextWrapping(TextWrapping.WrapWholeWords)
+                         .Text("/WindowSill.OutlookCalendar/Misc/FirstTimeHeadline".GetLocalizedString()),
 
-                 new SettingsCard()
-                     .Header("/WindowSill.OutlookCalendar/Misc/OfficeVersionHeader".GetLocalizedString())
-                     .HeaderIcon(
-                         new FontIcon()
-                             .Glyph("\uE713")
-                     )
-                     .IsClickEnabled(true)
-                     .Content(
-                              new StackPanel()
-                                  .Children(
-                                            new ToggleSwitch()
-                                            .IsOn(x => x.Binding(() => settingsViewModel.SelectedOfficeVersion))
-             )
-     )));
+                     new SettingsCard()
+                         .Header("/WindowSill.OutlookCalendar/Misc/OfficeVersionHeader".GetLocalizedString())
+                         .HeaderIcon(
+                             new FontIcon()
+                                 .Glyph("\uE713")
+                         )
+                         .IsClickEnabled(true)
+                         .Content(
+                                  new StackPanel()
+                                      .Children(
+                                                new ToggleSwitch()
+                                                .IsOn(x => x.Binding(() => settingsViewModel.SelectedOfficeVersion))
+                 )
+     ))));
     }
 
     public SillListViewButtonItem ExtendAppointments()
