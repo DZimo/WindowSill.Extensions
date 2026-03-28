@@ -144,4 +144,22 @@
   <data name="AccountTypeDesc" xml:space="preserve">
     <value>Enable this for work account and keep it disabled for personal one.</value>
   </data>
+  <data name="Connected" xml:space="preserve">
+    <value>Connected</value>
+  </data>
+  <data name="Disconnected" xml:space="preserve">
+    <value>Disconnected</value>
+  </data>
+  <data name="ConnectionHeader" xml:space="preserve">
+    <value>Outlook API Connection</value>
+  </data>
+  <data name="ConnectionDesc" xml:space="preserve">
+    <value>Displays current status of the connection to Microsoft Outlook graph API</value>
+  </data>
+  <data name="TimezoneHeader" xml:space="preserve">
+    <value>Account Timezone</value>
+  </data>
+  <data name="TimezoneDesc" xml:space="preserve">
+    <value>Actual time zone used in your outlook account, this changes depending on your local settings.</value>
+  </data>
 </root>
