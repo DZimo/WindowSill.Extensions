@@ -162,7 +162,9 @@ public partial class OutlookCalendarVm : ObservableObject
     public void CleanUp()
     {
         recordTimer.Elapsed -= RecordTimer_Elapsed;
-        _outlookService.OutlookNameSpace?.Logoff();
+
+        if (_outlookService.IsNewerOfficeVersion is Enums.OfficeVersion.Office2016 && _outlookService.IsOutlookLogged)
+            _outlookService.OutlookNameSpace?.Logoff();
     }
 
     public void ShowNotification(string title, string message)

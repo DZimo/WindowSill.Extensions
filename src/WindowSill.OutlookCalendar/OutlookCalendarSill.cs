@@ -61,9 +61,9 @@ public sealed class OutlookCalendarSill : ISillFirstTimeSetup, ISillSingleView
 
     public ValueTask OnDeactivatedAsync()
     {
-        View = null;
-        _outlookCalendarVm = null;
-        _outlookCalendarVm.CleanUp();
+        //View = null;
+        //_outlookCalendarVm = null;
+        //_outlookCalendarVm.CleanUp();
         return ValueTask.CompletedTask;
     }
 

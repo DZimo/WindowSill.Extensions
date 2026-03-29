@@ -1,0 +1,13 @@
+<Solution>
+  <Project Path="src/WindowSill.ColorPicker/WindowSill.ColorPicker.csproj" />
+  <Project Path="src/WindowSill.OutlookCalendar/WindowSill.OutlookCalendar.csproj">
+    <Platform Project="x64" />
+  </Project>
+  <Project Path="src/WindowSill.PomodoroTimer/WindowSill.PomodoroTimer.csproj" />
+  <Project Path="src/WindowSill.ScreenRecorder/dev/WindowSill.ScreenRecorder.csproj">
+    <Platform Project="x64" />
+  </Project>
+  <Project Path="src/WindowSill.SimpleCalculator/dev/WindowSill.SimpleCalculator.csproj">
+    <Platform Project="x64" />
+  </Project>
+</Solution>
