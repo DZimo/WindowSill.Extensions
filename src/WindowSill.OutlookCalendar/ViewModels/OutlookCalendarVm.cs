@@ -47,7 +47,7 @@ public partial class OutlookCalendarVm : ObservableObject
     private readonly ILogger _logger;
     private ISillSingleView _view;
 
-    private OutlookCalendar.Enums.AccountType selectedAccountType;
+    //private OutlookCalendar.Enums.AccountType selectedAccountType;
 
     public event EventHandler InitCalendarService;
     private string tenantID = "common";
@@ -62,7 +62,7 @@ public partial class OutlookCalendarVm : ObservableObject
 
         _logger = this.Log();
 
-        selectedAccountType = _settingsProvider.GetSetting(WindowSill.OutlookCalendar.Settings.Settings.SelectedAccountType);
+        //selectedAccountType = _settingsProvider.GetSetting(WindowSill.OutlookCalendar.Settings.Settings.SelectedAccountType);
 
         _ = HandleCalendarService();
     }

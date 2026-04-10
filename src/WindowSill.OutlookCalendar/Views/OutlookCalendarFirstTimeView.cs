@@ -26,7 +26,6 @@ public sealed class OutlookCalendarFirstTimeView : UserControl
                              new FontIcon()
                                  .Glyph("\uE713")
                          )
-                         .IsClickEnabled(true)
                          .Content(
                                   new StackPanel()
                                       .Children(

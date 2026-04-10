@@ -22,10 +22,10 @@ namespace WindowSill.OutlookCalendar.Settings
             set => _settingsProvider.SetSetting(Settings.SelectedOfficeVersion, value);
         }
 
-        public AccountType SelectedAccountType
-        {
-            get => _settingsProvider.GetSetting(Settings.SelectedAccountType);
-            set => _settingsProvider.SetSetting(Settings.SelectedAccountType, value);
-        }
+        //public AccountType SelectedAccountType
+        //{
+        //    get => _settingsProvider.GetSetting(Settings.SelectedAccountType);
+        //    set => _settingsProvider.SetSetting(Settings.SelectedAccountType, value);
+        //}
     }
 }

@@ -9,6 +9,6 @@ namespace WindowSill.OutlookCalendar.Settings
     {
         public static readonly SettingDefinition<OfficeVersion> SelectedOfficeVersion = new(OfficeVersion.Office2016, typeof(Settings).Assembly);
 
-        public static readonly SettingDefinition<AccountType> SelectedAccountType = new(AccountType.Personal, typeof(Settings).Assembly);
+        //public static readonly SettingDefinition<AccountType> SelectedAccountType = new(AccountType.Personal, typeof(Settings).Assembly);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Graph;
 using Microsoft.Graph.Models;
+using Microsoft.Graph.Models.ODataErrors;
 using System.ComponentModel.Composition;
 using WindowSill.API;
 using WindowSill.OutlookCalendar.Common;
@@ -42,7 +43,6 @@ namespace WindowSill.OutlookCalendar.Services
         {
             try
             {
-
                 if (await semaphoreSlim.WaitAsync(1000))
                     return;
 
@@ -72,6 +72,7 @@ namespace WindowSill.OutlookCalendar.Services
                     }
                     catch (Exception e)
                     {
+                        IsOutlookLogged = true;
                         _logger.LogError(e, "Error fetching calendar events from Microsoft Graph API.");
                     }
                     finally
@@ -121,6 +122,7 @@ namespace WindowSill.OutlookCalendar.Services
                     }
                     catch (Exception e)
                     {
+                        IsOutlookLogged = true;
                         _logger.LogError(e, "Error fetching calendar events from Microsoft 2016 Graph API.");
                     }
 
@@ -167,16 +169,13 @@ namespace WindowSill.OutlookCalendar.Services
         {
             _logger.LogInformation("Trying to login into Outlook from Outlook Calendar Extension...");
 
+            var username = "-";
+
             if (IsOutlookLogged)
                 return "-";
 
-            var username = "-";
-
             if (IsNewerOfficeVersion == OfficeVersion.OfficeGraphql)
             {
-                if (GraphClient is not null)
-                    return username;
-
                 await Task.Run(async () =>
                 {
                     try
@@ -192,6 +191,11 @@ namespace WindowSill.OutlookCalendar.Services
                         }
                         else
                             IsOutlookLogged = false;
+                    }
+                    catch (ODataError ex)
+                    {
+                        _logger.LogError(ex, ex.Error?.Code, ex.Error?.Message, "OData error while logging to Microsoft Graph API.");
+                        IsOutlookLogged = false;
                     }
                     catch (Exception e)
                     {
